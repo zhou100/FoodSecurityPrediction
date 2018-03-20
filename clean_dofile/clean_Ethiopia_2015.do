@@ -1,6 +1,6 @@
 ***********************************
 *Code for cleaning the LSMS data 
-* Yujun Zhou - June 12, 2018
+* Yujun Zhou - June 12, 2017
 * Edit 03/14/18, recheck the measures and added household level information
 * with help from Dr.Hope Michelson and Edward Martey
 ***********************************

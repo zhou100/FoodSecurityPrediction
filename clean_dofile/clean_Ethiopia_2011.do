@@ -9,7 +9,7 @@ capture log close
 clear
 set more off 
 
-**** 2004  obs. 3969 ***
+**** 2012  obs. 3969 ***
 
 *cd "/Users/yujunzhou/Box Sync/lsms/Ethiopia_2011/STATA"
 cd "C:\Users\Administrator\Desktop\lsms\Ethiopia_2011/STATA"
@@ -335,7 +335,7 @@ save ethiopia_2011, replace
 * Merge in year and round 
 use  sect_cover_hh_w1.dta,clear
 keep household_id hh_saq13_c hh_saq13_b hh_saq17_b hh_saq17_c 
-gen FS_year = hh_saq13_c  
+gen FS_year = hh_saq13_c  + 7 
 replace FS_year = hh_saq17_c if FS_year ==.
 
 gen FS_month = hh_saq13_b 
@@ -350,7 +350,7 @@ merge m:m household_id using ethiopia_2011
 drop if _merge ==2
 drop _merge
 
-gen survey_round ="2011 Ethiopia rural economic survey"
+gen survey_round ="2011/12 Ethiopia rural economic survey"
 gen country = "Ethiopia"
 
 save ethiopia_2011, replace

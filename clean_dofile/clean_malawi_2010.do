@@ -1,7 +1,8 @@
 ***********************************
 *Code for cleaning the LSMS data 
 * Yujun Zhou - June 12, 2017
-** update March 13,2018
+** update March 13,2018 
+* recheck the measures and added household level information
 * with help from Dr.Hope Michelson and Edward Martey
 ***********************************
 
@@ -446,25 +447,34 @@ gen survey_round ="Malawi IHS 2010"
 save HW3_FSMs, replace
 
 
-* Merge in cell phone  
+
+*_______________________________________________________________________________
+
+                *MERGE in cellphone, roof/floor and other household assets
+*_______________________________________________________________________________
+
+* Merge in cell phone , roof/floor
 *use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/Household_Batch1of5_DTA/HH_MOD_F",clear
 use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_F.dta",clear
 
 keep case_id ea_id hh_f34 hh_f35 hh_f08 hh_f09
+
+** floor ***
 tab hh_f09,gen(floor)
 gen floor_dirt_sand_dung = 1 if floor1==1 | floor2 ==2
 recode floor_dirt_sand_dung (. =0)
 rename floor3 floor_cement
 rename floor5 floor_tile
  
-
+** roof ***
 tab hh_f08,gen(roof)
-
 rename roof1 roof_natural   
 rename roof2 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
 
+
+** cellphone ***
 gen cell_phone = 1 if hh_f34!=0
 replace cell_phone = 0 if hh_f34==0
 rename hh_f34  number_celphones
