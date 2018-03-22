@@ -175,13 +175,13 @@ save uganda_2013, replace
 set more off 
 
 use "GSEC1",clear
-
+des
  
-keep HHID urban ea   year month  h1aq1a h1aq3a   region 
+keep HHID urban   year month  h1aq1a h1aq3b   region 
  
-rename h1aq3a hh_a02 
-rename h1aq1a hh_a01 
-  
+rename h1aq3b hh_a02 
+tostring h1aq1a, gen(hh_a01)
+drop   h1aq1a
 rename year FS_year 
 rename month FS_month
 

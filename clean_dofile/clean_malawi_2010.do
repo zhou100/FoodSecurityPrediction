@@ -64,15 +64,7 @@ label var FCS "Food Consumption Score"
 **Aggregating FCS by households
 collapse (sum)FCS, by(case_id)
 label var FCS "HH food consumption score"
-
-**Creation of Thresholds for FCS
-gen FCS_Thresh=0  //"Poor FCS HHs"
-label var FCS_Thresh "HH FCS Status"
-replace FCS_Thresh=1 if FCS>=28 & FCS<=42 //"Borderline FCS"
-replace FCS_Thresh=2 if FCS>42 //"Acceptable FCS"
-
-label define FCS_Thresh 0 "Poor FCS" 1 "Borderline FCS" 2 "Acceptable FCS"
-label values FCS_Thresh FCS_Thresh
+ 
 
 sort case_id
 save HW3_FSMs.dta, replace
@@ -126,17 +118,7 @@ replace HDDS=1 if hh_g08c>=1 & hh_g08c!=.
 // Food categories consumed by hhs - COUNTS
 collapse (sum) HDDS, by(case_id)
 label var HDDS "Household Dietary Diversity Score"
-
-**Creation of Thresholds for HDDS
-gen HDDS_Thresh=0 //"Low Dietary Diversity"
-label var HDDS_Thresh "HH HDDS Thresholds"
-replace HDDS_Thresh=1 if HDDS>=3 & HDDS_Thresh<=6 //"Medium Dietary Diversity"
-replace HDDS_Thresh=2 if HDDS>6 //"Good Dietary Diversity"
-
-*Label Variables
-label define HDDS_Thresh 0 "Low Dietary Diversity" 1 "Medium Dietary Diversity" ///
-2 "Good Dietary Diversity"
-label values HDDS_Thresh HDDS_Thresh
+ 
 
 /*
 ***Summary Characteristics and Graphs (Bar Charts and Box Plot)
@@ -387,10 +369,12 @@ set more off
 use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_A_FILT",clear
 
  
-keep case_id reside hh_wgt hh_a01 hh_a02 hh_a02b 
+keep case_id reside hh_wgt hh_a01   hh_a02b 
 
 *Creating region variable
 tab hh_a01
+decode hh_a02b, gen (TA_names)
+drop hh_a02b
 *tab hh_a02b
 
 gen region = 0
@@ -419,11 +403,12 @@ save HW3_FSMs, replace
 *use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/HouseholdGeovariables.dta", clear
 use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/HouseholdGeovariables.dta",clear
 
-keep case_id ea_id lat_modi lon_modi srtm_eaf srtm_eaf_5_15 sq1 sq2 dist_road dist_admarc dist_popcenter afmnslp_pct     
+keep case_id ea_id lat_modi lon_modi srtm_eaf srtm_eaf_5_15 sq1 sq2 dist_road dist_admarc dist_popcenter afmnslp_pct    fsrad3_agpct 
 rename srtm_eaf elevation
 rename srtm_eaf_5_15 terrain_rough
 rename sq1 nutri_avail
 rename sq2 nutri_rentention
+rename fsrad3_agpct ag_percent
 rename afmnslp_pct slope
 
 merge m:m case_id using HW3_FSMs
@@ -435,7 +420,7 @@ save HW3_FSMs, replace
 use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/ihs3_summary.dta",clear
 
 
-keep case_id ea_id intmonth intyear qx_type head_age head_gender head_edlevel  hhsize
+keep case_id ea_id intmonth intyear head_age head_gender head_edlevel  hhsize
 rename intmonth FS_month
 rename intyear FS_year
 

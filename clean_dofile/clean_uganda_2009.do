@@ -39,6 +39,8 @@ cd "C:\Users\Administrator\Desktop\lsms/Uganda_2009/UGA_2009_UNPS_v01_M_STATA"
 use GSEC15B.dta,clear
 des 
 
+
+
 tab  itmcd    
 * doesn't have a food category variable 
 * use  mapping in the 2010 survey 
@@ -59,6 +61,10 @@ save item_mapping.dta,replace
 
 use GSEC15B.dta,clear
 des 
+format hh %20.00f 
+tostring hh,gen(HHID) format("%20.0f")
+drop hh 
+
  merge m:m itmcd using item_mapping.dta
 drop if _merge==2
 
@@ -132,7 +138,7 @@ drop if itmcd ==150
  
 
 * collapse by food group 
-collapse (max)h15bq3b , by(category hh )
+collapse (max)h15bq3b , by(category HHID)
 
  
 tab h15bq3b
@@ -181,11 +187,11 @@ gen FCS = h15bq3b*FWeight
 label var FCS "Food Consumption Score"
 
 **Aggregating FCS by households
-collapse (sum)FCS, by(hh)
-label var FCS "HH food consumption score"
+collapse (sum)FCS, by(HHID)
+label var FCS "HHID food consumption score"
  
 
-sort hh
+sort HHID
 save uganda_2009.dta, replace
 
 /*
@@ -218,7 +224,7 @@ graph box FCS, over(FCS_Thresh)  */
 ********************************************************************************
 use food_consumption,clear 
 des 
-
+ 
  
 * 1. A Cereals, Grains and Cereal Products: Weight = 2
 * 5.  C  Nuts and Pulses: Weight = 3
@@ -236,11 +242,11 @@ tab category
 *Exclude SUGAR and SPICES
 drop if category==3
 
-*Generating Food consumed by hhs over the 24 hours (7 days in this dataset)
+*Generating Food consumed by HHIDs over the 24 hours (7 days in this dataset)
 gen HDDS=0
 replace HDDS=1 if h15bq3b>=1 & h15bq3b!=.
-// Food categories consumed by hhs - COUNTS
-collapse (sum) HDDS, by(hh)
+// Food categories consumed by HHIDs - COUNTS
+collapse (sum) HDDS, by(HHID)
 label var HDDS "Household Dietary Diversity Score"
  
  
@@ -252,9 +258,9 @@ sum HDDS
 graph box HDDS, over(HDDS_Thresh) */
 
 ***Merging FCS and HDDS
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop _merge
-sort hh 
+sort HHID 
 save uganda_2009, replace
 
 *_______________________________________________________________________________
@@ -267,12 +273,11 @@ set more off
 use "GSEC1",clear
 des
  
-keep HHID urban comm   h1bq2c   h1bq2b   h1aq1 h1aq3   region 
- 
-rename HHID hh
-destring hh, force replace 
-rename h1aq3  hh_a02 
-rename h1aq1  hh_a01 
+keep HHID urban comm   h1bq2c   h1bq2b   h1aq1 h1aq3b   region 
+  
+rename h1aq3b  hh_a02 
+tostring h1aq1,gen(hh_a01)
+drop h1aq1
 rename comm ea_id
   
 rename h1bq2c FS_year 
@@ -289,7 +294,7 @@ label variable FS_month "Month FS module was administered"
  gen survey_round ="Uganda NPS 2009/2010"
  
 *Merge the Datafile
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop if _merge == 1
 
 drop _merge
@@ -301,9 +306,7 @@ use UNPS_Geovars_0910.dta,clear
 keep lat_mod lon_mod HHID      dist_road  dist_popcenter dist_market/* 
 */ dist_admctr afmnslp_pct srtm_uga srtm_uga_5_15 sq1 sq2 fsrad3_agpct 
  
- 
-rename HHID hh
-destring hh, force replace 
+  
 
 rename lat_mod lat_modified
 rename lon_mod lon_modified
@@ -317,7 +320,7 @@ rename afmnslp_pct slope
 rename fsrad3_agpct  ag_percent
  
 
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop if _merge == 1
 drop _merge
 save uganda_2009, replace 
@@ -329,10 +332,7 @@ des
 
 
 keep HHID h14q2  h14q3   h14q4  
-
-rename HHID hh
-destring hh, force replace 
-
+ 
  
 numlabel H14Q2 ,add
 
@@ -341,48 +341,48 @@ tab h14q2
 keep if h14q2  ==6 | h14q2  ==7 | h14q2  ==10 | /*
 */h14q2  ==11|h14q2  ==12 |h14q2  ==16  
 
-egen cellphone = sum(h14q4 ) if h14q2  ==16,by(hh)
+egen cellphone = sum(h14q4 ) if h14q2  ==16,by(HHID)
 replace cellphone =1 if cellphone !=0 & cellphone !=.
 
 
-egen number_celphones = sum(h14q4 ) if h14q2  ==16,by(hh)
+egen number_celphones = sum(h14q4 ) if h14q2  ==16,by(HHID)
 
  
 
-egen Radio = sum(h14q4 ) if h14q2  ==7,by(hh)
+egen Radio = sum(h14q4 ) if h14q2  ==7,by(HHID)
 replace Radio =1 if Radio !=0 & Radio !=.
 
 
-egen Television = sum(h14q4 ) if h14q2  ==6,by(hh)
+egen Television = sum(h14q4 ) if h14q2  ==6,by(HHID)
 replace Television =1 if Television !=0 & Television !=.
 
 
-egen Bicycle = sum(h14q4 ) if h14q2  ==10,by(hh)
+egen Bicycle = sum(h14q4 ) if h14q2  ==10,by(HHID)
 replace Bicycle =1 if Bicycle !=0 & Bicycle !=.
 
 
-egen Motorcycle = sum(h14q4 ) if h14q2  ==11,by(hh)
+egen Motorcycle = sum(h14q4 ) if h14q2  ==11,by(HHID)
 replace Motorcycle =1 if Motorcycle !=0 & Motorcycle !=.
 
 
-egen Car = sum(h14q4 ) if h14q2  ==12,by(hh)
+egen Car = sum(h14q4 ) if h14q2  ==12,by(HHID)
 replace Car =1 if Car !=0 & Car !=.
 
 
 
- egen r2 = sum(Radio),by(hh)
-egen T = sum(Television),by(hh)
-egen B = sum(Bicycle),by(hh)
-egen M = sum(Motorcycle),by(hh)
-egen C = sum(Car),by(hh)
-egen cell = sum(cellphone),by(hh)
-egen cell_num = sum(number_celphones),by(hh)
+ egen r2 = sum(Radio),by(HHID)
+egen T = sum(Television),by(HHID)
+egen B = sum(Bicycle),by(HHID)
+egen M = sum(Motorcycle),by(HHID)
+egen C = sum(Car),by(HHID)
+egen cell = sum(cellphone),by(HHID)
+egen cell_num = sum(number_celphones),by(HHID)
 
 
 
-duplicates drop hh,force
+duplicates drop HHID,force
 
-keep hh  r2 T B M C cell cell_num
+keep HHID  r2 T B M C cell cell_num
 
  rename r2 Radio 
 rename T Television  
@@ -392,7 +392,7 @@ rename C Car
 rename cell cellphone
 rename cell_num number_celphones
  
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop if _merge ==1
 drop _merge
  
@@ -416,20 +416,18 @@ gen roof_natural =1 if roof1==1  | roof2==1  | roof3==1
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
+ 
 
- rename HHID hh
-destring hh, force replace 
-
-keep hh roof_natural roof_iron roof_other floor_cement floor_dirt
+keep HHID roof_natural roof_iron roof_other floor_cement floor_dirt
 
 
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop if _merge ==1
 drop _merge
 save uganda_2009, replace
 
 
-rename hh case_id 
+rename HHID case_id 
  rename urban reside 
 
  drop if HDDS ==0 
@@ -455,29 +453,29 @@ save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2009_Uganda.dta", 
 *the CSI) is designed to capture quantity or sufficiency of consumption. 
 
 set more off 
-use "HH_MOD_H",clear
+use "hh_MOD_H",clear
 
 //Questions relating to COPING STRATEGIES (Full labels from Survey REPORT)
 *In the past 7 days, did you worry that your household would not have enough food
-*hh_h02a: "In the past 7 days, how many days have you or someone in your ///
+*hhh02a: "In the past 7 days, how many days have you or someone in your ///
 	*household had to: Rely on less preferred and/or less expensive foods?"(WGT1)
-*hh_h02b: "In the past 7 days, how many days have you or someone in your ///
+*hhh02b: "In the past 7 days, how many days have you or someone in your ///
 	*household had to: Limit portion size at mealtimes?" (WGT1)
-*hh_h02c: "In the past 7 days, how many days have you or someone in your ///
+*hhh02c: "In the past 7 days, how many days have you or someone in your ///
 	*household had to: Reduce number of meals eaten in a day?" (WGT2)
-* hh_h02d "In the past 7 days, how many days have you or someone in your ///
+* hhh02d "In the past 7 days, how many days have you or someone in your ///
 	*household had to: Restrict consumption by adults in order for small ///
 	*children to eat?" (WGT2)
-*hh_h02e "In the past 7 days, how many days have you or someone in your ///
+*hhh02e "In the past 7 days, how many days have you or someone in your ///
 	*household had to: Borrow food, or rely on help from a friend or ///
 	*relative?" (WGT2)
 
 
 **Constructing rCSI
-tab hh_h02a
-gen rCSI=1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e
+tab hhh02a
+gen rCSI=1*hhh02a + 1*hhh02b + 2*hhh02c + 2*hhh02d +2*hhh02e
 
-label var rCSI "HH Reduced Coping Strategies Index"
+label var rCSI "HHID Reduced Coping Strategies Index"
 
 /*
 ***Summary Characteristics and Graphs (Bar Charts and Box Plot)
@@ -492,8 +490,8 @@ plot rCSI id
 */
 
 ***Merging the data
-keep hh qx_type interview_status rCSI 
-merge m:m hh using uganda_2009
+keep HHID qx_type interview_status rCSI 
+merge m:m HHID using uganda_2009
 drop _merge
 save uganda_2009, replace
 
@@ -507,34 +505,34 @@ save uganda_2009, replace
 //Use the rest of the questions in Module H to calculate MAHFP. Calculate the //
 //MAHFP as twelve months minus the total number of months out of the previous //
 //twelve months that the household was unable to meet their food needs. If the///
-//household responded no to hh_h04, then all of the hh_h05* variables should ///
+//household responded no to hhh04, then all of the hhh05* variables should ///
 //be coded as 0s. Your MAHFP score should be between 12 and 0. 
 ********************************************************************************
 
 clear
 set more off 
-use "HH_MOD_H"
+use "hhMOD_H"
 
 *Past 12 Months Experienced Food Shortage
-tab  hh_h04
+tab  hhh04
 *Describing the data
-foreach var of varlist hh_h05a-hh_h05s{
+foreach var of varlist hhh05a-hhh05s{
 	tab `var'
 }
 
 
 *Recoding values of the response variables
-foreach var of varlist hh_h05a-hh_h05s {
+foreach var of varlist hhh05a-hhh05s {
 	gen `var'_num=0
-	replace `var'_num=1 if `var'=="X" & hh_h04==1
+	replace `var'_num=1 if `var'=="X" & hhh04==1
 	tab `var'_num
 }
 
 
 
 *Summing the number of response across case_ids
-egen H_Count=rowtotal (hh_h05a_num-hh_h05s_num)
-label var H_Count "Number of months hh was food insecure" 
+egen H_Count=rowtotal (hhh05a_num-hhh05s_num)
+label var H_Count "Number of months HHID was food insecure" 
 *The values must be between 0 and 12
 sum H_Count
 
@@ -543,7 +541,7 @@ gen MAHFP = 12 - H_Count
 label var MAHFP "Months of Adequate Household Food Provisioning"
 
 *Drop irrelevant variables
-keep hh qx_type interview_status MAHFP
+keep HHID qx_type interview_status MAHFP
 
 ***Summary Characteristics and Graphs (Bar Charts and Box Plot)
 /*
@@ -554,7 +552,7 @@ hist MAHFP
 graph box MAHFP
 */
 ***Merging the data
-merge m:m hh using uganda_2009
+merge m:m HHID using uganda_2009
 drop _merge
 save uganda_2009, replace
 

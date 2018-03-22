@@ -182,8 +182,8 @@ keep HHID urban comm   year month  h1aq1 h1aq3   region
  
 rename h1aq3  hh_a02 
 rename h1aq1  hh_a01 
-rename comm ea_id
-  
+tostring  comm,gen( ea_id)
+drop comm
 rename year FS_year 
 rename month FS_month
 
@@ -313,6 +313,8 @@ rename floor3 floor_cement
 ** roof ***
 tab h9q4,gen(roof)
 gen roof_natural =1 if roof1==1  | roof2==1  | roof3==1  
+recode roof_natural (. =0)
+
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
@@ -322,9 +324,14 @@ keep HHID roof_natural roof_iron roof_other floor_cement floor_dirt
 
 
 merge m:m HHID using uganda_2011
+drop if _merge ==1
+
 drop _merge
 save uganda_2011, replace
 
+
+rename HHID case_id 
+ rename urban reside 
  
 save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2011_Uganda.dta", replace
 

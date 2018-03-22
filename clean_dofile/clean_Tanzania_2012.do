@@ -234,12 +234,12 @@ set more off
 use "HH_SEC_A",clear
 des
  
-keep y3_hhid y3_rural y3_cluster  hh_a02_2 hh_a03_2  hh_a01_2  hh_a18_2  hh_a18_3 
+keep y3_hhid y3_rural clusterid  hh_a02_2 hh_a03_2  hh_a01_2  hh_a18_2  hh_a18_3 
  
 
 rename hh_a18_3 FS_year
 rename hh_a18_2 FS_month
-rename y3_cluster ea_id
+rename clusterid ea_id
 rename hh_a03_2 ward
 gen survey_round ="Tanzania NPS 2012/2013"
 
@@ -350,7 +350,7 @@ rename r1 Refrigerator
 rename r2 Radio 
 rename T Television  
 rename B Bicycle 
-rename M Motorcycle
+rename M Motorcyclet
 rename C Car
 rename cell cellphone
 rename cell_num number_celphones
@@ -376,6 +376,8 @@ rename floor2 floor_cement
 ** roof ***
 tab hh_i09 ,gen(roof)
 gen roof_natural =1 if roof1==1  | roof2==1 
+recode roof_natural (. =0)
+
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
@@ -390,7 +392,7 @@ save tanzania_2012, replace
 
 
 rename y3_hhid case_id 
- rename ea town 
+
  
  drop if HDDS ==0
  drop if FCS ==0

@@ -237,11 +237,12 @@ set more off
 use "hh_sec_a",clear
 
  
-keep y4_hhid clusterid  y4_rural  hh_a02_2 hh_a03_2  hh_a01_2  hh_a18_2  hh_a18_3 
+keep y4_hhid clusterid   clustertype   hh_a02_2 hh_a03_2  hh_a01_2  hh_a18_2  hh_a18_3 
  
 
 rename hh_a18_2 FS_month
 rename hh_a18_3 FS_year
+rename hh_a03_2 ward
 
 gen survey_round ="Tanzania NPS 2014/2015"
  
@@ -254,9 +255,8 @@ label variable FS_month "Month FS module was administered"
 
 rename hh_a02_2 hh_a01 
 label variable hh_a01 "Woreda/District Code"
- 
-rename hh_a01_2 region 
-rename y4_rural reside 
+ rename hh_a01_2 region 
+rename clustertype reside 
 
  
 
@@ -276,7 +276,7 @@ drop if _merge ==2
 drop _merge
 save tanzania_2014, replace
  
- 
+* not avaliable for this year
  /*
  * Merge in other Geovariables
 use TZY2.HH.Geovariables.dta,clear
@@ -383,6 +383,8 @@ rename floor2 floor_cement
 ** roof ***
 tab hh_i09,gen(roof)
 gen roof_natural =1 if roof1==1  | roof2==1 
+recode roof_natural (. =0)
+
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
@@ -398,8 +400,7 @@ save tanzania_2014, replace
 
 rename y4_hhid case_id 
 rename clusterid ea_id
-rename ea town 
- 
+  
  
  *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Tanzania.dta",replace
 

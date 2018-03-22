@@ -38,6 +38,9 @@ cd "C:\Users\Administrator\Desktop\lsms/Uganda_2010/UGA_2010_UNPS_v01_M_STATA"
 
 use GSEC15B.dta,clear
 des 
+format hh %20.00f 
+tostring hh,gen(HHID) format("%20.0f")
+drop hh 
 
 tab  h15bq2d   
 encode h15bq2d ,gen(category)
@@ -61,7 +64,7 @@ replace category =2 if category ==10
 replace category =6 if category ==9
 
 * collapse by food group 
-collapse (max)h15bq3b , by(category hh )
+collapse (max)h15bq3b , by(category HHID)
 
  
 tab h15bq3b
@@ -91,11 +94,11 @@ gen FCS = h15bq3b*FWeight
 label var FCS "Food Consumption Score"
 
 **Aggregating FCS by households
-collapse (sum)FCS, by(hh)
+collapse (sum)FCS, by(HHID)
 label var FCS "HH food consumption score"
  
 
-sort hh
+sort HHID
 save uganda_2010.dta, replace
 
 /*
@@ -128,6 +131,9 @@ graph box FCS, over(FCS_Thresh)  */
 ********************************************************************************
 use GSEC15B.dta,clear
 des 
+format hh %20.00f 
+tostring hh,gen(HHID) format("%20.0f")
+drop hh
 
 tab  h15bq2d   
 encode h15bq2d ,gen(category)
@@ -151,7 +157,7 @@ replace category =2 if category ==10
 replace category =6 if category ==9
 
 * collapse by food group 
-collapse (max)h15bq3b , by(category hh )
+collapse (max)h15bq3b , by(category HHID )
 
  
 tab h15bq3b
@@ -165,7 +171,7 @@ drop if category==11
 gen HDDS=0
 replace HDDS=1 if h15bq3b>=1 & h15bq3b!=.
 // Food categories consumed by hhs - COUNTS
-collapse (sum) HDDS, by(hh)
+collapse (sum) HDDS, by(HHID)
 label var HDDS "Household Dietary Diversity Score"
  
  
@@ -177,9 +183,9 @@ sum HDDS
 graph box HDDS, over(HDDS_Thresh) */
 
 ***Merging FCS and HDDS
-merge m:m hh using uganda_2010
+merge m:m HHID using uganda_2010
 drop _merge
-sort hh 
+sort HHID 
 save uganda_2010, replace
 
 *_______________________________________________________________________________
@@ -193,9 +199,7 @@ use "GSEC1",clear
 des
  
 keep HHID urban comm   year month  h1aq1 h1aq3   region 
- 
-rename HHID hh
-destring hh, force replace 
+  
 rename h1aq3  hh_a02 
 rename h1aq1  hh_a01 
 rename comm ea_id
@@ -214,7 +218,7 @@ label variable FS_month "Month FS module was administered"
  gen survey_round ="Uganda NPS 2010/2011"
  
 *Merge the Datafile
-merge m:m hh using uganda_2010
+merge m:m HHID using uganda_2010
 drop if _merge == 1
 
 drop _merge
@@ -226,9 +230,7 @@ use UNPS_Geovars_1011.dta,clear
 keep lat_mod lon_mod HHID      dist_road  dist_popcenter dist_market/* 
 */ dist_admctr afmnslp_pct srtm_uga srtm_uga_5_15 sq1 sq2 fsrad3_agpct 
  
- 
-rename HHID hh
-destring hh, force replace 
+  
 
 rename lat_mod lat_modified
 rename lon_mod lon_modified
@@ -242,7 +244,7 @@ rename afmnslp_pct slope
 rename fsrad3_agpct  ag_percent
  
 
-merge m:m hh using uganda_2010
+merge m:m HHID using uganda_2010
 drop if _merge == 1
 drop _merge
 save uganda_2010, replace 
@@ -254,10 +256,7 @@ des
 
 
 keep HHID h14q2  h14q3   h14q4  
-
-rename HHID hh
-destring hh, force replace 
-
+ 
  
 numlabel df_ASSET ,add
 
@@ -266,48 +265,48 @@ tab h14q2
 keep if h14q2  ==6 | h14q2  ==7 | h14q2  ==10 | /*
 */h14q2  ==11|h14q2  ==12 |h14q2  ==16  
 
-egen cellphone = sum(h14q4 ) if h14q2  ==16,by(hh)
+egen cellphone = sum(h14q4 ) if h14q2  ==16,by(HHID)
 replace cellphone =1 if cellphone !=0 & cellphone !=.
 
 
-egen number_celphones = sum(h14q4 ) if h14q2  ==16,by(hh)
+egen number_celphones = sum(h14q4 ) if h14q2  ==16,by(HHID)
 
  
 
-egen Radio = sum(h14q4 ) if h14q2  ==7,by(hh)
+egen Radio = sum(h14q4 ) if h14q2  ==7,by(HHID)
 replace Radio =1 if Radio !=0 & Radio !=.
 
 
-egen Television = sum(h14q4 ) if h14q2  ==6,by(hh)
+egen Television = sum(h14q4 ) if h14q2  ==6,by(HHID)
 replace Television =1 if Television !=0 & Television !=.
 
 
-egen Bicycle = sum(h14q4 ) if h14q2  ==10,by(hh)
+egen Bicycle = sum(h14q4 ) if h14q2  ==10,by(HHID)
 replace Bicycle =1 if Bicycle !=0 & Bicycle !=.
 
 
-egen Motorcycle = sum(h14q4 ) if h14q2  ==11,by(hh)
+egen Motorcycle = sum(h14q4 ) if h14q2  ==11,by(HHID)
 replace Motorcycle =1 if Motorcycle !=0 & Motorcycle !=.
 
 
-egen Car = sum(h14q4 ) if h14q2  ==12,by(hh)
+egen Car = sum(h14q4 ) if h14q2  ==12,by(HHID)
 replace Car =1 if Car !=0 & Car !=.
 
 
 
- egen r2 = sum(Radio),by(hh)
-egen T = sum(Television),by(hh)
-egen B = sum(Bicycle),by(hh)
-egen M = sum(Motorcycle),by(hh)
-egen C = sum(Car),by(hh)
-egen cell = sum(cellphone),by(hh)
-egen cell_num = sum(number_celphones),by(hh)
+ egen r2 = sum(Radio),by(HHID)
+egen T = sum(Television),by(HHID)
+egen B = sum(Bicycle),by(HHID)
+egen M = sum(Motorcycle),by(HHID)
+egen C = sum(Car),by(HHID)
+egen cell = sum(cellphone),by(HHID)
+egen cell_num = sum(number_celphones),by(HHID)
 
 
 
-duplicates drop hh,force
+duplicates drop HHID,force
 
-keep hh  r2 T B M C cell cell_num
+keep HHID  r2 T B M C cell cell_num
 
  rename r2 Radio 
 rename T Television  
@@ -317,7 +316,7 @@ rename C Car
 rename cell cellphone
 rename cell_num number_celphones
  
-merge m:m hh using uganda_2010
+merge m:m HHID using uganda_2010
 drop if _merge ==1
 drop _merge
  
@@ -337,24 +336,23 @@ rename floor3 floor_cement
   
 ** roof ***
 tab h9q4,gen(roof)
-gen roof_natural =1 if roof1==1  | roof2==1  | roof3==1  
+gen roof_natural =1 if roof1==1  | roof2==1  | roof3==1 
+recode roof_natural (. =0)
+ 
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
-
- rename HHID hh
-destring hh, force replace 
-
-keep hh roof_natural roof_iron roof_other floor_cement floor_dirt
+ 
+keep HHID roof_natural roof_iron roof_other floor_cement floor_dirt
 
 
-merge m:m hh using uganda_2010
+merge m:m HHID using uganda_2010
+drop if _merge==1
+
 drop _merge
 save uganda_2010, replace
-
-
-rename hh case_id 
- rename urban reside 
+rename HHID case_id
+rename urban reside 
 
  drop if HDDS ==0 
   drop if FCS ==0 

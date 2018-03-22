@@ -228,9 +228,19 @@ set more off
 use "HH_SEC_A",clear
 
  
-keep y2_hhid clusterid  y2_rural region district ea ward  hh_a18_month  hh_a18_year
+keep y2_hhid clusterid  y2_rural region district   ward  hh_a18_month  hh_a18_year
  
+tostring region,gen(region2)
+drop region
+rename region2 region
 
+tostring ward,gen(ward2)
+drop ward
+rename ward2 ward
+
+tostring district ,gen(hh_a01)
+drop district
+ 
 rename hh_a18_month FS_month
 rename hh_a18_year FS_year
 
@@ -246,7 +256,6 @@ label variable FS_month "Month FS module was administered"
  label variable FS_year "Year FS module was administered"
 
 
-rename district hh_a01 
 label variable hh_a01 "Woreda/District Code"
 rename y2_rural reside 
 
@@ -269,7 +278,7 @@ save tanzania_2010, replace
  
  * Merge in other Geovariables
 use TZY2.HH.Geovariables.dta,clear
-keep y2_hhid  hh_envi15  hh_geo01  hh_geo02  hh_geo05      hh_geo06 hh_soil_con01 srtm_eaf_5_15  hh_soil_con02 afmnslp_pct 
+keep y2_hhid  hh_envi15  hh_geo01  hh_geo02 hh_geo03 hh_geo05      hh_geo06 hh_soil_con01 srtm_eaf_5_15  hh_soil_con02 afmnslp_pct 
 
 rename hh_geo06  elevation
 rename srtm_eaf_5_15 terrain_rough
@@ -280,6 +289,7 @@ rename hh_envi15 ag_percent
 rename hh_geo01  dist_road
 rename hh_geo02  dist_popcenter
 rename hh_geo05  dist_headquater
+rename hh_geo03 dist_agmkt
 
 
 merge m:m y2_hhid using tanzania_2010
@@ -372,6 +382,8 @@ rename floor2 floor_cement
 ** roof ***
 tab hh_j06,gen(roof)
 gen roof_natural =1 if roof1==1  | roof2==1 
+recode roof_natural (. =0)
+
 rename roof4 roof_iron
 gen roof_other = 1 if roof_natural ==0 & roof_iron==0
 recode roof_other (. =0)
@@ -387,8 +399,7 @@ save tanzania_2010, replace
 
 rename y2_hhid case_id 
 rename clusterid ea_id
-rename ea town 
- 
+  
  
  *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Tanzania.dta",replace
 

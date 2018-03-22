@@ -51,7 +51,7 @@ replace hh_g08c=7 if hh_g08c==8
 *Combining Cereals and roots (Category A and Category B)
 replace hh_g08a=1 if hh_g08a==1 | hh_g08a==2
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if hh_g08a=="AB"
-collapse (max)hh_g08c, by(y2_hhid qx_type interview_status occ hh_g08a )
+collapse (max)hh_g08c, by(y2_hhid      hh_g08a )
 label var hh_g08c "# Days specific food is eaten"
 
 ***Specifying Weights Different Food Categories
@@ -111,7 +111,7 @@ replace hh_g08c=7 if hh_g08c==8
 *Combining Cereals and roots (Category A and Category B)
 replace hh_g08a=1 if hh_g08a==1 | hh_g08a==2
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if hh_g08a=="AB"
-collapse (max)hh_g08c, by(y2_hhid qx_type interview_status occ hh_g08a )
+collapse (max)hh_g08c, by(y2_hhid   hh_g08a )
 label var hh_g08c "# Days specific food is eaten"
 
 *Exclude SUGAR and SPICES
@@ -237,7 +237,7 @@ gen MAHFP = 12 - H_Count
 label var MAHFP "Months of Adequate Household Food Provisioning"
 
 *Drop irrelevant variables
-keep y2_hhid qx_type interview_status MAHFP
+keep y2_hhid  MAHFP
 
 ***Summary Characteristics and Graphs (Bar Charts and Box Plot)
 /*
@@ -262,9 +262,9 @@ set more off
 use "HH_MOD_A_FILT",clear
 
  
-keep y2_hhid reside   hh_a10b district   region 
+keep y2_hhid reside ea_id  hh_a10b district   region 
  
-rename hh_a10b hh_a02 
+rename hh_a10b TA_names 
 rename district hh_a01 
  
  
@@ -302,12 +302,14 @@ rename hh_a23a_3 FS_year
 rename hh_a23a_2 FS_month
 label variable FS_month "Month FS module was administered"
 label variable FS_year "Year FS module was administered"
+gen survey_round ="Malawi IHPS 2013"
+
 
 merge m:m y2_hhid using malawi_2013
 drop if _merge ==2
 drop _merge
+save malawi_2013, replace
 
-gen survey_round ="IHPS 2013"
 
 
 * Merge in cell phone  
@@ -332,11 +334,12 @@ gen cell_phone = 1 if hh_f34!=0
 replace cell_phone = 0 if hh_f34==0
 rename hh_f34  number_celphones
 
+keep y2_hhid number_celphones cell_phone roof_other roof_natural roof_iron floor_dirt_sand_dung floor_cement  floor_tile
 
 merge m:m y2_hhid using malawi_2013
 drop if _merge ==2
 drop _merge
-
+save malawi_2013, replace
 
 
 ** merge in the assets

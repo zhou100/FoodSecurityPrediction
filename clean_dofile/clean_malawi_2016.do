@@ -159,26 +159,24 @@ set more off
 use "hh_mod_a_filt_16",clear
 
  
-keep y3_hhid reside qx_type ta_code district  region interviewdate~1 interviewdate~2  hhsize 
-rename interviewdate~2 visit2
-rename interviewdate~1 visit1
-
-replace  visit1 =visit2  if visit1=="" 
-split visit1 ,parse("-") gen(time) destring
+keep y3_hhid reside  ea_id  ta_code district  region consumption_date  hhsize 
+ 
+ split consumption_date ,parse("-") gen(time) destring
 rename time1 FS_year
 rename time2 FS_month
 
+destring FS_year FS_month ,force replace 
 label variable FS_month "Month FS module was administered"
 label variable FS_year "Year FS module was administered"
 
+tostring ta_code ,gen(TA_names)
+ rename district hh_a01 
+ 
+drop ta_code 
+drop consumption_date time3  
 
-rename ta_code   hh_a02 
-rename district hh_a01 
-  
-
-
-gen survey_round ="IHPS 2013"
-
+gen survey_round ="Malawi IHPS 2016"
+ 
 
 *Merge the Datafile
 merge m:m y3_hhid using malawi_2016
@@ -228,10 +226,11 @@ gen cell_phone = 1 if hh_f34!=0
 replace cell_phone = 0 if hh_f34==0
 rename hh_f34  number_celphones
 
-
+keep y3_hhid number_celphones cell_phone roof_other roof_natural roof_iron floor_dirt_sand_dung floor_cement  floor_tile
 merge m:m y3_hhid using malawi_2016
 drop if _merge ==2
 drop _merge
+save malawi_2016, replace
 
 
 
