@@ -67,7 +67,15 @@ mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
 mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
 
 source("R/functions/NearMkt.R") 
+near_ug = NearMkt(mkt_coord_ug)
+near_ug<-as.data.frame(near_ug)
+colnames(near_ug)<- c("mkt","k1","k2","k3","k4","k5","k6","k7")
+  
+near_ug
+mkt_coord_ug$mkt
 
-NearMkt(mkt_coord_ug)
+class(NearMkt(mkt_coord_ug))
+mkt_coord_ug[["mkt"]][NearMkt(mkt_coord_ug)]
 
+mkt_coord_ug$mkt[[1]]
 mkt_coord_TZN
