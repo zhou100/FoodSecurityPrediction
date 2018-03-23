@@ -1,3 +1,10 @@
+##################################################################
+# Goal : transform numeric month to month names
+# input : csv files 
+# output: csv files  
+# 
+# Yujun Zhou -  03/20/18
+###################################################################
 
 
 csv_file_list <-list.files(path = "data/clean/cleaned_dataset",pattern =  ".csv",full.names = TRUE)
@@ -10,7 +17,6 @@ list2env(
          read.csv), envir = .GlobalEnv)
 
 Malawi_aggregate$Month<- month.name[Malawi_aggregate$FS_month] 
-
 Tanzania_aggregate$Month<- month.name[Tanzania_aggregate$FS_month] 
 Uganda_aggregate$Month<- month.name[Uganda_aggregate$FS_month] 
 
