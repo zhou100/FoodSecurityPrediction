@@ -1,7 +1,7 @@
 ##################################################################
-# Goal : find the nearest market based on 
+# Goal : find the nearest market based on  market coordinates 
 # input: data frame containing market names and coordinates 
-# output: a list of market and its nearest neighbors
+# output: a matrix of market and its nearest neighbors
 ################################## 
 
 ####### k nearest neighbor ######
@@ -34,7 +34,13 @@ NearMkt = function(coord_df){
   }
   
   neighbor_df<- cbind(as.character(coord_df[["mkt"]]),mat_neighbor_name)
-
+  
+  # add in the market names as row names 
+  colnames(neighbor_df)<- c("mkt",paste("k",seq(1, (ncol(neighbor_df)-1), by = 1),sep =""))
+  
+  
+  
+  
   return(neighbor_df)
 }
 

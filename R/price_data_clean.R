@@ -16,9 +16,16 @@
 
 library(dplyr)
 
-##################
+source("R/functions/Yearmon.R") 
+source("R/functions/market_transpose.R") 
+source("R/functions/NearMkt.R") 
+source("R/functions/spatial_price_impute.R") 
+
+
+
+######################################################
 # general cleaning
-##################
+######################################################
 
 # read in the price data
 price_raw<-read.csv("data/raw/price/price_ethiopia_tanzania_uganda.csv")
@@ -37,7 +44,6 @@ uganda_price =  price_raw %>%
 
 # subset columns
 country_list<-list(tanzania_price,uganda_price)
-
 country_list <- lapply(country_list, function(x){
   x%>% dplyr::select(mkt_name, cm_name,mp_month,mp_year,mp_price )
   })
@@ -49,41 +55,104 @@ country_list <- lapply(country_list, function(x){
 
 
 # generate Date and yearmon variable to help with join 
-source("R/functions/Yearmon.R") 
 country_list <- lapply(country_list, function(x){
   yearmon(x,"mp_year","mp_month")
 })
 
+
+# separe each commodity to different data frames
+
+tanzania_bean = country_list[[1]] %>% 
+  dplyr::select(mkt_name,Beans,date)
+
+tanzania_maize= country_list[[1]] %>% 
+  dplyr::select(mkt_name,Maize,date)
+
+tanzania_rice= country_list[[1]] %>% 
+  dplyr::select(mkt_name,Rice,date)
+
+colnames( country_list[[2]])<-c("mkt_name","mp_month", "mp_year", "Beans","Cassava","Maize","Maizeflour","Millet"  ,  "Sorghum" ,  "yearmon", "date" )  
+
+uganda_bean = country_list[[2]] %>% 
+  dplyr::select(mkt_name,Beans,date)
+
+uganda_maize= country_list[[2]] %>% 
+  dplyr::select(mkt_name,Maize,date)
+
+uganda_cassava= country_list[[2]] %>% 
+  dplyr::select(mkt_name,Cassava,date)
+
+
+uganda_maizeflour= country_list[[2]] %>% 
+  dplyr::select(mkt_name,Maizeflour,date)
+
+uganda_millet= country_list[[2]] %>% 
+  dplyr::select(mkt_name,Millet,date)
+
+uganda_sorghum= country_list[[2]] %>% 
+  dplyr::select(mkt_name,Sorghum ,date)
+
+
+
+
+tanzania_prices<-list(tanzania_bean,tanzania_maize,tanzania_rice)
+uganda_prices<-list(uganda_bean,uganda_maize,uganda_cassava,uganda_maizeflour,uganda_millet,uganda_sorghum)
+
+
+
+source("R/functions/market_transpose.R") 
+
+tanzania_prices_trans <- lapply(tanzania_prices, function(x){
+  market_transpose(x)
+})
  
+uganda_prices_trans <- lapply(uganda_prices, function(x){
+  market_transpose(x)
+})
+
 
 ####################################
 # impute price by the nearest market 
 ####################################
 
-# find the nearest mkt for each market 
 # read in the mkt coordinates 
 
 mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
 mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
 
+# find the nearest mkt for each market using NearMKt function
 source("R/functions/NearMkt.R") 
-near_ug = as.data.frame(NearMkt(mkt_coord_ug))
-colnames(near_ug)<- c("mkt","k1","k2","k3","k4","k5","k6","k7")
+near_ug =  NearMkt(mkt_coord_ug)
+near_tzn = NearMkt(mkt_coord_TZN)
+
+# impute missing price by the price of the nearest mkt using SpatialPriceImpu function
+source("R/functions/spatial_price_impute.R") 
+uganda_prices_imputed <- lapply(uganda_prices_trans, function(x){
+  SpatialPriceImpu(x,near_ug)
+})
+tanzania_prices_imputed <- lapply(tanzania_prices_trans, function(x){
+  SpatialPriceImpu(x,near_tzn)
+})
+
+
+write.csv(tanzania_prices_imputed[[1]],"data/clean/market/tanzania_bean_price.csv" )
+write.csv(tanzania_prices_imputed[[2]],"data/clean/market/tanzania_maize_price.csv" )
+write.csv(tanzania_prices_imputed[[3]],"data/clean/market/tanzania_rice_price.csv" )
+
+write.csv(uganda_prices_imputed[[1]],"data/clean/market/uganda_bean_price.csv" )
+write.csv(uganda_prices_imputed[[2]],"data/clean/market/uganda_maize_price.csv" )
+write.csv(uganda_prices_imputed[[3]],"data/clean/market/uganda_cassava_price.csv" )
+write.csv(uganda_prices_imputed[[4]],"data/clean/market/uganda_maizeflour_price.csv" )
+write.csv(uganda_prices_imputed[[5]],"data/clean/market/uganda_millet_price.csv" )
+write.csv(uganda_prices_imputed[[6]],"data/clean/market/uganda_sorghum_price.csv" )
+
+   
+
+# for a given k 
+# if maize_price_order[i,j] has an na, then go grab an average of maize_price_order[mat_neighbor2[i,1:k],j] 
+# check if maize_price_order still has an NA, if not, end the loop
   
-near_TZN = as.data.frame(NearMkt(mkt_coord_TZN))
-colnames(near_TZN)[1] = "mkt"
-colnames(near_TZN)[2:20] = paste("k",seq(1, 19, by = 1),sep ="")
-#dim(near_TZN)
-
-near_TZN%>% dplyr::select(mkt,num_range("k",1:10) )
-
-near_TZN
 
 
-mkt_coord_ug$mkt
-
-class(NearMkt(mkt_coord_ug))
-mkt_coord_ug[["mkt"]][NearMkt(mkt_coord_ug)]
-
-mkt_coord_ug$mkt[[1]]
-mkt_coord_TZN
+ 
+ 

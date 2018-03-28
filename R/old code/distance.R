@@ -10,8 +10,7 @@ library("openxlsx")
 library("zoo")
 
 ### linking markets to households
-setwd("~/Box Sync/Research/Malawi_FewS/")
-mkt_coord <- read.csv("geocoordinates.csv")
+mkt_coord <- read.csv("D:/Malawi_FewS/geocoordinates.csv")
 #head(mkt_coord)
 mkt_coord<-unique(mkt_coord)
 
@@ -44,7 +43,7 @@ mat_neighbor1[i,]<-k.nearest.neighbors(i, mkt_matrix, k = 20)
 #mat_neighbor1
 
 
-maize <- read.csv("/Users/yujunzhou/Box Sync/Research/Price_data_auto/maize_price_joined.csv")
+maize <- read.csv("D:/Malawi_FewS/maize_price_joined.csv")
 maize[maize==0]<-NA
 maize<-maize[!(maize$date==2013-07-30 & maize$date==2013-07-29 & maize$date==2013-07-31 & maize$date==2013-12-30),]
 
@@ -77,7 +76,7 @@ class(m1) <- "numeric"
 # replace  the 0 prices as NA
 m1[m1==0.000]<-NA
 maize_price_order<-as.data.frame(m1)
-
+maize_price_order
 
 # for a given k 
 # if maize_price_order[i,j] has an na, then go grab an average of maize_price_order[mat_neighbor2[i,1:k],j] 
