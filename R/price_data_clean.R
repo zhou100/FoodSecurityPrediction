@@ -124,7 +124,7 @@ mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
 source("R/functions/NearMkt.R") 
 near_ug =  NearMkt(mkt_coord_ug)
 near_tzn = NearMkt(mkt_coord_TZN)
-
+ 
 # impute missing price by the price of the nearest mkt using SpatialPriceImpu function
 source("R/functions/spatial_price_impute.R") 
 uganda_prices_imputed <- lapply(uganda_prices_trans, function(x){
@@ -147,11 +147,102 @@ write.csv(uganda_prices_imputed[[5]],"data/clean/market/uganda_millet_price.csv"
 write.csv(uganda_prices_imputed[[6]],"data/clean/market/uganda_sorghum_price.csv" )
 
    
+########################################
+# mkt_thinness measure for each market 
+#######################################
+# mkt thinness for each market 
+# number of missings for each yearmon for each mkt 
+# create yearmonn variables
+price$yearmon <-strftime(price$date,format = "%Y%m") #save the yearmon
+week_count<-as.data.frame(table(unique(price)$yearmo))
 
-# for a given k 
-# if maize_price_order[i,j] has an na, then go grab an average of maize_price_order[mat_neighbor2[i,1:k],j] 
-# check if maize_price_order still has an NA, if not, end the loop
-  
+# count missings for each yearmon
+missings<-aggregate(.~ yearmon, data=price[,5:ncol(price)], function(x) {sum(is.na(x))}, na.action = NULL)
+# count how many weeks in each yearmon
+#weekscount<-count(price, yearmon)$n
+
+weekscount<-week_count$Freq
+# mkt_thinness measure for each mkt: percent of missings for each market
+mkt_thinness<-as.data.frame(matrix(NA,113,72))
+for (i in 1:nrow(missings)){
+  mkt_thinness[i,]<-  missings[i,2:ncol(missings)]/weekscount[i]
+}
+mkt_thinness<-cbind(missings$yearmon,mkt_thinness)
+names(mkt_thinness)<-colnames(missings)
+
+write.csv(mkt_thinness,"mkt_thinness.csv")
+
+# transpose the dataset for merge 
+mkt_thinness_transpose = as.data.frame(t(mkt_thinness[,2:ncol(mkt_thinness)]))
+colnames(mkt_thinness_transpose)<-t(mkt_thinness$yearmon)
+mkt_thinness_transpose$mkt_name<-rownames(mkt_thinness_transpose)
+
+# transform to long format with yearmon
+mkt_long <- melt(mkt_thinness_transpose[,1:ncol(mkt_thinness_transpose)], id.vars = "mkt_name")
+names(mkt_long)<-c("mkt_name","yearmo","mkt_thinn")
+mkt_long$yearmo<-as.character(mkt_long$yearmo)
+
+# read in the imputed prices 
+price_yearmo<-read.csv("imputed_price_yearmo.csv")
+price$yearmon <-strftime(price$date,format = "%Y%m") #save the yearmon
+names(price_yearmo)[1]<-"yearmo"
+
+### merge in the mkt_imputed price 
+price_yearmo_t<-t(price_yearmo)
+
+#price_yearmo<-aggregate(.~ yearmon, data=price[,5:ncol(price)], FUN = "median", na.action = rm)
+long_price <- melt(price_yearmo,id.vars="yearmo")
+names(long_price)<-c("yearmo","mkt_name","imputed_price")
+long_price$yearmo<-as.character(long_price$yearmo)
+
+# join prices and mkt thinness 
+join<-dplyr::left_join(long_price, mkt_long, by = c("mkt_name","yearmo"))
+
+write.csv(join,"price_thinness_long.csv")
+
+
+
+#########################################
+# mkt_thinness measure for each household 
+#########################################
+hh_mkt <- read.csv("hh_near_mkt.csv")
+hh_mkt$near_mkt<-toupper(hh_mkt$near_mkt)
+
+# change the names to help with the merge 
+colnames(mkt_thinness)[colnames(mkt_thinness)=="MONKEY.BAY"]<-"MONKEY BAY"
+colnames(mkt_thinness)[colnames(mkt_thinness)=="BEMBEKE.TURN.OFF"]<-"BEMBEKE_TURNOFF"
+colnames(mkt_thinness)[colnames(mkt_thinness)=="TSANGANO.TURN.OFF"]<-"TSANGANO_TURNOFF"
+name_diff<-dplyr::setdiff(hh_mkt$near_mkt,names(mkt_thinness))
+name_diff
+
+#name_diff<-dplyr::setdiff(hh_mkt$near_mkt,names(price_yearmo))
+#name_diff
+
+
+### loop: get hh i’s nearest mkt thinness at yearmo j 
+mat_hh<-matrix(NA,nrow(hh_mkt),nrow(mkt_thinness))
+dim(mat_hh)
+
+for (i in 1:nrow(hh_mkt)){
+  for (j in 1:nrow(mkt_thinness)){
+    tryCatch(
+      {
+        mat_hh[i,j]= mkt_thinness[j,as.character(hh_mkt$near_mkt[i])]
+      }, 
+      error=function(cond){       # Choose a return value in case of warning
+        message("Here's the original warning message:")
+        message(cond)
+      })
+  }
+}
+df_hh<-as.data.frame(mat_hh)
+names(df_hh)<-mkt_thinness$yearmon
+
+hh_mkt_thin<-cbind(hh_mkt,df_hh)
+hh_long <- melt(hh_mkt_thin[,3:ncol(hh_mkt_thin)], id.vars = c("case_id","near_mkt","near_dist"))
+names(hh_long)[names(hh_long)=="value"]<-"mkt_thinn"
+names(hh_long)[names(hh_long)=="variable"]<-"yearmo"
+
 
 
  
