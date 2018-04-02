@@ -152,29 +152,28 @@ write.csv(uganda_prices_imputed[[6]],"data/clean/market/uganda_sorghum_price.csv
 #######################################
 # mkt thinness for each market 
 # number of missings for each yearmon for each mkt 
-# create yearmonn variables
-
-
-tanzania_prices
-
-
-tanzania_prices_imputed
-price$yearmon <-strftime(price$date,format = "%Y%m") #save the yearmon
-week_count<-as.data.frame(table(unique(price)$yearmo))
-
-# count missings for each yearmon
-missings<-aggregate(.~ yearmon, data=price[,5:ncol(price)], function(x) {sum(is.na(x))}, na.action = NULL)
-# count how many weeks in each yearmon
-#weekscount<-count(price, yearmon)$n
-
-weekscount<-week_count$Freq
-# mkt_thinness measure for each mkt: percent of missings for each market
-mkt_thinness<-as.data.frame(matrix(NA,113,72))
-for (i in 1:nrow(missings)){
-  mkt_thinness[i,]<-  missings[i,2:ncol(missings)]/weekscount[i]
+ 
+tanzania_mktthin<- lapply(tanzania_prices_trans,function(x){ifelse(is.na(x), 1, 0)})
+for (i in 1:length(tanzania_prices_trans)) {
+  tanzania_mktthin[[i]][,1]<-tanzania_prices_trans[[i]][,1]
 }
-mkt_thinness<-cbind(missings$yearmon,mkt_thinness)
-names(mkt_thinness)<-colnames(missings)
+
+uganda_mktthin<- lapply(uganda_prices_trans,function(x){ifelse(is.na(x), 1, 0)})
+for (i in 1:length(uganda_prices_trans)) {
+  uganda_mktthin[[i]][,1]<-uganda_prices_trans[[i]][,1]
+}
+ 
+
+write.csv(tanzania_mktthin[[1]],"data/clean/market/tanzania_bean_mktthin.csv" )
+write.csv(tanzania_mktthin[[2]],"data/clean/market/tanzania_maize_mktthin.csv" )
+write.csv(tanzania_mktthin[[3]],"data/clean/market/tanzania_rice_mktthin.csv" )
+
+write.csv(uganda_mktthin[[1]],"data/clean/market/uganda_bean_mktthin.csv" )
+write.csv(uganda_mktthin[[2]],"data/clean/market/uganda_maize_mktthin.csv" )
+write.csv(uganda_mktthin[[3]],"data/clean/market/uganda_cassava_mktthin.csv" )
+write.csv(uganda_mktthin[[4]],"data/clean/market/uganda_maizeflour_mktthin.csv" )
+write.csv(uganda_mktthin[[5]],"data/clean/market/uganda_millet_mktthin.csv" )
+write.csv(uganda_mktthin[[6]],"data/clean/market/uganda_sorghum_mktthin.csv" )
 
 
 
