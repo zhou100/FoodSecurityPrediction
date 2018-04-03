@@ -1,15 +1,19 @@
 ##################################################################
-# Goal : This script aims to clean up wfp price data, impute missing prices, generate mkt_thiness measures 
+# Goal : This script aims to clean up wfp price data, impute missing prices, generate mkt_thiness measures and then match them to different levels 
 # purpose: use the clean market price and thinness measure to generate the most relevant price at the cluster level, TA level and IPC zone 
 
 # Input : 
 # 1. raw csv files downloaded from wfp price 
 # 2. market coordinates generated from market_coordinates.R 
-# 3. 
+# 3. coordinates of clusters. 
+# 4. shapefile of livelihood zones. 
+# 
+
 
 # Output: 
 # 1. a df of price by product by mkt by yearmon, with missing imputed by nearest market or interpolated by recent months
 # 2. a df of market thinness measures by product by mkt by yearmon   
+# 3. matching the price and mkt_thinness to the cluster and ipczone level 
 # 
 # Yujun Zhou -  03/20/18
 ###################################################################
@@ -152,31 +156,49 @@ write.csv(uganda_prices_imputed[[6]],"data/clean/market/uganda_sorghum_price.csv
 #######################################
 # mkt thinness for each market 
 # number of missings for each yearmon for each mkt 
-# create yearmonn variables
-
-
-tanzania_prices
-
-
-tanzania_prices_imputed
-price$yearmon <-strftime(price$date,format = "%Y%m") #save the yearmon
-week_count<-as.data.frame(table(unique(price)$yearmo))
-
-# count missings for each yearmon
-missings<-aggregate(.~ yearmon, data=price[,5:ncol(price)], function(x) {sum(is.na(x))}, na.action = NULL)
-# count how many weeks in each yearmon
-#weekscount<-count(price, yearmon)$n
-
-weekscount<-week_count$Freq
-# mkt_thinness measure for each mkt: percent of missings for each market
-mkt_thinness<-as.data.frame(matrix(NA,113,72))
-for (i in 1:nrow(missings)){
-  mkt_thinness[i,]<-  missings[i,2:ncol(missings)]/weekscount[i]
-}
-mkt_thinness<-cbind(missings$yearmon,mkt_thinness)
-names(mkt_thinness)<-colnames(missings)
-
-
-
  
+tanzania_mktthin<- lapply(tanzania_prices_trans,function(x){ifelse(is.na(x), 1, 0)})
+for (i in 1:length(tanzania_prices_trans)) {
+  tanzania_mktthin[[i]][,1]<-tanzania_prices_trans[[i]][,1]
+}
+
+uganda_mktthin<- lapply(uganda_prices_trans,function(x){ifelse(is.na(x), 1, 0)})
+for (i in 1:length(uganda_prices_trans)) {
+  uganda_mktthin[[i]][,1]<-uganda_prices_trans[[i]][,1]
+}
+ 
+
+write.csv(tanzania_mktthin[[1]],"data/clean/market/tanzania_bean_mktthin.csv" )
+write.csv(tanzania_mktthin[[2]],"data/clean/market/tanzania_maize_mktthin.csv" )
+write.csv(tanzania_mktthin[[3]],"data/clean/market/tanzania_rice_mktthin.csv" )
+
+write.csv(uganda_mktthin[[1]],"data/clean/market/uganda_bean_mktthin.csv" )
+write.csv(uganda_mktthin[[2]],"data/clean/market/uganda_maize_mktthin.csv" )
+write.csv(uganda_mktthin[[3]],"data/clean/market/uganda_cassava_mktthin.csv" )
+write.csv(uganda_mktthin[[4]],"data/clean/market/uganda_maizeflour_mktthin.csv" )
+write.csv(uganda_mktthin[[5]],"data/clean/market/uganda_millet_mktthin.csv" )
+write.csv(uganda_mktthin[[6]],"data/clean/market/uganda_sorghum_mktthin.csv" )
+
+
+
+################################################################################
+# link price and mkt_thinness measure for livelihood zones with population weights 
+###############################################################################
+
+
+landscan_pop <- raster("shapefiles/LandScanData/Population/lspop2011") # land scan data 
+
+markets_theissen_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/thiessen_TZ_clip.shp")    # Tanzania thiessen polygons 
+lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009_proj.shp")                  # Tanzania livelihood zones       
+lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection       
+
+
+
+markets_theissen_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/thiessen_ug_clip.shp")    #Uganda thiessen polygons
+lhz_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/UG_LHZ_2011_proj.shp")                # Uganda  livelihood zones  
+lhz_UG_intersect <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/intersect/ug_intersect.shp")  # intersection       
+
+
+
+
  

@@ -1,0 +1,2438 @@
+<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
+<qgis projectname="" version="3.0.1-Girona">
+  <title></title>
+  <autotransaction active="0"/>
+  <evaluateDefaultValues active="0"/>
+  <trust active="0"/>
+  <projectCrs>
+    <spatialrefsys>
+      <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+      <srsid>3452</srsid>
+      <srid>4326</srid>
+      <authid>EPSG:4326</authid>
+      <description>WGS 84</description>
+      <projectionacronym>longlat</projectionacronym>
+      <ellipsoidacronym>WGS84</ellipsoidacronym>
+      <geographicflag>true</geographicflag>
+    </spatialrefsys>
+  </projectCrs>
+  <layer-tree-group>
+    <customproperties/>
+    <layer-tree-layer id="UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad" source="../UG_LHZ_2011/UG_mkt.shp" checked="Qt::Unchecked" name="UG_mkt" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab" source="../UG_LHZ_2011/UG_LHZ_2011_proj.shp" checked="Qt::Unchecked" name="UG_LHZ_2011_proj" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3" source="../UG_LHZ_2011/thiessen_ug_clip.shp" checked="Qt::Unchecked" name="thiessen_ug_clip" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="output_709910ca_6461_453d_8c9d_452e58b1dd4e" source="memory?geometry=Polygon&amp;crs=EPSG:102022&amp;field=field_1:int8(10,0)&amp;field=lat:double(23,15)&amp;field=lon:double(23,15)&amp;field=mkt:string(254,0)&amp;uid={2295aacf-536b-430b-a04b-3ae0b35f0dc3}" checked="Qt::Unchecked" name="Voronoi polygons" providerKey="memory" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8" source="../UG_LHZ_2011/UG_LHZ_2011.shp" checked="Qt::Unchecked" name="UG_LHZ_2011" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb" source="file:///C:/Users/Administrator/Desktop/FS_metrics/data/clean/market/mkt_coord_ug.csv?type=csv&amp;xField=lon&amp;yField=lat&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" checked="Qt::Unchecked" name="mkt_coord_ug" providerKey="delimitedtext" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="tz_mkt_339b1b01_0205_4422_913b_774be5b499c0" source="./tz_mkt.shp" checked="Qt::Unchecked" name="tz_mkt" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68" source="./thiessen_TZ.shp" checked="Qt::Unchecked" name="thiessen_TZ" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee" source="./thiessen_TZ_clip.shp" checked="Qt::Checked" name="Clipped" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="output_02d4b991_cc92_4812_93d8_5289408edb6c" source="memory?geometry=Polygon&amp;crs=EPSG:102022&amp;field=field_1:int8(10,0)&amp;field=lat:double(23,15)&amp;field=lon:double(23,15)&amp;field=mkt:string(254,0)&amp;uid={4e35b148-1ec5-47e1-b4b7-c40a5a632191}" checked="Qt::Unchecked" name="Voronoi polygons" providerKey="memory" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer id="TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387" source="./TZ_LHZ_2009_proj.shp" checked="Qt::Checked" name="TZ_LHZ_2009_proj" providerKey="ogr" expanded="1">
+      <customproperties/>
+    </layer-tree-layer>
+    <custom-order enabled="0">
+      <item>TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387</item>
+      <item>tz_mkt_339b1b01_0205_4422_913b_774be5b499c0</item>
+      <item>output_02d4b991_cc92_4812_93d8_5289408edb6c</item>
+      <item>thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68</item>
+      <item>mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb</item>
+      <item>UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad</item>
+      <item>UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8</item>
+      <item>UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab</item>
+      <item>output_709910ca_6461_453d_8c9d_452e58b1dd4e</item>
+      <item>thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3</item>
+      <item>thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee</item>
+    </custom-order>
+  </layer-tree-group>
+  <snapping-settings mode="2" type="1" unit="1" intersection-snapping="0" tolerance="12" enabled="0">
+    <individual-layer-settings>
+      <layer-setting id="UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="tz_mkt_339b1b01_0205_4422_913b_774be5b499c0" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="output_709910ca_6461_453d_8c9d_452e58b1dd4e" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="output_02d4b991_cc92_4812_93d8_5289408edb6c" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3" units="1" type="1" tolerance="12" enabled="0"/>
+      <layer-setting id="thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee" units="1" type="1" tolerance="12" enabled="0"/>
+    </individual-layer-settings>
+  </snapping-settings>
+  <relations/>
+  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+    <units>degrees</units>
+    <extent>
+      <xmin>28.76722176630489969</xmin>
+      <ymin>-14.18610342560635473</ymin>
+      <xmax>44.73010119214372082</xmax>
+      <ymax>-0.00495371286869162</ymax>
+    </extent>
+    <rotation>0</rotation>
+    <destinationsrs>
+      <spatialrefsys>
+        <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+        <srsid>3452</srsid>
+        <srid>4326</srid>
+        <authid>EPSG:4326</authid>
+        <description>WGS 84</description>
+        <projectionacronym>longlat</projectionacronym>
+        <ellipsoidacronym>WGS84</ellipsoidacronym>
+        <geographicflag>true</geographicflag>
+      </spatialrefsys>
+    </destinationsrs>
+    <rendermaptile>0</rendermaptile>
+  </mapcanvas>
+  <legend updateDrawingOrder="true">
+    <legendlayer checked="Qt::Unchecked" name="UG_mkt" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="UG_LHZ_2011_proj" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="thiessen_ug_clip" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="Voronoi polygons" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="output_709910ca_6461_453d_8c9d_452e58b1dd4e"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="UG_LHZ_2011" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="mkt_coord_ug" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="tz_mkt" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="tz_mkt_339b1b01_0205_4422_913b_774be5b499c0"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="thiessen_TZ" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Checked" name="Clipped" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="1" isInOverview="0" layerid="thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Unchecked" name="Voronoi polygons" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="0" isInOverview="0" layerid="output_02d4b991_cc92_4812_93d8_5289408edb6c"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer checked="Qt::Checked" name="TZ_LHZ_2009_proj" open="true" showFeatureCount="0" drawingOrder="-1">
+      <filegroup open="true" hidden="false">
+        <legendlayerfile visible="1" isInOverview="0" layerid="TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387"/>
+      </filegroup>
+    </legendlayer>
+  </legend>
+  <mapViewDocks/>
+  <mapViewDocks3D/>
+  <projectlayers>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>447530.34608208003919572</xmin>
+        <ymin>-1392126.72321133548393846</ymin>
+        <xmax>1592788.44410518580116332</xmax>
+        <ymax>-118400.11844328523147851</ymax>
+      </extent>
+      <id>TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387</id>
+      <datasource>./TZ_LHZ_2009_proj.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>TZ_LHZ_2009_proj</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="105,212,43,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="FNID"/>
+        <alias name="" index="1" field="EFF_YEAR"/>
+        <alias name="" index="2" field="COUNTRY"/>
+        <alias name="" index="3" field="LZNUM"/>
+        <alias name="" index="4" field="LZCODE"/>
+        <alias name="" index="5" field="LZNAMEEN"/>
+        <alias name="" index="6" field="LZNAMEFR"/>
+        <alias name="" index="7" field="LZNAMESP"/>
+        <alias name="" index="8" field="LZNAMEPT"/>
+        <alias name="" index="9" field="CLASS"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="FNID"/>
+        <default applyOnUpdate="0" expression="" field="EFF_YEAR"/>
+        <default applyOnUpdate="0" expression="" field="COUNTRY"/>
+        <default applyOnUpdate="0" expression="" field="LZNUM"/>
+        <default applyOnUpdate="0" expression="" field="LZCODE"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEEN"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEFR"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMESP"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEPT"/>
+        <default applyOnUpdate="0" expression="" field="CLASS"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="FNID"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="EFF_YEAR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="COUNTRY"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNUM"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZCODE"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEEN"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEFR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMESP"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEPT"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="CLASS"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="FNID" desc=""/>
+        <constraint exp="" field="EFF_YEAR" desc=""/>
+        <constraint exp="" field="COUNTRY" desc=""/>
+        <constraint exp="" field="LZNUM" desc=""/>
+        <constraint exp="" field="LZCODE" desc=""/>
+        <constraint exp="" field="LZNAMEEN" desc=""/>
+        <constraint exp="" field="LZNAMEFR" desc=""/>
+        <constraint exp="" field="LZNAMESP" desc=""/>
+        <constraint exp="" field="LZNAMEPT" desc=""/>
+        <constraint exp="" field="CLASS" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>29.57325172400002344</xmin>
+        <ymin>-1.48404991599992897</ymin>
+        <xmax>35.03604888900019887</xmax>
+        <ymax>4.21442699400021059</ymax>
+      </extent>
+      <id>UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8</id>
+      <datasource>../UG_LHZ_2011/UG_LHZ_2011.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>UG_LHZ_2011</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="141,135,98,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="FNID"/>
+        <alias name="" index="1" field="EFF_YEAR"/>
+        <alias name="" index="2" field="COUNTRY"/>
+        <alias name="" index="3" field="LZNUM"/>
+        <alias name="" index="4" field="LZCODE"/>
+        <alias name="" index="5" field="LZNAMEEN"/>
+        <alias name="" index="6" field="LZNAMEFR"/>
+        <alias name="" index="7" field="LZNAMESP"/>
+        <alias name="" index="8" field="LZNAMEPT"/>
+        <alias name="" index="9" field="CLASS"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="FNID"/>
+        <default applyOnUpdate="0" expression="" field="EFF_YEAR"/>
+        <default applyOnUpdate="0" expression="" field="COUNTRY"/>
+        <default applyOnUpdate="0" expression="" field="LZNUM"/>
+        <default applyOnUpdate="0" expression="" field="LZCODE"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEEN"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEFR"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMESP"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEPT"/>
+        <default applyOnUpdate="0" expression="" field="CLASS"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="FNID"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="EFF_YEAR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="COUNTRY"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNUM"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZCODE"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEEN"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEFR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMESP"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEPT"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="CLASS"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="FNID" desc=""/>
+        <constraint exp="" field="EFF_YEAR" desc=""/>
+        <constraint exp="" field="COUNTRY" desc=""/>
+        <constraint exp="" field="LZNUM" desc=""/>
+        <constraint exp="" field="LZCODE" desc=""/>
+        <constraint exp="" field="LZNAMEEN" desc=""/>
+        <constraint exp="" field="LZNAMEFR" desc=""/>
+        <constraint exp="" field="LZNAMESP" desc=""/>
+        <constraint exp="" field="LZNAMEPT" desc=""/>
+        <constraint exp="" field="CLASS" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>473793.9705188371008262</xmin>
+        <ymin>-176799.88847385687404312</ymin>
+        <xmax>1041315.92533867538440973</xmax>
+        <ymax>497696.76789090421516448</ymax>
+      </extent>
+      <id>UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab</id>
+      <datasource>../UG_LHZ_2011/UG_LHZ_2011_proj.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>UG_LHZ_2011_proj</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent>
+          <spatial minx="0" maxy="0" dimensions="2" crs="" minz="0" maxz="0" maxx="0" miny="0"/>
+          <temporal>
+            <period>
+              <start></start>
+              <end></end>
+            </period>
+          </temporal>
+        </extent>
+        <contact>
+          <name></name>
+          <organization></organization>
+          <position></position>
+          <voice></voice>
+          <fax></fax>
+          <email></email>
+          <role></role>
+        </contact>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="LinePatternFill" pass="0" locked="0" enabled="1">
+              <prop k="angle" v="135"/>
+              <prop k="color" v="55,126,184,255"/>
+              <prop k="distance" v="2"/>
+              <prop k="distance_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="distance_unit" v="MM"/>
+              <prop k="line_width" v="0.26"/>
+              <prop k="line_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="line_width_unit" v="MM"/>
+              <prop k="offset" v="0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+              <symbol type="line" name="@0@0" alpha="1" clip_to_extent="1">
+                <layer class="SimpleLine" pass="0" locked="0" enabled="1">
+                  <prop k="capstyle" v="square"/>
+                  <prop k="customdash" v="5;2"/>
+                  <prop k="customdash_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                  <prop k="customdash_unit" v="MM"/>
+                  <prop k="draw_inside_polygon" v="0"/>
+                  <prop k="joinstyle" v="bevel"/>
+                  <prop k="line_color" v="0,0,0,255"/>
+                  <prop k="line_style" v="solid"/>
+                  <prop k="line_width" v="0.3"/>
+                  <prop k="line_width_unit" v="MM"/>
+                  <prop k="offset" v="0"/>
+                  <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                  <prop k="offset_unit" v="MM"/>
+                  <prop k="use_custom_dash" v="0"/>
+                  <prop k="width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+                  <data_defined_properties>
+                    <Option type="Map">
+                      <Option type="QString" name="name" value=""/>
+                      <Option name="properties"/>
+                      <Option type="QString" name="type" value="collection"/>
+                    </Option>
+                  </data_defined_properties>
+                </layer>
+              </symbol>
+            </layer>
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="0,0,0,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="0,0,0,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.46"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="no"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property key="embeddedWidgets/count" value="0"/>
+        <property key="variableNames"/>
+        <property key="variableValues"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <SingleCategoryDiagramRenderer diagramType="Histogram" attributeLegend="1">
+        <DiagramCategory scaleBasedVisibility="0" barWidth="5" sizeScale="3x:0,0,0,0,0,0" labelPlacementMethod="XHeight" scaleDependency="Area" minScaleDenominator="0" backgroundAlpha="255" maxScaleDenominator="1e+8" rotationOffset="270" width="15" opacity="1" penColor="#000000" penAlpha="255" sizeType="MM" penWidth="0" lineSizeScale="3x:0,0,0,0,0,0" diagramOrientation="Up" backgroundColor="#ffffff" height="15" lineSizeType="MM" minimumSize="0" enabled="0">
+          <fontProperties style="" description="SimSun,8.25,-1,5,50,0,0,0,0,0"/>
+          <attribute color="#000000" label="" field=""/>
+        </DiagramCategory>
+      </SingleCategoryDiagramRenderer>
+      <DiagramLayerSettings linePlacementFlags="18" zIndex="0" dist="0" priority="0" placement="0" obstacle="0" showAll="1">
+        <properties>
+          <Option type="Map">
+            <Option type="QString" name="name" value=""/>
+            <Option name="properties"/>
+            <Option type="QString" name="type" value="collection"/>
+          </Option>
+        </properties>
+      </DiagramLayerSettings>
+      <fieldConfiguration>
+        <field name="FNID">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="Range">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="TextEdit">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="FNID"/>
+        <alias name="" index="1" field="EFF_YEAR"/>
+        <alias name="" index="2" field="COUNTRY"/>
+        <alias name="" index="3" field="LZNUM"/>
+        <alias name="" index="4" field="LZCODE"/>
+        <alias name="" index="5" field="LZNAMEEN"/>
+        <alias name="" index="6" field="LZNAMEFR"/>
+        <alias name="" index="7" field="LZNAMESP"/>
+        <alias name="" index="8" field="LZNAMEPT"/>
+        <alias name="" index="9" field="CLASS"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="FNID"/>
+        <default applyOnUpdate="0" expression="" field="EFF_YEAR"/>
+        <default applyOnUpdate="0" expression="" field="COUNTRY"/>
+        <default applyOnUpdate="0" expression="" field="LZNUM"/>
+        <default applyOnUpdate="0" expression="" field="LZCODE"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEEN"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEFR"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMESP"/>
+        <default applyOnUpdate="0" expression="" field="LZNAMEPT"/>
+        <default applyOnUpdate="0" expression="" field="CLASS"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="FNID"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="EFF_YEAR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="COUNTRY"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNUM"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZCODE"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEEN"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEFR"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMESP"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="LZNAMEPT"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="CLASS"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="FNID" desc=""/>
+        <constraint exp="" field="EFF_YEAR" desc=""/>
+        <constraint exp="" field="COUNTRY" desc=""/>
+        <constraint exp="" field="LZNUM" desc=""/>
+        <constraint exp="" field="LZCODE" desc=""/>
+        <constraint exp="" field="LZNAMEEN" desc=""/>
+        <constraint exp="" field="LZNAMEFR" desc=""/>
+        <constraint exp="" field="LZNAMESP" desc=""/>
+        <constraint exp="" field="LZNAMEPT" desc=""/>
+        <constraint exp="" field="CLASS" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns>
+          <column width="-1" type="field" name="FNID" hidden="0"/>
+          <column width="-1" type="field" name="EFF_YEAR" hidden="0"/>
+          <column width="-1" type="field" name="COUNTRY" hidden="0"/>
+          <column width="-1" type="field" name="LZNUM" hidden="0"/>
+          <column width="-1" type="field" name="LZCODE" hidden="0"/>
+          <column width="-1" type="field" name="LZNAMEEN" hidden="0"/>
+          <column width="-1" type="field" name="LZNAMEFR" hidden="0"/>
+          <column width="-1" type="field" name="LZNAMESP" hidden="0"/>
+          <column width="-1" type="field" name="LZNAMEPT" hidden="0"/>
+          <column width="-1" type="field" name="CLASS" hidden="0"/>
+          <column width="-1" type="actions" hidden="1"/>
+        </columns>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[# -*- coding: utf-8 -*-
+"""
+QGIS forms can have a Python function that is called when the form is
+opened.
+
+Use this function to add extra logic to your forms.
+
+Enter the name of the function in the "Python Init function"
+field.
+An example follows:
+"""
+from qgis.PyQt.QtWidgets import QWidget
+
+def my_form_open(dialog, layer, feature):
+	geom = feature.geometry()
+	control = dialog.findChild(QWidget, "MyLineEdit")
+]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable>
+        <field name="CLASS" editable="1"/>
+        <field name="COUNTRY" editable="1"/>
+        <field name="EFF_YEAR" editable="1"/>
+        <field name="FNID" editable="1"/>
+        <field name="LZCODE" editable="1"/>
+        <field name="LZNAMEEN" editable="1"/>
+        <field name="LZNAMEFR" editable="1"/>
+        <field name="LZNAMEPT" editable="1"/>
+        <field name="LZNAMESP" editable="1"/>
+        <field name="LZNUM" editable="1"/>
+      </editable>
+      <labelOnTop>
+        <field name="CLASS" labelOnTop="0"/>
+        <field name="COUNTRY" labelOnTop="0"/>
+        <field name="EFF_YEAR" labelOnTop="0"/>
+        <field name="FNID" labelOnTop="0"/>
+        <field name="LZCODE" labelOnTop="0"/>
+        <field name="LZNAMEEN" labelOnTop="0"/>
+        <field name="LZNAMEFR" labelOnTop="0"/>
+        <field name="LZNAMEPT" labelOnTop="0"/>
+        <field name="LZNAMESP" labelOnTop="0"/>
+        <field name="LZNUM" labelOnTop="0"/>
+      </labelOnTop>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression>FNID</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Point" maxScale="0">
+      <extent>
+        <xmin>587115.87470102356746793</xmin>
+        <ymin>-71608.08100236135942396</ymin>
+        <xmax>980025.52103543758857995</xmax>
+        <ymax>327724.25302154285600409</ymax>
+      </extent>
+      <id>UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad</id>
+      <datasource>../UG_LHZ_2011/UG_mkt.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>UG_mkt</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="marker" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleMarker" pass="0" locked="0" enabled="1">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="182,35,37,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Point" maxScale="0">
+      <extent>
+        <xmin>30.66546519999999987</xmin>
+        <ymin>-0.59701059999999995</ymin>
+        <xmax>34.44773909999999972</xmax>
+        <ymax>2.7727710000000001</ymax>
+      </extent>
+      <id>mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb</id>
+      <datasource>file:../../../data/clean/market/mkt_coord_ug.csv?type=csv&amp;xField=lon&amp;yField=lat&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>mkt_coord_ug</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">delimitedtext</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="marker" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleMarker" pass="0" locked="0" enabled="1">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="139,116,99,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <id>output_02d4b991_cc92_4812_93d8_5289408edb6c</id>
+      <datasource>memory?geometry=Polygon&amp;crs=EPSG:102022&amp;field=field_1:int8(10,0)&amp;field=lat:double(23,15)&amp;field=lon:double(23,15)&amp;field=mkt:string(254,0)</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Voronoi polygons</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">memory</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="130,43,31,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <id>output_709910ca_6461_453d_8c9d_452e58b1dd4e</id>
+      <datasource>memory?geometry=Polygon&amp;crs=EPSG:102022&amp;field=field_1:int8(10,0)&amp;field=lat:double(23,15)&amp;field=lon:double(23,15)&amp;field=mkt:string(254,0)</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Voronoi polygons</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">memory</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="121,135,96,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>357166.35665862279711291</xmin>
+        <ymin>-1386272.57665248587727547</ymin>
+        <xmax>1688341.05507637769915164</xmax>
+        <ymax>-39327.21723079723597039</ymax>
+      </extent>
+      <id>thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68</id>
+      <datasource>./thiessen_TZ.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>thiessen_TZ</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="140,163,27,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>447530.34608200000366196</xmin>
+        <ymin>-1386272.57665248587727547</ymin>
+        <xmax>1592788.44410518580116332</xmax>
+        <ymax>-118400.11844328523147851</ymax>
+      </extent>
+      <id>thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee</id>
+      <datasource>./thiessen_TZ_clip.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Clipped</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="21,163,97,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Polygon" maxScale="0">
+      <extent>
+        <xmin>473793.9705188371008262</xmin>
+        <ymin>-176799.88847385687404312</ymin>
+        <xmax>1041315.92533867538440973</xmax>
+        <ymax>497696.76789090421516448</ymax>
+      </extent>
+      <id>thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3</id>
+      <datasource>../UG_LHZ_2011/thiessen_ug_clip.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>thiessen_ug_clip</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="fill" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleFill" pass="0" locked="0" enabled="1">
+              <prop k="border_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="color" v="190,83,135,255"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0.26"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="style" v="solid"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer hasScaleBasedVisibilityFlag="0" autoRefreshTime="0" type="vector" minScale="1e+8" simplifyDrawingTol="1" refreshOnNotifyMessage="" simplifyLocal="1" simplifyMaxScale="1" labelsEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" geometry="Point" maxScale="0">
+      <extent>
+        <xmin>479013.31108766450779513</xmin>
+        <ymin>-1266649.68980092206038535</ymin>
+        <xmax>1566494.1006473358720541</xmax>
+        <ymax>-158950.10408236118382774</ymax>
+      </extent>
+      <id>tz_mkt_339b1b01_0205_4422_913b_774be5b499c0</id>
+      <datasource>./tz_mkt.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>tz_mkt</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=aea +lat_1=20 +lat_2=-23 +lat_0=0 +lon_0=25 +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs</proj4>
+          <srsid>27145</srsid>
+          <srid>102022</srid>
+          <authid>EPSG:102022</authid>
+          <description>Africa_Albers_Equal_Area_Conic</description>
+          <projectionacronym>aea</projectionacronym>
+          <ellipsoidacronym></ellipsoidacronym>
+          <geographicflag>false</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+        <links/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <renderer-v2 type="singleSymbol" symbollevels="0" forceraster="0" enableorderby="0">
+        <symbols>
+          <symbol type="marker" name="0" alpha="1" clip_to_extent="1">
+            <layer class="SimpleMarker" pass="0" locked="0" enabled="1">
+              <prop k="angle" v="0"/>
+              <prop k="color" v="226,231,67,255"/>
+              <prop k="horizontal_anchor_point" v="1"/>
+              <prop k="joinstyle" v="bevel"/>
+              <prop k="name" v="circle"/>
+              <prop k="offset" v="0,0"/>
+              <prop k="offset_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="offset_unit" v="MM"/>
+              <prop k="outline_color" v="35,35,35,255"/>
+              <prop k="outline_style" v="solid"/>
+              <prop k="outline_width" v="0"/>
+              <prop k="outline_width_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="outline_width_unit" v="MM"/>
+              <prop k="scale_method" v="diameter"/>
+              <prop k="size" v="2"/>
+              <prop k="size_map_unit_scale" v="3x:0,0,0,0,0,0"/>
+              <prop k="size_unit" v="MM"/>
+              <prop k="vertical_anchor_point" v="1"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option type="QString" name="name" value=""/>
+                  <Option name="properties"/>
+                  <Option type="QString" name="type" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias name="" index="0" field="field_1"/>
+        <alias name="" index="1" field="lat"/>
+        <alias name="" index="2" field="lon"/>
+        <alias name="" index="3" field="mkt"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" expression="" field="field_1"/>
+        <default applyOnUpdate="0" expression="" field="lat"/>
+        <default applyOnUpdate="0" expression="" field="lon"/>
+        <default applyOnUpdate="0" expression="" field="mkt"/>
+      </defaults>
+      <constraints>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="field_1"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lat"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="lon"/>
+        <constraint constraints="0" exp_strength="0" notnull_strength="0" unique_strength="0" field="mkt"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint exp="" field="field_1" desc=""/>
+        <constraint exp="" field="lat" desc=""/>
+        <constraint exp="" field="lon" desc=""/>
+        <constraint exp="" field="mkt" desc=""/>
+      </constraintExpressions>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+        <columns/>
+      </attributetableconfig>
+      <editform>.</editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <expressionfields/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+  </projectlayers>
+  <layerorder>
+    <layer id="TZ_LHZ_2009_proj_0ddfb79e_53af_403d_a52d_21d04a84b387"/>
+    <layer id="tz_mkt_339b1b01_0205_4422_913b_774be5b499c0"/>
+    <layer id="output_02d4b991_cc92_4812_93d8_5289408edb6c"/>
+    <layer id="thiessen_TZ_364244c9_5ca7_4993_9b07_d02c30b7ab68"/>
+    <layer id="mkt_coord_ug_99522487_9a99_4929_af1d_c7c9e8ac48bb"/>
+    <layer id="UG_mkt_99d73d81_1e30_460a_8ef3_f6c4209440ad"/>
+    <layer id="UG_LHZ_2011_04fe689e_8ab5_416e_91dd_bc5d7b1129d8"/>
+    <layer id="UG_LHZ_2011_proj_8140e6ac_59fc_4103_9573_bc9beba24fab"/>
+    <layer id="output_709910ca_6461_453d_8c9d_452e58b1dd4e"/>
+    <layer id="thiessen_ug_clip_ac24004e_76e3_496f_bfa5_bf5c4f1d6dc3"/>
+    <layer id="thiessen_TZ_clip_d4b02710_27ab_4ca3_95cf_536756f6dcee"/>
+  </layerorder>
+  <properties>
+    <PositionPrecision>
+      <Automatic type="bool">true</Automatic>
+      <DecimalPlaces type="int">2</DecimalPlaces>
+    </PositionPrecision>
+    <Measurement>
+      <DistanceUnits type="QString"></DistanceUnits>
+      <AreaUnits type="QString"></AreaUnits>
+    </Measurement>
+    <Legend>
+      <filterByMap type="bool">false</filterByMap>
+    </Legend>
+    <PAL>
+      <ShowingCandidates type="bool">false</ShowingCandidates>
+      <DrawRectOnly type="bool">false</DrawRectOnly>
+      <ShowingPartialsLabels type="bool">true</ShowingPartialsLabels>
+      <DrawOutlineLabels type="bool">true</DrawOutlineLabels>
+      <CandidatesPolygon type="int">30</CandidatesPolygon>
+      <SearchMethod type="int">0</SearchMethod>
+      <CandidatesLine type="int">50</CandidatesLine>
+      <ShowingAllLabels type="bool">false</ShowingAllLabels>
+      <CandidatesPoint type="int">16</CandidatesPoint>
+    </PAL>
+    <Measure>
+      <Ellipsoid type="QString">WGS84</Ellipsoid>
+    </Measure>
+    <Paths>
+      <Absolute type="bool">false</Absolute>
+    </Paths>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
+    <Gui>
+      <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+      <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+      <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+      <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+      <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+      <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+      <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+    </Gui>
+  </properties>
+  <visibility-presets/>
+  <transformContext/>
+  <Annotations/>
+  <Layouts/>
+</qgis>
