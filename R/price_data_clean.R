@@ -21,13 +21,13 @@
 package = c("dplyr","maptools","rgeos", "rgdal", "raster")
 lapply(package, require, character.only = TRUE)
 
-
 source("R/functions/Yearmon.R") 
 source("R/functions/market_transpose.R") 
 source("R/functions/NearMkt.R") 
 source("R/functions/spatial_price_impute.R") 
 source("R/functions/PopuWeight.R") 
-
+source("R/functions/NameToPrice.R") 
+source("R/functions/WeightedPrice.R") 
 
 ##################################################################
 #  1. get market coordinates 
@@ -54,12 +54,10 @@ market_names_tan<- as.character(market_names_tan)
 
 market_list_tanzania<- lapply(market_names_tan, function(x){paste("market",x,sep=" ")})
 market_list_tanzania = unlist (market_list_tanzania)
-market_list_tanzania
-
+ 
 address_tanzania<- lapply(market_list_tanzania, function(x){paste(x,"Tanzania",sep=",")})
 address_tanzania = unlist (address_tanzania)
-address_tanzania
-
+ 
 coord_tanzania = coordFind(address_tanzania)
 coord_tanzania$mkt  = market_names_tan
 # -4.816988, 34.750763
@@ -126,7 +124,7 @@ country_list <- lapply(country_list, function(x){
   x%>% tidyr::spread(key = cm_name, value = mp_price) 
 })
 
-
+source("R/functions/Yearmon.R") 
 # generate Date and yearmon variable to help with join 
 country_list <- lapply(country_list, function(x){
   yearmon(x,"mp_year","mp_month")
@@ -204,19 +202,6 @@ tanzania_prices_imputed <- lapply(tanzania_prices_trans, function(x){
   SpatialPriceImpu(x,near_tzn)
 })
 
-
-write.csv(tanzania_prices_imputed[[1]],"data/clean/market/tanzania_bean_price.csv" )
-write.csv(tanzania_prices_imputed[[2]],"data/clean/market/tanzania_maize_price.csv" )
-write.csv(tanzania_prices_imputed[[3]],"data/clean/market/tanzania_rice_price.csv" )
-
-write.csv(uganda_prices_imputed[[1]],"data/clean/market/uganda_bean_price.csv" )
-write.csv(uganda_prices_imputed[[2]],"data/clean/market/uganda_maize_price.csv" )
-write.csv(uganda_prices_imputed[[3]],"data/clean/market/uganda_cassava_price.csv" )
-write.csv(uganda_prices_imputed[[4]],"data/clean/market/uganda_maizeflour_price.csv" )
-write.csv(uganda_prices_imputed[[5]],"data/clean/market/uganda_millet_price.csv" )
-write.csv(uganda_prices_imputed[[6]],"data/clean/market/uganda_sorghum_price.csv" )
-
-   
 ################################################################################
 # 4. generate mkt_thinness measure for each market 
 ###############################################################################
@@ -234,28 +219,36 @@ for (i in 1:length(uganda_prices_trans)) {
 }
  
 
-write.csv(tanzania_mktthin[[1]],"data/clean/market/tanzania_bean_mktthin.csv" )
-write.csv(tanzania_mktthin[[2]],"data/clean/market/tanzania_maize_mktthin.csv" )
-write.csv(tanzania_mktthin[[3]],"data/clean/market/tanzania_rice_mktthin.csv" )
+tan_names = c("bean","maize","rice")
+ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+path = "data/clean/market/impute_thin/"
 
-write.csv(uganda_mktthin[[1]],"data/clean/market/uganda_bean_mktthin.csv" )
-write.csv(uganda_mktthin[[2]],"data/clean/market/uganda_maize_mktthin.csv" )
-write.csv(uganda_mktthin[[3]],"data/clean/market/uganda_cassava_mktthin.csv" )
-write.csv(uganda_mktthin[[4]],"data/clean/market/uganda_maizeflour_mktthin.csv" )
-write.csv(uganda_mktthin[[5]],"data/clean/market/uganda_millet_mktthin.csv" )
-write.csv(uganda_mktthin[[6]],"data/clean/market/uganda_sorghum_mktthin.csv" )
+for (i in 1:length(tan_names)){
+  write.csv(tanzania_prices_imputed[[i]], paste(path,paste(tan_names[i],"_price_tz.csv",sep = ""),sep = "" ))
+}
 
+
+for (i in 1:length(ug_names)){
+  write.csv(uganda_prices_imputed[[i]], paste(path,paste(ug_names[i],"_price_ug.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(tan_names)){
+  write.csv(tanzania_mktthin[[i]], paste(path,paste(tan_names[i],"_mktthin_tz.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(ug_names)){
+  write.csv(uganda_mktthin[[i]], paste(path,paste(ug_names[i],"_mktthin_ug.csv",sep = ""),sep = "" ))
+}
 
 
 ################################################################################
-# 5.  livelihood zones with population weights 
+# 5.  livelihood zones with population weights for each market shed
 ###############################################################################
 
 
 #landscan_pop <- raster("shapefiles/LandScanData/Population/lspop2011") # land scan data 
 
 landscan_pop <- raster("~/Downloads/LandScanData/Population/lspop2011") # land scan data (not in the github)
-
 
 lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones       
 lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness        
@@ -269,10 +262,104 @@ source("R/functions/PopuWeight.R")
 tz_popweight = PopuWeight(landscan_pop,lhz_TZ,lhz_TZ_intersect)
 ug_popweight = PopuWeight(landscan_pop,lhz_UG_nowater,lhz_UG_intersect)
 
+write.csv(tz_popweight,"data/clean/market/tz_popweight.csv" )
+write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
 
 ###############################################################################
-# link price and mkt_thinness measure for livelihood zones 
+# link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
 ###############################################################################
+
+tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
+ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
+
+path = "data/clean/market/impute_thin/"
+
+file_list <- list.files(path=path, 
+                        pattern = "csv$",
+                        full.names=FALSE)
+dfnames<-file_list
+dfnames <- gsub(".csv","", dfnames)
+
+
+list2env(
+  lapply(setNames(file_list, make.names(dfnames)), 
+         function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
+
+
+# save the prices in a list to make the loop easy 
+
+tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
+ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
+
+tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
+ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
+
+
+
+
+source("R/functions/NameToPrice.R") 
+
+tz_lhz_price_unweight <- lapply(tz_prices_impu, function(x){
+  NameToPrice(tz_popweight,x)
+})
+
+
+ug_lhz_price_unweight <- lapply(ug_prices_impu, function(x){
+  NameToPrice(ug_popweight,x)
+})
+
+tz_lhz_mktthin_unweight <- lapply(tz_mktthin, function(x){
+  NameToPrice(tz_popweight,x)
+})
+
+
+ug_lhz_mktthin_unweight <- lapply(ug_mktthin, function(x){
+  NameToPrice(ug_popweight,x)
+})
+
+
+
+source("R/functions/WeightedPrice.R") 
+
+tz_lhz_price <- lapply(tz_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+ug_lhz_price <- lapply(ug_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+
+tz_lhz_mktthin <- lapply(tz_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
+
+ug_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
+ 
+
+tan_names = c("bean","maize","rice")
+ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+path = "data/clean/market/lhz_prices/"
+
+ for (i in 1:length(tan_names)){
+   write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ))
+ }
+    
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(tan_names)){
+  write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
+}
+
+ 
+# 
 
 
 # transpose the dataset for merge 
@@ -345,3 +432,5 @@ hh_mkt_thin<-cbind(hh_mkt,df_hh)
 hh_long <- melt(hh_mkt_thin[,3:ncol(hh_mkt_thin)], id.vars = c("case_id","near_mkt","near_dist"))
 names(hh_long)[names(hh_long)=="value"]<-"mkt_thinn"
 names(hh_long)[names(hh_long)=="variable"]<-"yearmo"
+
+

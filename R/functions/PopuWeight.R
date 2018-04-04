@@ -21,7 +21,7 @@
 
 #################################################################### 
 
-package = c("maptools","rgeos", "rgdal", "raster")
+package = c("dplyr","maptools","rgeos", "rgdal", "raster")
 lapply(package, require, character.only = TRUE)
 
 PopuWeight <- function(pop_raster, lhz, poly_intersect){
