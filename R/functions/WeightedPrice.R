@@ -22,12 +22,13 @@ WeightedPrice <- function(lhz_price_unweight){
   
   colnames(lhz_price_weighted) = colnames(lhz_price_unweight)
   
+  lhz_price_weighted = lhz_price_weighted  %>% dplyr::group_by(FNID)
   # remove the market names, since characters can't apply the sum functoin 
   lhz_price_weighted <- lhz_price_weighted %>% dplyr::select(-mkt)
   
   # by FNID, sum up all the prices 
   # check that summed weight should be 1 for each FNID 
-  lhz_price_computed = lhz_price_weighted %>% group_by(FNID) %>% summarise_all(funs(sum))
+  lhz_price_computed = lhz_price_weighted %>% dplyr::group_by(FNID) %>% dplyr::summarise_all(funs(sum))
   
   return(lhz_price_computed)
   

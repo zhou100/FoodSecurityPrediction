@@ -72,10 +72,10 @@ PopuWeight <- function(pop_raster, lhz, poly_intersect){
   pop_df_join <- dplyr::left_join(fnid_mkt_coord, pop_df, by="seqID")
   
   # compute the sum of population by each livelihood zone
-  pop_df_join = pop_df_join %>% group_by(FNID) %>% mutate(pop_sum = sum(pop))
+  pop_df_join = pop_df_join %>% dplyr::group_by(FNID) %>% dplyr::mutate(pop_sum = sum(pop))
   
   # compute the relative portion of population in a livelihood zone that belong to each market. 
-  pop_df_join = pop_df_join %>% mutate(weights = pop/pop_sum)
+  pop_df_join = pop_df_join %>% dplyr::mutate(weights = pop/pop_sum)
   
   # save the result and return
   pop_weight = pop_df_join %>% dplyr::select(FNID,mkt,weights)

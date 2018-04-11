@@ -43,14 +43,4 @@ NearMkt = function(coord_df){
   
   return(neighbor_df)
 }
-
-# mkt distance 
-# knn_training_function(mkt_coord, mkt_matrix, mkt_coord[,1], k = 1)
-
-# # generate neighbor matrix to save results 
-# mat_neighbor1<-matrix(NA,nrow(mkt_coord),20)
-# mat_neighbor2<-matrix(NA,nrow(mkt_coord),10)
-# 
-# for (i in 1:nrow(mkt_coord)){
-#   mat_neighbor1[i,]<-k.nearest.neighbors(i, mkt_matrix, k = 20)
-# }
+ 

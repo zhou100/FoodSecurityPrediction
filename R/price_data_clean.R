@@ -162,11 +162,35 @@ uganda_millet= country_list[[2]] %>%
 uganda_sorghum= country_list[[2]] %>% 
   dplyr::select(mkt_name,Sorghum ,date)
 
+
+ug_newprice= read.csv("data/raw/price/ugdanda_price_0811.csv" )
+
+ug_newprice["ï..Date"] = as.Date(ug_newprice[,1],format = "%m/%d/%Y")
+
+cassava_price_ug_new = ug_newprice %>% dplyr::filter(Commodity == "Cassava, Flour")
+cassava_price_ug_new = cassava_price_ug_new %>% dplyr::select(-Commodity)
+colnames(cassava_price_ug_new) = c("date","mkt_name","Cassava")
+cassava_price_ug_new  = cassava_price_ug_new[c( "mkt_name","Cassava","date")]
+cassava_price_ug_new['mkt_name']<- as.character(cassava_price_ug_new$mkt_name)
+
+maizeflour_price_ug_new = ug_newprice %>% dplyr::filter(Commodity == "Maize Flour")
+maizeflour_price_ug_new = maizeflour_price_ug_new %>% dplyr::select(-Commodity)
+colnames(maizeflour_price_ug_new) = c("date","mkt_name","Maizeflour")
+maizeflour_price_ug_new  = maizeflour_price_ug_new[ c( "mkt_name","Maizeflour","date")]
+maizeflour_price_ug_new['mkt_name']<- as.character(maizeflour_price_ug_new$mkt_name)
+
+
+uganda_maizeflour = dplyr::bind_rows(uganda_maizeflour, maizeflour_price_ug_new)
+uganda_maizeflour  = distinct(uganda_maizeflour)
+uganda_cassava = dplyr::bind_rows(uganda_cassava, cassava_price_ug_new)
+uganda_cassava  = distinct(uganda_cassava)
+
+
+
 # save the prices in a list to make the loop easy 
 tanzania_prices<-list(tanzania_bean,tanzania_maize,tanzania_rice)
 uganda_prices<-list(uganda_bean,uganda_maize,uganda_cassava,uganda_maizeflour,uganda_millet,uganda_sorghum)
-
-
+ 
 
 source("R/functions/market_transpose.R") 
 
@@ -177,6 +201,8 @@ tanzania_prices_trans <- lapply(tanzania_prices, function(x){
 uganda_prices_trans <- lapply(uganda_prices, function(x){
   market_transpose(x)
 })
+
+
 
 
 ########################################################################
@@ -248,7 +274,7 @@ for (i in 1:length(ug_names)){
 
 #landscan_pop <- raster("shapefiles/LandScanData/Population/lspop2011") # land scan data 
 
-landscan_pop <- raster("~/Downloads/LandScanData/Population/lspop2011") # land scan data (not in the github)
+landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
 
 lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones       
 lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness        
@@ -266,7 +292,7 @@ write.csv(tz_popweight,"data/clean/market/tz_popweight.csv" )
 write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
 
 ###############################################################################
-# link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
+# 6. link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
 ###############################################################################
 
 tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
@@ -285,7 +311,7 @@ list2env(
   lapply(setNames(file_list, make.names(dfnames)), 
          function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
 
-
+ 
 # save the prices in a list to make the loop easy 
 
 tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
@@ -293,7 +319,6 @@ ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_pr
 
 tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
 ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
-
 
 
 
@@ -357,80 +382,102 @@ for (i in 1:length(tan_names)){
 for (i in 1:length(ug_names)){
   write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
 }
-
- 
 # 
 
+###############################################################################
+# 7. link price and mkt_thinness measure at the Cluster level 
+###############################################################################
+# need a concordance table with cluster and its nearest mkt using MktNearCluster function 
 
-# transpose the dataset for merge 
-mkt_thinness_transpose = as.data.frame(t(mkt_thinness[,2:ncol(mkt_thinness)]))
-colnames(mkt_thinness_transpose)<-t(mkt_thinness$yearmon)
-mkt_thinness_transpose$mkt_name<-rownames(mkt_thinness_transpose)
-
-# transform to long format with yearmon
-mkt_long <- melt(mkt_thinness_transpose[,1:ncol(mkt_thinness_transpose)], id.vars = "mkt_name")
-names(mkt_long)<-c("mkt_name","yearmo","mkt_thinn")
-mkt_long$yearmo<-as.character(mkt_long$yearmo)
-
-# read in the imputed prices 
-price_yearmo<-read.csv("imputed_price_yearmo.csv")
-price$yearmon <-strftime(price$date,format = "%Y%m") #save the yearmon
-names(price_yearmo)[1]<-"yearmo"
-
-### merge in the mkt_imputed price 
-price_yearmo_t<-t(price_yearmo)
-
-#price_yearmo<-aggregate(.~ yearmon, data=price[,5:ncol(price)], FUN = "median", na.action = rm)
-long_price <- melt(price_yearmo,id.vars="yearmo")
-names(long_price)<-c("yearmo","mkt_name","imputed_price")
-long_price$yearmo<-as.character(long_price$yearmo)
-
-# join prices and mkt thinness 
-join<-dplyr::left_join(long_price, mkt_long, by = c("mkt_name","yearmo"))
-
-write.csv(join,"price_thinness_long.csv")
+# Market geo-coordinates 
+mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
+mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
 
 
+# cluster geo-coordinates 
+clust_coord_tz<-read.csv("data/clean/Tanzania_coord.csv")
+clust_coord_ug<-read.csv("data/clean/Uganda_coord.csv")
 
-##################################################################################
-# link price and mkt_thinness measure for each cluster  
-##################################################################################
-hh_mkt <- read.csv("hh_near_mkt.csv")
-hh_mkt$near_mkt<-toupper(hh_mkt$near_mkt)
+clust_coord_ug = na.omit(clust_coord_ug)
+clust_coord_tz = na.omit(clust_coord_tz)
 
-# change the names to help with the merge 
-colnames(mkt_thinness)[colnames(mkt_thinness)=="MONKEY.BAY"]<-"MONKEY BAY"
-colnames(mkt_thinness)[colnames(mkt_thinness)=="BEMBEKE.TURN.OFF"]<-"BEMBEKE_TURNOFF"
-colnames(mkt_thinness)[colnames(mkt_thinness)=="TSANGANO.TURN.OFF"]<-"TSANGANO_TURNOFF"
-name_diff<-dplyr::setdiff(hh_mkt$near_mkt,names(mkt_thinness))
-name_diff
+source("R/functions/MktNearCluster.R") 
 
-#name_diff<-dplyr::setdiff(hh_mkt$near_mkt,names(price_yearmo))
-#name_diff
+# cluster geo-coordinates 
+cluster_mkt_concord_tz = MktNearCluster(clust_coord_tz,mkt_coord_TZN)
+cluster_mkt_concord_ug = MktNearCluster(clust_coord_ug,mkt_coord_ug)
+colnames(cluster_mkt_concord_tz)[2] = "mkt"
+colnames(cluster_mkt_concord_ug)[2] = "mkt"
 
 
-### loop: get hh i?s nearest mkt thinness at yearmo j 
-mat_hh<-matrix(NA,nrow(hh_mkt),nrow(mkt_thinness))
-dim(mat_hh)
+# read in the imputed price data 
+path = "data/clean/market/impute_thin/"
 
-for (i in 1:nrow(hh_mkt)){
-  for (j in 1:nrow(mkt_thinness)){
-    tryCatch(
-      {
-        mat_hh[i,j]= mkt_thinness[j,as.character(hh_mkt$near_mkt[i])]
-      }, 
-      error=function(cond){       # Choose a return value in case of warning
-        message("Here's the original warning message:")
-        message(cond)
-      })
-  }
+file_list <- list.files(path=path, 
+                        pattern = "csv$",
+                        full.names=FALSE)
+dfnames<-file_list
+dfnames <- gsub(".csv","", dfnames)
+
+
+list2env(
+  lapply(setNames(file_list, make.names(dfnames)), 
+         function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
+
+
+# save the prices in a list to make the loop easy 
+
+tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
+ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
+
+tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
+ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
+
+
+
+source("R/functions/NameToPrice.R") 
+
+tz_cluster_price<- lapply(tz_prices_impu, function(x){
+  NameToPrice(cluster_mkt_concord_tz,x)
+})
+
+
+ug_cluster_price <- lapply(ug_prices_impu, function(x){
+  NameToPrice(cluster_mkt_concord_ug,x)
+})
+
+tz_cluster_mktthin <- lapply(tz_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_tz,x)
+})
+
+
+ug_cluster_mktthin <- lapply(ug_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_ug,x)
+})
+
+
+
+tan_names = c("bean","maize","rice")
+ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+dir.create("data/clean/market/cluster_prices")
+path = "data/clean/market/cluster_prices/"
+
+for (i in 1:length(tan_names)){
+  write.csv(tz_cluster_price[[i]], paste(path,paste(tan_names[i],"_clust_price_tz.csv",sep = ""),sep = "" ))
 }
-df_hh<-as.data.frame(mat_hh)
-names(df_hh)<-mkt_thinness$yearmon
 
-hh_mkt_thin<-cbind(hh_mkt,df_hh)
-hh_long <- melt(hh_mkt_thin[,3:ncol(hh_mkt_thin)], id.vars = c("case_id","near_mkt","near_dist"))
-names(hh_long)[names(hh_long)=="value"]<-"mkt_thinn"
-names(hh_long)[names(hh_long)=="variable"]<-"yearmo"
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_cluster_price[[i]], paste(path,paste(ug_names[i],"_clust_price_ug.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(tan_names)){
+  write.csv(tz_cluster_mktthin[[i]], paste(path,paste(tan_names[i],"_clust_mktthin_tz.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_cluster_mktthin[[i]], paste(path,paste(ug_names[i],"_cluster_mktthin_ug.csv",sep = ""),sep = "" ))
+}
+# 
 
 
