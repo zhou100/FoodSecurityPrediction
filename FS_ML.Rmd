@@ -12,41 +12,49 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-
 ```
 
 ## Research Question
 
 - Can we build an early warning system of food security in areas where data is scarce and data collection is costly ? (Hutchinson,1991)
-    + 
-    + 
+    + Timely and accurate targeting is essential for aid and humanitarian responses 
     
-- Can we make use of publicly available and economically meaningful data? 
+- How to make use of publicly available and economically meaningful data? 
     + Price data of the main agricultural markets are collected monthly or weekly 
     + Precipitation/temperature/soil quality from satellite imagery are relevant to agricultural production 
    
- - Can supervised learning methods have higher predicative power than linear models ?
+ -  Find the supervised learning approach that has higher predicative power but remain interpretable.
 
 ## Preview of Results
 
   - Predictions from our model explains 50%-70% of cluster level variation and the result is consistent across three different countries in different years. 
-  - Validation of  "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and several years of data 
-  - Using the same type of variables, a tuned machine learning model outperforms a baseline linear model by xylem %. 
+  
+  - Validation of  "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and seven years of training data.
+  
+  - Using the same sets of features, a tuned machine learning model outperforms a baseline linear model by xylem %. 
     
 ## Literature Review
 
-  - Night lights data (Chen and Nordhaus 2011;Henderson,Storeygard andd Weil. 2012.;)is noisy and variation is little in areas of the extreme poor 
-  - Mobile phone data (Blumenstock et al.,2015; Steele et al.,2017) is useful but expensive
-  - High resolution satellite imagery are cheap but highly unstructured and contains measurement error (Donaldson and Storeygard, 2016). 
-  - Convolutional Neural Network (CNN) models (Jean et al., 2016; Babenko et al. 2017) requires require an enormous amount of training
-data and are computational extensive. Interpretability and repeatability of the CNN models are not that promising (Engstrom,2018).
+  - Night lights data (Chen and Nordhaus 2011;Henderson et al. 2012.) does a good job at predicating economic activity but the variation is little in areas of the extreme poor or in urban areas. 
+  
+  - Mobile phone data (Blumenstock et al.,2015; Steele et al.,2017) is useful but expensive.
+  
+  - High resolution satellite imagery are becoming cheaper but highly unstructured and contains measurement error (Jean et al., 2016; Donaldson and Storeygard, 2016). 
+  
+  - Convolutional Neural Network (CNN) models (Jean et al., 2016; Babenko et al. 2017) can explain an average of 46% of the variation at village level but they require an enormous amount of training data and are computational extensive. Interpret-ability and repeat-ability are not that promising (Engstrom,2018).
    
 ## Framework
 
-- Geo-referenced household surveys (LSMS) allow us to explore the spatial-temporal  
-- Align weather data with cropland calendar
-- Align households to the most relevant price
-- 
+- Understanding of the food security. The definition of food security has various characteristics. The use metrics can lead to quite divergent rankings of the same population (Steele et al. 2017)
+
+- Geo-referenced household surveys (LSMS data) allow us to explore the spatial-temporal variations in food security measures.
+
+- The sampling framework in these surveys made it possible for us to observe a nationally representative sample in different months and agroecological zones. 
+
+- Explain these variations by the spatial-temporal variation in food availability and in food access.
+    + Align weather data to crop growing season 
+    + Align households to the most relevant market price
+
 
 ## Temporal Variation
 
@@ -63,31 +71,46 @@ knitr::include_graphics(c("output/graphs/fsbymonth_uganda.pdf","output/graphs/se
 
 ## Spatio-temporal variation
 
-![Food Security maps in Tanzania January ](output\graphs\fsmaps_jan.pdf)
+![Food Security Maps in Tanzania, January ](output\graphs\fsmaps_jan.pdf)
 
 
 ## Spatialtemporal variation
 
-![Food Security maps in Tanzania August ](output\graphs\fsmaps_august.pdf)
+![Food Security Maps in Tanzania, August ](output\graphs\fsmaps_august.pdf)
 
 ## Discussion on the types of regression models 
 
 ## Data
-
-```{r cars, echo = TRUE}
-summary(cars)
-```
-
+ 
+ - Price data (maize and cassava)
+ 
+ - Weather 
+   + first day of rainfall
+   + rainfall in growing season
+   + maximum of days without rain 
+   + temperature: growing degree days 
+   
+ - Soil quality: Slope, water, soil nutrition 
+ 
+ - Roof/floor type, household asset index
+ 
+ 
 ## Modelling strategy
-
-```{r pressure}
-plot(pressure)
-```
-
+ 
+ - sets of models deal with high dimensional problem with regularization:
+    + Lasso
+    + Ridge
+    + Elastic Net
+ 
+ - models that are great with heterogeneous distribution of data: 
+    + Random Forest 
+    + Bagging / boosting 
 
 ## Main Results
 
  - scatter plots 
+
+
 
 ## Future Steps 
  - Vary the time gap between training and testing ( train and test on the a subset of data that are only several weeks/month apart)
