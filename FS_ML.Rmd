@@ -1,42 +1,101 @@
 ---
-title: "ML"
+title: "Predicating Food Insecurity in Sub-Saharan Africa with Machine Learning"
+author: Yujun Zhou
+date: April 13, 2018
+fontsize: 30pt
+font: arial
 output:
-  slidy_presentation: default
   beamer_presentation: default
   ioslides_presentation: default
+  slidy_presentation: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 ```
 
-## R Markdown
+## Research Question
 
-This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+- Can we build an early warning system of food security in areas where data is scarce and data collection is costly ? (Hutchinson,1991)
+    + 
+    + 
+    
+- Can we make use of publicly available and economically meaningful data? 
+    + Price data of the main agricultural markets are collected monthly or weekly 
+    + Precipitation/temperature/soil quality from satellite imagery are relevant to agricultural production 
+   
+ - Can supervised learning methods have higher predicative power than linear models ?
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+## Preview of Results
 
-## Slide with Bullets
+  - Predictions from our model explains 50%-70% of cluster level variation and the result is consistent across three different countries in different years. 
+  - Validation of  "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and several years of data 
+  - Using the same type of variables, a tuned machine learning model outperforms a baseline linear model by xylem %. 
+    
+## Literature Review
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+  - Night lights data (Chen and Nordhaus 2011;Henderson,Storeygard andd Weil. 2012.;)is noisy and variation is little in areas of the extreme poor 
+  - Mobile phone data (Blumenstock et al.,2015; Steele et al.,2017) is useful but expensive
+  - High resolution satellite imagery are cheap but highly unstructured and contains measurement error (Donaldson and Storeygard, 2016). 
+  - Convolutional Neural Network (CNN) models (Jean et al., 2016; Babenko et al. 2017) requires require an enormous amount of training
+data and are computational extensive. Interpretability and repeatability of the CNN models are not that promising (Engstrom,2018).
+   
+## Framework
 
-## Slide with R Output
+- Geo-referenced household surveys (LSMS) allow us to explore the spatial-temporal  
+- Align weather data with cropland calendar
+- Align households to the most relevant price
+- 
+
+## Temporal Variation
+
+```{r out.width = "65%", fig.align = "center"}
+knitr::include_graphics(c("output/graphs/fsbymonth_malawi.pdf","output/graphs/seasonal-calendar-malawi.png"))
+```
+
+
+## Temporal Variation
+
+```{r out.width = "65%", fig.align = "center"}
+knitr::include_graphics(c("output/graphs/fsbymonth_uganda.pdf","output/graphs/seasonal-calendar-uganda.png"))
+```
+
+## Spatio-temporal variation
+
+![Food Security maps in Tanzania January ](output\graphs\fsmaps_jan.pdf)
+
+
+## Spatialtemporal variation
+
+![Food Security maps in Tanzania August ](output\graphs\fsmaps_august.pdf)
+
+## Discussion on the types of regression models 
+
+## Data
 
 ```{r cars, echo = TRUE}
 summary(cars)
 ```
 
-## Slide with Plot
+## Modelling strategy
 
 ```{r pressure}
 plot(pressure)
 ```
 
-## Slide with by month variation
 
-![tanzania FS by month](tanzania.gif)
-![tanzania FS by month](tanzania.gif)
-![tanzania FS by month](tanzania.gif)
+## Main Results
 
+ - scatter plots 
+
+## Future Steps 
+ - Vary the time gap between training and testing ( train and test on the a subset of data that are only several weeks/month apart)
+ - Trained on a pooled data set across different countries V.S. Fit models on each individual country with the same procedure
+ - Predict "now": countries/areas that are not surveyed and suggest areas that are likely to have a food shortage. 
+ 
+### Limitations 
+ - Gradual food insecure compared to sudden, abrupt threat to food security (natural disaster, war and conflict) 
+ 
+ - 
+ 
