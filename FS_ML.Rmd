@@ -27,11 +27,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Preview of Results
 
-  - Predictions from our model explains 50%-70% of cluster level variation and the result is consistent across three different countries in different years. 
+  - Out-of-sample predictions from our model explains 50%-67% of cluster level variations in Malawi.  
   
-  - Validation of  "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and seven years of training data.
+  - Using the same sets of features, a tuned machine learning model outperforms a baseline linear model by 20 - 30% in high dimensional settings. 
   
-  - Using the same sets of features, a tuned machine learning model outperforms a baseline linear model by xylem %. 
+  - Validates the "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and seven years of training data.
+
     
 ## Literature Review
 
@@ -54,6 +55,9 @@ knitr::opts_chunk$set(echo = FALSE)
 - Explain these variations by the spatial-temporal variation in food availability and in food access.
     + Align weather data to crop growing season 
     + Align households to the most relevant market price
+
+- Utilize the interaction and higher order terms of the variables
+
 
 
 ## Temporal Variation
@@ -78,39 +82,88 @@ knitr::include_graphics(c("output/graphs/fsbymonth_uganda.pdf","output/graphs/se
 
 ![Food Security Maps in Tanzania, August ](output\graphs\fsmaps_august.pdf)
 
-## Discussion on the types of regression models 
-
 ## Data
  
  - Price data (maize and cassava)
  
  - Weather 
-   + first day of rainfall
-   + rainfall in growing season
-   + maximum of days without rain 
-   + temperature: growing degree days 
+     + first day of rainfall
+     + rainfall in growing season
+     + maximum of days without rain 
+     + mean temperature
+     + growing degree days (days that average temperature between 5-32 Degree Celsius)
    
- - Soil quality: Slope, water, soil nutrition 
+ - Soil quality: slope, water, soil nutrition 
  
  - Roof/floor type, household asset index
  
  
 ## Modelling strategy
  
- - sets of models deal with high dimensional problem with regularization:
-    + Lasso
-    + Ridge
-    + Elastic Net
+ -  Set of models deal with high dimensional problem with different types regularization:
+    + Lasso (L1 norm, prefers smaller model)
+    + Ridge (L2 norm, prefers large model)
+    + Elastic Net (Combination of the two)
  
- - models that are great with heterogeneous distribution of data: 
+ - Set of models that are great with positively skewed and high dimensional data: 
     + Random Forest 
-    + Bagging / boosting 
+    + Gradient boosting 
 
 ## Main Results
+```{r,echo=FALSE}
+result = read.csv(file = "output/table/cluster_result.csv")
+```
 
- - scatter plots 
+```{r}
+knitr::kable(na.omit(result),caption = "Cluster Level prediction R squares")
+```
 
 
+
+## Scatter Plots 
+ - FCS
+ 
+```{r,echo=FALSE}
+fcspair= read.csv("output/graphs/FCSsplot.csv")
+library(ggplot2)
+ggplot(as.data.frame(fcspair), aes(clust_logFCS, pred )) +
+  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
+  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
+  scale_color_brewer(palette="Dark2") +
+  annotate(geom = "text", size = 5, x = 4.28, y = 3.75, label = paste("R Squares = ",0.577,sep = " ")) +
+  labs(x = "Cluster Average logFCS (Actual)", y = "Cluster Average logFCS (Predicted)")
+
+
+```
+
+
+
+## Scatter plots
+ - HDDS
+
+```{r,echo=FALSE}
+HDDS_pair= read.csv("output/graphs/hddsplot.csv")
+ggplot(as.data.frame(HDDS_pair), aes(clust_HDDS, pred)) +
+  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
+  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
+  scale_color_brewer(palette="Dark2")+
+  annotate(geom = "text", size = 5, x = 6.5, y = 4.5, label = paste("R Squares = ",0.686,sep = " "))+
+  labs(x = "Cluster Average HDDS (Actual)", y = "Cluster Average HDDS (Predicted)")
+```
+
+
+## Scatter plots
+ - RCSI
+
+```{r,echo=FALSE}
+rcsi_pair= read.csv("output/graphs/rcsi.csv")
+ggplot(as.data.frame(rcsi_pair), aes(actual, pred)) +
+  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
+  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
+  scale_color_brewer(palette="Dark2") +
+  annotate(geom = "text", size = 5, x = 3, y = 0.6 , label = paste("R Squares = ",0.123,sep = " ")) +
+  labs(x = "Cluster Average RCSI (Actual)", y = "Cluster Average RCSI (Predicted)")
+```
 
 ## Future Steps 
  - Vary the time gap between training and testing ( train and test on the a subset of data that are only several weeks/month apart)
@@ -118,7 +171,6 @@ knitr::include_graphics(c("output/graphs/fsbymonth_uganda.pdf","output/graphs/se
  - Predict "now": countries/areas that are not surveyed and suggest areas that are likely to have a food shortage. 
  
 ### Limitations 
- - Gradual food insecure compared to sudden, abrupt threat to food security (natural disaster, war and conflict) 
+ - limited to gradual food insecure cases and can't predict sudden, abrupt threat to food security (natural disaster, war and conflict) 
  
- - 
  

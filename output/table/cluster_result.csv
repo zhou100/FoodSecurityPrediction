@@ -1,0 +1,9 @@
+Model,logFCS,HDDS,RCSI
+Linear Model,0.5319,0.673,0.0903
+Linear Model with interaction terms,0.314,0.2916,0.053
+Ridge,0.465,0.6236,0.123
+BaynesianRidge,0.466,0.624,0.123
+Lasso,0.577,0.686,0.142
+ElasticNet,0.576,0.683,0.12
+GradientBoost,0.5767,0.664,0.066
+Random Forest,0.5387,0.647,0.0418
