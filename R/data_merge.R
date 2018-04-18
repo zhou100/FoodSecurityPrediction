@@ -20,39 +20,56 @@ rm(list = ls())
 tz_hh<-read.csv("data/clean/tan_hh.csv")
 tz_hh = tz_hh %>%  select(-X)
 
-tz_weather = read.csv("data/clean/weather/tz_weather_final.csv")
+tz_weather = read.csv("D:/tz_weather_final.csv")
 colnames(tz_weather)[11] = "ea_id"
 tz_weather = tz_weather %>%  select(-X,-cropyear.x,-cropyear.y)
 tz_weather = tz_weather %>% mutate(ea_id = as.character(ea_id))
 
 tz_price = read.csv("data/clean/market/tz_price_merge.csv")
-tz_price = tz_price %>%  select(-X)
+tz_price = tz_price %>%  select(-X,-mkt,dist_km,date)
 
 
 library(dplyr)
+tz_price = tz_price  %>% dplyr::mutate(ea_id = as.character(ea_id))
+tz_hh = tz_hh  %>% dplyr::mutate(ea_id = as.character(ea_id))
+
 
 tz_master = dplyr::left_join(tz_hh,tz_price,by = c("ea_id","yearmon","FNID"))
-tz_master = tz_master %>% dplyr::mutate(ea_id = as.character(ea_id))
+tz_master = dplyr::left_join(tz_master,tz_weather,by = c("ea_id","FS_year","FNID"))
 
 
-tz_master = dplyr::left_join(tz_hh,tz_weather,by = c("ea_id","FS_year","FNID"))
-tz_master=tz_master %>% dplyr::mutate(ea_id = as.character(ea_id))
-tz_price = tz_price  %>% dplyr::mutate(ea_id = as.character(ea_id))
-tz_master =  dplyr::left_join(tz_master,tz_price,by = c("ea_id","yearmon","FNID"))
 
 
 write.csv(tz_master,"data/clean/tz_hh_master.csv")
 
+tz_master = read.csv("data/clean/tz_hh_master.csv")
+tz_master = tz_master %>% select(-case_id,-reside,-hh_a01,-date,-X)
 
 tz_master_cluster  = tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
-tz_master_cluster = tz_master_cluster %>% select(-case_id,-reside,-Month,-hh_a01,-mkt)
-
 write.csv(tz_master_cluster,"data/clean/tz_clust_master.csv")
 
-unique(tz_master_cluster$FS_year)
-test = tz_master_cluster[tz_master_cluster$FS_year==2013,]
-train = tz_master_cluster[tz_master_cluster$FS_year==2012 | tz_master_cluster$FS_year==2010 | tz_master_cluster$FS_year==2011,]
 
-write.csv(test,"data/clean/tz_test.csv")
-write.csv(train,"data/clean/tz_train.csv")
+tz_master_cluster["logFCS"] = log(tz_master_cluster["FCS"])
+
+
+
+unique(tz_master_cluster$FS_year)
+unique(tz_master_cluster$FS_month)
+
+test = tz_master_cluster[tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==10|tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==11 |tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==9,]
+train = tz_master_cluster[tz_master_cluster$FS_year==2012 | tz_master_cluster$FS_year==2010 | tz_master_cluster$FS_year==2011 | tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month !=10 & tz_master_cluster$FS_month !=11 & tz_master_cluster$FS_month !=9,]
+
+test = test %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-asset_index)
+train = train %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-asset_index)
+
+
+
+test_clust = test %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+train_clust = train %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+
+
+
+  
+write.csv(test_clust,"data/clean/tz_test_clust.csv")
+write.csv(train_clust,"data/clean/tz_train_clust.csv")
 

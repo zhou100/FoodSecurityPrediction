@@ -75,28 +75,29 @@ for (i in 1:3){
   write.csv(country_coord_list[[i]],file=paste(path,country_name_list[i],sep="/"))
 }
 
- Tanzania$nutri_avail[Tanzania$nutri_avail != "Severe Constraint" & Tanzania$nutri_avail != "Moderate Constraint" ]=""
- Tanzania$nutri_rentention[Tanzania$nutri_rentention != "Severe Constraint" & Tanzania$nutri_rentention != "Moderate Constraint" ]=""
-
- Tanzania$terrain_rough =  as.character(Tanzania$terrain_rough)
- Tanzania["dummy_terrain_rough"] <- ifelse(Tanzania$terrain_rough=="Mid altitude mountains" & Tanzania$terrain_rough=="Rugged lowlands" & Tanzania$terrain_rough== "High-altitude plains", 1,0)
-
-
-library(stats)
-dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Tanzania )
-Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,4]
-Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
-
-dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Tanzania )
-Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,5]
-Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+#  Tanzania$nutri_avail[Tanzania$nutri_avail != "Severe Constraint" & Tanzania$nutri_avail != "Moderate Constraint" ]=""
+#  Tanzania$nutri_rentention[Tanzania$nutri_rentention != "Severe Constraint" & Tanzania$nutri_rentention != "Moderate Constraint" ]=""
+# 
+#  Tanzania$terrain_rough =  as.character(Tanzania$terrain_rough)
+#  Tanzania["dummy_terrain_rough"] <- ifelse(Tanzania$terrain_rough=="Mid altitude mountains" & Tanzania$terrain_rough=="Rugged lowlands" & Tanzania$terrain_rough== "High-altitude plains", 1,0)
+# 
+# 
+# library(stats)
+# dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Tanzania )
+# Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,4]
+# Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+# 
+# dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Tanzania )
+# Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,5]
+# Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
 
 yearmon= paste(Tanzania["FS_year"][,1],Tanzania["FS_month"][,1], sep = "-")         
 Tanzania["yearmon"]= as.yearmon(yearmon,"%Y-%m")
 
-Tanzania = Tanzania %>% select(-X.1,-X,-roof_other,-nutri_avail,-nutri_rentention,-terrain_rough,-lat_modified,-lon_modified,-region,-ward,-survey_round,-country)  
+Tanzania = Tanzania %>% select(-lat_modified,-lon_modified,-region,-ward,-survey_round,-terrain_rough, -country)  
 
 Tanzania = Tanzania %>% distinct()
+ 
 
 tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
 tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
