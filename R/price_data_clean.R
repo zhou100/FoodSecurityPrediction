@@ -28,6 +28,7 @@ source("R/functions/spatial_price_impute.R")
 source("R/functions/PopuWeight.R") 
 source("R/functions/NameToPrice.R") 
 source("R/functions/WeightedPrice.R") 
+source("R/functions/MktReshape.R") 
 
 ##################################################################
 #  1. get market coordinates 
@@ -478,6 +479,71 @@ for (i in 1:length(tan_names)){
 for (i in 1:length(ug_names)){
   write.csv(ug_cluster_mktthin[[i]], paste(path,paste(ug_names[i],"_cluster_mktthin_ug.csv",sep = ""),sep = "" ))
 }
-# 
+ 
 
 
+maize_clust_price_tz= read.csv("data/clean/market/cluster_prices/maize_clust_price_tz.csv")
+maize_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/maize_clust_mktthin_tz.csv")
+
+rice_clust_price_tz= read.csv("data/clean/market/cluster_prices/rice_clust_price_tz.csv")
+rice_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/rice_clust_mktthin_tz.csv")
+
+maize_lhz_price_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_price_tz.csv")
+position = str_which(colnames(maize_lhz_price_tz), "weights") 
+colnames(maize_lhz_price_tz)[position] = "X.1"
+
+maize_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_mktthin_tz.csv")
+position = str_which(colnames(maize_lhz_mktthin_tz), "weights") 
+colnames(maize_lhz_mktthin_tz)[position] = "X.1"
+
+rice_lhz_price_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_price_tz.csv")
+position = str_which(colnames(rice_lhz_price_tz), "weights") 
+colnames(rice_lhz_price_tz)[position] = "X.1"
+
+
+rice_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_mktthin_tz.csv")
+position = str_which(colnames(rice_lhz_mktthin_tz), "weights") 
+colnames(rice_lhz_mktthin_tz)[position] = "X.1"
+
+library(stringr)
+
+clust_price_tz = list(maize_clust_price_tz,maize_clust_mktthin_tz,rice_clust_price_tz,rice_clust_mktthin_tz)
+lhz_price_tz = list(maize_lhz_price_tz,maize_lhz_mktthin_tz,rice_lhz_price_tz,rice_lhz_mktthin_tz)
+
+
+source("R/functions/MktReshape.R") 
+clust_price_tz_long = lapply(clust_price_tz,MktReshape)
+lhz_price_tz_long = lapply(lhz_price_tz,MktReshape)
+
+
+# change column names 
+colnames(clust_price_tz_long[[1]])[5] = "maize_price" 
+colnames(clust_price_tz_long[[2]])[5] = "maize_mktthin" 
+colnames(clust_price_tz_long[[3]])[5] = "rice_price" 
+colnames(clust_price_tz_long[[4]])[5] = "rice_mktthin" 
+
+colnames(lhz_price_tz_long[[1]])[3] = "lhz_maize_price" 
+colnames(lhz_price_tz_long[[2]])[3] = "lhz_maize_mktthin" 
+colnames(lhz_price_tz_long[[3]])[3] = "lhz_rice_price" 
+colnames(lhz_price_tz_long[[4]])[3] = "lhz_rice_mktthin" 
+
+
+# merge different prices 
+tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
+tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+
+clust_price_merge = dplyr::left_join(clust_price_tz_long[[1]],clust_price_tz_long[[2]])
+clust_price_merge = dplyr::left_join(clust_price_merge,clust_price_tz_long[[3]])
+clust_price_merge = dplyr::left_join(clust_price_merge,clust_price_tz_long[[4]])
+
+clust_price_merge = clust_price_merge  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+clust_price_merge = dplyr::left_join(clust_price_merge,tz_concordance)
+
+
+lhz_price_merge = left_join(lhz_price_tz_long[[1]],lhz_price_tz_long[[2]])
+lhz_price_merge = left_join(lhz_price_merge,lhz_price_tz_long[[3]])
+lhz_price_merge = left_join(lhz_price_merge,lhz_price_tz_long[[4]])
+
+tz_price_merge_final = dplyr::left_join(clust_price_merge,lhz_price_merge)  %>% arrange(ea_id,yearmon)
+
+write.csv(tz_price_merge_final,"data/clean/market/tz_price_merge.csv")

@@ -540,7 +540,7 @@ floodmax_lhz_tz["FS_year"] =floodmax_lhz_tz["cropyear"]
 
 
 tz_flood_ea = 
-  tz_concordance %>% dplyr::filter(FNID %in% flood_tz_fnid)  %>% dplyr::select(ea_id)
+  tz_concordance %>% dplyr::filter(FNID %in% flood_tz_fnid)  %>% dplyr::select(id)
 tz_flood_ea_str = as.character(tz_flood_ea[,1])
 
 floodmax_clust_tz = tz_clust_weather[[1]] %>% dplyr::filter(!id %in% tz_flood_ea_str)%>% mutate(value =0 )
@@ -658,11 +658,9 @@ write.csv(mw_weather_final,"data/clean/weather/mw_weather_final.csv")
 
 class(tz_concordance[,2])
 
-tz =   left_join(tz_clust_weather[[1]],tz_clust_weather[[2]] )
-tz =   left_join(tz, tz_clust_weather[[3]])
-tz =   left_join(tz, floodmax_clust_tz,by = c("id","FS_year"))
-
-tz =   left_join(tz, tz_concordance)
+tz_c =   left_join(tz_clust_weather[[1]],tz_clust_weather[[2]] )
+tz_c =   left_join(tz_c, tz_clust_weather[[3]])
+tz_c =   left_join(tz_c, floodmax_clust_tz,by = c("id","FS_year"))
 
 tz_lhz =   left_join(tz_lhz_weather[[2]], tz_lhz_weather[[1]])
 tz_lhz =   left_join(tz_lhz, tz_lhz_weather[[3]])
@@ -671,12 +669,11 @@ tz_lhz =   left_join(tz_lhz, tz_lhz_weather[[5]])
 tz_lhz =   left_join(tz_lhz, floodmax_lhz_tz,by = c("FNID","FS_year"))
 
 
-
-
-
+tz = left_join(tz_lhz, floodmax_clust_tz)
+tz_final = left_join(tz, tz_c,by = c("id","FS_year"))
   
-mw =   left_join(mw, mw_clust_weather[[3]])
 
+write.csv(tz_final,"data/clean/weather/tz_weather_final.csv")
 
 
 #################################################################################
