@@ -1,13 +1,14 @@
 ---
 title: "Predicating Food Insecurity in Sub-Saharan Africa with Machine Learning"
-author: Yujun Zhou
-date: April 13, 2018
+subtitle: "Application in Malawi and Tanzania"
+author: Yujun Zhou, Kathy Baylis 
+date: April 19, 2018
 fontsize: 30pt
 font: arial
 output:
-  beamer_presentation: default
-  ioslides_presentation: default
   slidy_presentation: default
+  ioslides_presentation: default
+  beamer_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -19,38 +20,42 @@ knitr::opts_chunk$set(echo = FALSE)
 - Can we build an early warning system of food security in areas where data is scarce and data collection is costly ? (Hutchinson,1991)
     + Timely and accurate targeting is essential for aid and humanitarian responses 
     
-- How to make use of publicly available and economically meaningful data? 
+- How to make use of publicly available and economically meaningful data to fill the data gap? 
     + Price data of the main agricultural markets are collected monthly or weekly 
-    + Precipitation/temperature/soil quality from satellite imagery are relevant to agricultural production 
-   
- -  Find the supervised learning approach that has higher predicative power but remain interpretable.
+    + Precipitation/temperature/soil quality from remote sensing are relevant to agricultural production 
+    + Distance to roads and markets reflects access to market and information
+
+ -  Use supervised learning approach that to achieve higher predicative power and remain interpretable.
 
 ## Preview of Results
 
-  - Out-of-sample predictions from our model explains 50%-67% of cluster level variations in Malawi.  
+  - Out-of-sample predictions from our model explains up to 50%-67% of cluster level variations in Malawi and up to 76% in Tanzania for HDDS and FCS measures.  
+    + 0.4 r^2^ on consumption expenditures and 0.6 r^2^ on  asset index (Jean *et al*., 2016)
+    + 0.76 r^2^ on WI and 0.27 r^2^ on income in Bangladesh (Steele *et al*,2017)
   
-  - Using the same sets of features, a tuned machine learning model outperforms a baseline linear model by 20 - 30% in high dimensional settings. 
-  
-  - Validates the "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with three countries and seven years of training data.
+  - Using the same sets of features, a machine learning model outperforms a baseline linear model by 20 - 50% in high dimensional settings. 
 
-    
+  - Decreased the proportion of estimates that overestimate Food Security outcomes 
+
+  - Validates the "A Prototype for Predicting Food Insecurity Using Readily Available Data" paper with Tanzania.
+
 ## Literature Review
 
-  - Night lights data (Chen and Nordhaus 2011;Henderson et al. 2012.) does a good job at predicating economic activity but the variation is little in areas of the extreme poor or in urban areas. 
+  - Night lights data (Chen and Nordhaus 2011;Henderson *et al*. 2012.) does a good job at predicating economic activity but the variation is little in areas of the extreme poor or in urban areas. 
   
-  - Mobile phone data (Blumenstock et al.,2015; Steele et al.,2017) is useful but expensive.
+  - Mobile phone data (Blumenstock *et al.*,2015; Steele *et al*.,2017) is complimentary to remote sensing data but expensive.
   
-  - High resolution satellite imagery are becoming cheaper but highly unstructured and contains measurement error (Jean et al., 2016; Donaldson and Storeygard, 2016). 
+  - Very High resolution satellite imagery are becoming cheaper but highly unstructured and contains measurement error (Engstrom, 2018; Donaldson and Storeygard, 2016). 
   
-  - Convolutional Neural Network (CNN) models (Jean et al., 2016; Babenko et al. 2017) can explain an average of 46% of the variation at village level but they require an enormous amount of training data and are computational extensive. Interpret-ability and repeat-ability are not that promising (Engstrom,2018).
+  - Convolutional Neural Network (CNN) models (Jean *et al*., 2016; Babenko *et al*. 2017) explains average 46% of the variation at village level but requires an enormous amount of training data and are computationally extensive. Interpret-ability and repeat-ability are less promising.
    
 ## Framework
 
-- Understanding of the food security. The definition of food security has various characteristics. The use metrics can lead to quite divergent rankings of the same population (Steele et al. 2017)
+- Understanding of food security. The definition of food security has various characteristics. The use of metrics can lead to quite divergent rankings of the same population (Steele *et al*. 2017)
 
 - Geo-referenced household surveys (LSMS data) allow us to explore the spatial-temporal variations in food security measures.
 
-- The sampling framework in these surveys made it possible for us to observe a nationally representative sample in different months and agroecological zones. 
+- The sampling framework allows us to observe a nationally representative HH sample in different months and agroecological zones. 
 
 - Explain these variations by the spatial-temporal variation in food availability and in food access.
     + Align weather data to crop growing season 
@@ -58,115 +63,152 @@ knitr::opts_chunk$set(echo = FALSE)
 
 - Utilize the interaction and higher order terms of the variables
 
+## Indicators to measure food security 
 
+ - Dietary diversity and food frequency 
+ 
+       + Food Consumption Score (FCS)
+       
+       + Household Dietary Diversity Scale ( HDDS )
+       
+       + Captures quality and diversity 
+     
+ 
+ - Consumption behaviors 
+
+       + Reduced Coping Strategy Index (rCSI)
+       
+       + Capture the element of quantity or sufficiency 
+   
+   
+## Indicators to measure food security 
+
+   ![correlation between food security measures](output\graphs\fs_measures.png){ width=100% }
+
+   
+   Source: How Do Different Indicators of Household Food Security Compare? Empirical Evidence from Tigray by Maxwell, Coates and Vaitla 2013. 
 
 ## Temporal Variation
-
-```{r out.width = "65%", fig.align = "center"}
-knitr::include_graphics(c("output/graphs/fsbymonth_malawi.pdf","output/graphs/seasonal-calendar-malawi.png"))
-```
+![Graph of Food Security by Month Malawi](output\graphs\fs.png){ width=100% }
 
 
-## Temporal Variation
 
-```{r out.width = "65%", fig.align = "center"}
-knitr::include_graphics(c("output/graphs/fsbymonth_uganda.pdf","output/graphs/seasonal-calendar-uganda.png"))
-```
+## Spatial Variation
+
+![Map of Food Security Maps in Malawi by month](output\graphs\FCS.gif){ width=70% }
+
 
 ## Spatio-temporal variation
 
-![Food Security Maps in Tanzania, January ](output\graphs\fsmaps_jan.pdf)
+![Food Security Maps in Tanzania](output\graphs\tanzania.gif){ width=90%}
+
+##  Predication 
+
+- Split the entire sample into training and testing 
+- Use Malawi 2010 to predict Malawi 2013; and a randomly split training and testing sample for Tanzania 
+
+![Importance out of sample predication](output\graphs\outofsample.jpg)
 
 
-## Spatialtemporal variation
 
-![Food Security Maps in Tanzania, August ](output\graphs\fsmaps_august.pdf)
+## Overfit 
 
-## Data
+Avoid over-fit by using simple models, cross-validation, regularization, ensemble learning 
+
+![Over vs under fit ](output\graphs\Overfit_Vs_Underfit_print.png){ width=90% }
+
+
+
+## Models 
  
- - Price data (maize and cassava)
+ -  Set of models deal with high dimensional problem with different types regularization 
+ -  Maximum Likelihood plus a constraint ( same interpretation )
  
- - Weather 
-     + first day of rainfall
-     + rainfall in growing season
-     + maximum of days without rain 
-     + mean temperature
-     + growing degree days (days that average temperature between 5-32 Degree Celsius)
-   
- - Soil quality: slope, water, soil nutrition 
- 
- - Roof/floor type, household asset index
- 
- 
-## Modelling strategy
- 
- -  Set of models deal with high dimensional problem with different types regularization:
     + Lasso (L1 norm, prefers smaller model)
     + Ridge (L2 norm, prefers large model)
     + Elastic Net (Combination of the two)
  
- - Set of models that are great with positively skewed and high dimensional data: 
+ - Ensemble leaning models that are great with positively skewed and high dimensional data: 
     + Random Forest 
     + Gradient boosting 
+    
+    ![Random Forest](output\graphs\Random_Forest_print.png){ width=90% }
 
-## Main Results
+## Data
+ 
+ - Price data (maize and rice price and market thinness at the nearest district market)
+ 
+ - Weather 
+     
+     + Total rainfall in growing season (October to April)
+     + Maximum of days without rain 
+     + First day of rain
+     + Mean temperature
+     + Growing degree days (days that average temperature between 5-32 Degree Celsius) (Deschenes and Greenstone 2007)
+   
+ - Soil quality: slope, elevation, soil nutrition 
+ 
+ - Roof/floor type, household asset index
+ 
+ - Mobile phone ownership: access to financial resources, remittance flow and economic (Eagle *et al* 2010, Blumenstock *et al* 2016) 
+ 
+
+
+## Main Results for Malawi 
 ```{r,echo=FALSE}
 result = read.csv(file = "output/table/cluster_result.csv")
 ```
 
 ```{r}
-knitr::kable(na.omit(result),caption = "Cluster Level prediction R squares")
+knitr::kable(na.omit(result),caption = "Cluster Level prediction R squares in Malawi")
 ```
 
 
 
-## Scatter Plots 
- - FCS
- 
+## Scatterplots for Malawi (FCS)
+
+![Scatterplots of different models](output\graphs\scatter_mw_fcs.png){ width=70% }
+
+
+## Scatterplots for Malawi (HDDS)
+
+![Scatterplots of different models](output\graphs\scatter_mw_hdds.png){ width=70% }
+
+
+
+
+
+## Main Results for Tanzania  
 ```{r,echo=FALSE}
-fcspair= read.csv("output/graphs/FCSsplot.csv")
-library(ggplot2)
-ggplot(as.data.frame(fcspair), aes(clust_logFCS, pred )) +
-  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
-  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
-  scale_color_brewer(palette="Dark2") +
-  annotate(geom = "text", size = 5, x = 4.28, y = 3.75, label = paste("R Squares = ",0.577,sep = " ")) +
-  labs(x = "Cluster Average logFCS (Actual)", y = "Cluster Average logFCS (Predicted)")
-
-
+result_tan = read.csv(file = "output/table/cluster_result_tan.csv",na.strings = "")
 ```
-
-
-
-## Scatter plots
- - HDDS
 
 ```{r,echo=FALSE}
-HDDS_pair= read.csv("output/graphs/hddsplot.csv")
-ggplot(as.data.frame(HDDS_pair), aes(clust_HDDS, pred)) +
-  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
-  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
-  scale_color_brewer(palette="Dark2")+
-  annotate(geom = "text", size = 5, x = 6.5, y = 4.5, label = paste("R Squares = ",0.686,sep = " "))+
-  labs(x = "Cluster Average HDDS (Actual)", y = "Cluster Average HDDS (Predicted)")
+knitr::kable(na.omit(result_tan),caption = "Cluster Level prediction R squares in Tanzania")
+
 ```
 
+## Scatterplots for Tanzania (FCS)
 
-## Scatter plots
- - RCSI
+![Scatterplots of different models](output\graphs\scatter_tz_fcs.png){ width=70% }
 
-```{r,echo=FALSE}
-rcsi_pair= read.csv("output/graphs/rcsi.csv")
-ggplot(as.data.frame(rcsi_pair), aes(actual, pred)) +
-  geom_point(shape = 16, size = 3, show.legend = FALSE,na.rm = TRUE) +
-  theme_minimal() + geom_abline(intercept = 0, slope = 1)+
-  scale_color_brewer(palette="Dark2") +
-  annotate(geom = "text", size = 5, x = 3, y = 0.6 , label = paste("R Squares = ",0.123,sep = " ")) +
-  labs(x = "Cluster Average RCSI (Actual)", y = "Cluster Average RCSI (Predicted)")
-```
+
+## Scatterplots for Tanzania (HDDS)
+
+![Scatterplots of different models](output\graphs\scatter_tz_hdds.png){ width=70% }
+
+## Discussion of Results
+
+- Increase in predication accuracy 
+- Variables in the Lasso (maize/rice price and distance to market, assets index, household demographics, soil nutrient availablity)
+- Feature importance in Random Forest (nutrient availablity, rice price, assset index, number of cellphone, temperature and day1rain)
+- compared to a simple linear predication, ML model predications are less spread out. 
+- ML models predications tends to overestimate on the higher end and underestimate the lower end
+- Still does poorly on the RCSI measure (because of its positively skewed distribution)
 
 ## Future Steps 
- - Vary the time gap between training and testing ( train and test on the a subset of data that are only several weeks/month apart)
+ - Address the issue of overestimating the food insecure households
+ - Interpret the interaction terms 
  - Trained on a pooled data set across different countries V.S. Fit models on each individual country with the same procedure
  - Predict "now": countries/areas that are not surveyed and suggest areas that are likely to have a food shortage. 
  

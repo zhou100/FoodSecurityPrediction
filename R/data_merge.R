@@ -45,31 +45,80 @@ write.csv(tz_master,"data/clean/tz_hh_master.csv")
 tz_master = read.csv("data/clean/tz_hh_master.csv")
 tz_master = tz_master %>% select(-case_id,-reside,-hh_a01,-date,-X)
 
-tz_master_cluster  = tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
+
+test_hh = tz_master[tz_master$FS_year==2014,]
+train_hh = tz_master[tz_master$FS_year!=2014, ]
+
+test_hh = test_hh %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
+train_hh = train_hh %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-slope,-ag_percent,-elevation,-distance_index)
+
+test_hh = test_hh %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+train_hh = train_hh %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+
+
+write.csv(test_hh,"data/clean/tz_test_hh.csv")
+write.csv(train_hh,"data/clean/tz_train_hh.csv")
+
+
+
+tz_master_cluster  = 
+  
+  
+  tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
 write.csv(tz_master_cluster,"data/clean/tz_clust_master.csv")
 
-
+tz_master_cluster = read.csv("data/clean/tz_clust_master.csv")
 tz_master_cluster["logFCS"] = log(tz_master_cluster["FCS"])
-
+library(dplyr)
 
 
 unique(tz_master_cluster$FS_year)
 unique(tz_master_cluster$FS_month)
 
-test = tz_master_cluster[tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==10|tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==11 |tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month ==9,]
-train = tz_master_cluster[tz_master_cluster$FS_year==2012 | tz_master_cluster$FS_year==2010 | tz_master_cluster$FS_year==2011 | tz_master_cluster$FS_year==2013 & tz_master_cluster$FS_month !=10 & tz_master_cluster$FS_month !=11 & tz_master_cluster$FS_month !=9,]
+# test = tz_master_cluster[tz_master_cluster$FS_year==2013,]
+# train = tz_master_cluster[tz_master_cluster$FS_year==2012 | tz_master_cluster$FS_year==2010 | tz_master_cluster$FS_year==2011, ]
 
-test = test %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-asset_index)
-train = train %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-asset_index)
+ test = tz_master_cluster[tz_master_cluster$FS_year==2014|tz_master_cluster$FS_year==2015,]
+ train = tz_master_cluster[tz_master_cluster$FS_year!=2014 & tz_master_cluster$FS_year!=2015,]
+
+
+test = test %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
+train = train %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
 
 
 
 test_clust = test %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
 train_clust = train %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
 
+test_lhz = test %>% select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
+train_lhz = train %>% select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
 
 
   
 write.csv(test_clust,"data/clean/tz_test_clust.csv")
 write.csv(train_clust,"data/clean/tz_train_clust.csv")
+
+
+
+write.csv(test_lhz,"data/clean/tz_test_lhz.csv")
+write.csv(train_lhz,"data/clean/tz_train_lhz.csv")
+
+
+
+
+
+tz_clust = read.csv("data/clean/tz_clust.csv")
+
+unique(tz_clust$fs_year)
+test = tz_clust[tz_clust$fs_year==2014|tz_clust$fs_year==2015,]
+train = tz_clust[tz_clust$fs_year!=2014 & tz_clust$fs_year!=2015,]
+
+test= test %>% dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
+train= train %>% dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
+
+
+write.csv(test,"data/clean/tz_test.csv")
+write.csv(train,"data/clean/tz_train.csv")
+
+
 
