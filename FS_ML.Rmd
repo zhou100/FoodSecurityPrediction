@@ -83,31 +83,31 @@ knitr::opts_chunk$set(echo = FALSE)
    
 ## Indicators to measure food security 
 
-   ![correlation between food security measures](output\graphs\fs_measures.png){ width=100% }
+   ![correlation between food security measures](output/graphs/fs_measures.png){ width=100% }
 
    
    Source: How Do Different Indicators of Household Food Security Compare? Empirical Evidence from Tigray by Maxwell, Coates and Vaitla 2013. 
 
 ## Temporal Variation
-![Graph of Food Security by Month Malawi](output\graphs\fs.png){ width=100% }
+![Graph of Food Security by Month Malawi](output/graphs/fs.png){ width=100% }
 
 
 
 ## Spatial Variation
 
-![Map of Food Security Maps in Malawi by month](output\graphs\FCS.gif){ width=70% }
+![Map of Food Security Maps in Malawi by month](output/graphs/FCS.gif){ width=70% }
 
 
 ## Spatio-temporal variation
 
-![Food Security Maps in Tanzania](output\graphs\tanzania.gif){ width=90%}
+![Food Security Maps in Tanzania](output/graphs/tanzania.gif){ width=90%}
 
 ##  Predication 
 
 - Split the entire sample into training and testing 
 - Use Malawi 2010 to predict Malawi 2013; and a randomly split training and testing sample for Tanzania 
 
-![Importance out of sample predication](output\graphs\outofsample.jpg)
+![Importance out of sample predication](output/graphs/outofsample.jpg)
 
 
 
@@ -115,7 +115,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 Avoid over-fit by using simple models, cross-validation, regularization, ensemble learning 
 
-![Over vs under fit ](output\graphs\Overfit_Vs_Underfit_print.png){ width=90% }
+![Over vs under fit ](output/graphs/Overfit_Vs_Underfit_print.png){ width=90% }
 
 
 
@@ -132,7 +132,7 @@ Avoid over-fit by using simple models, cross-validation, regularization, ensembl
     + Random Forest 
     + Gradient boosting 
     
-    ![Random Forest](output\graphs\Random_Forest_print.png){ width=90% }
+    ![Random Forest](output/graphs/Random_Forest_print.png){ width=90% }
 
 ## Data
  
@@ -167,12 +167,12 @@ knitr::kable(na.omit(result),caption = "Cluster Level prediction R squares in Ma
 
 ## Scatterplots for Malawi (FCS)
 
-![Scatterplots of different models](output\graphs\scatter_mw_fcs.png){ width=70% }
+![Scatterplots of different models](output/graphs/scatter_mw_fcs.png){ width=70% }
 
 
 ## Scatterplots for Malawi (HDDS)
 
-![Scatterplots of different models](output\graphs\scatter_mw_hdds.png){ width=70% }
+![Scatterplots of different models](output/graphs/scatter_mw_hdds.png){ width=70% }
 
 
 
@@ -190,12 +190,12 @@ knitr::kable(na.omit(result_tan),caption = "Cluster Level prediction R squares i
 
 ## Scatterplots for Tanzania (FCS)
 
-![Scatterplots of different models](output\graphs\scatter_tz_fcs.png){ width=70% }
+![Scatterplots of different models](output/graphs/scatter_tz_fcs.png){ width=70% }
 
 
 ## Scatterplots for Tanzania (HDDS)
 
-![Scatterplots of different models](output\graphs\scatter_tz_hdds.png){ width=70% }
+![Scatterplots of different models](output/graphs/scatter_tz_hdds.png){ width=70% }
 
 ## Discussion of Results
 
