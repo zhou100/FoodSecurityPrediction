@@ -13,7 +13,7 @@ set more off
 **** Tanzania 2012/13 Baseline subsample obs. 5010 ***
 
 * cd "/Users/yujunzhou/Box Sync/lsms/Tanzania_2012/TZA_2012_LSMS_v01_M_STATA_English_labels"
-cd "C:\Users\Administrator\Desktop\lsms\Tanzania_2012\TZA_2012_LSMS_v01_M_STATA_English_labels"
+cd "D:\lsms\Tanzania_2012\TZA_2012_LSMS_v01_M_STATA_English_labels"
 
 *_______________________________________________________________________________
 
@@ -49,16 +49,17 @@ tab itemcode
  
  
 *Combining Cereals and roots (Category A and Category G)
+
+
 replace itemcode=1 if itemcode==2
  
 
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)itemcode, by(y3_hhid   hh_j09_3    )
+collapse (max) hh_j09_3, by(y3_hhid itemcode)
 label var hh_j09_3 "# Days specific food is eaten"
 
 ***Specifying Weights Different Food Categories
  
-
 *J Spices/Condiments: Weight = 0
 gen FWeight = 0
 * A Cereals, Grains and Cereal Products: Weight = 2
@@ -134,7 +135,7 @@ numlabel  HH_J09_1 ,add
 tab itemcode
 
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)itemcode, by(y3_hhid   hh_j09_3    )
+collapse (max)hh_j09_3 , by(y3_hhid   itemcode    )
 label var hh_j09_3 "# Days specific food is eaten"
 
  
@@ -399,7 +400,7 @@ rename y3_hhid case_id
  
  *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Tanzania.dta",replace
 
-save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2012_Tanzania.dta", replace
+save "D:\lsms\cleaned_dataset\FCS_2012_Tanzania.dta", replace
 
  
 /*

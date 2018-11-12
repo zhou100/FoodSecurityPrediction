@@ -6,7 +6,7 @@
 * Yujun Zhou -  03/20/18
 *******************************************************************
 
-cd "C:\Users\Administrator\Desktop\lsms\cleaned_dataset "
+cd "D:\lsms\cleaned_dataset "
 
 ******* Malawi *************
 use FCS_2010_Malawi.dta,clear
@@ -21,7 +21,7 @@ export delimited Malawi_aggregate.csv,replace
 
 
 ******* Tanzania *************
-cd "C:\Users\Administrator\Desktop\lsms\cleaned_dataset "
+cd "D:\lsms\cleaned_dataset "
 
 use FCS_2010_Tanzania.dta,clear
 append using FCS_2012_Tanzania
@@ -37,7 +37,7 @@ export delimited Tanzania_aggregate.csv ,replace
 
 
 ******* Uganda *************
-cd "C:\Users\Administrator\Desktop\lsms\cleaned_dataset "
+cd "D:\lsms\cleaned_dataset "
 
 use FCS_2011_Uganda.dta,clear
 append using FCS_2010_Uganda

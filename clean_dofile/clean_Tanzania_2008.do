@@ -11,7 +11,7 @@ set more off
 **** Tan 2008 Baseline subsample obs. 3246 ***
 
 *cd "/Users/yujunzhou/Box Sync/lsms/Tanzania_2008/TZNPS1HHDTA_E"
-cd "C:\Users\Administrator\Desktop\lsms\Tanzania_2008/TZNPS1HHDTA_E"
+cd "D:\lsms\Tanzania_2008/TZNPS1HHDTA_E"
 
 *_______________________________________________________________________________
 

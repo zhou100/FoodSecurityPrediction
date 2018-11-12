@@ -12,7 +12,7 @@ set more off
 **** 2016 obs. 2508 ***
 
 *cd "/Users/yujunzhou/Box Sync/lsms/malawi_2016/MWI_2013_IHPS_v01_M_STATA/Household"
-cd "C:\Users\Administrator\Desktop\lsms\Malawi_2016\household"
+cd "D:\lsms\Malawi_2016\household"
 
 *_______________________________________________________________________________
 
@@ -39,13 +39,14 @@ set more off
 use hh_mod_g2_16.dta,clear
 
 foreach var of varlist hh_g08a - hh_g08j{
-* tab `var'
+tab `var'
 }
  
+gen hh_staple = max(hh_g08a,hh_g08b)
  
 ***Computing Weighted Food Categories
 * combine category a and b
-gen FCS = (hh_g08a + hh_g08b)/2 *2 + hh_g08c*3 + hh_g08d*1 + hh_g08e*4 +/*
+gen FCS = hh_staple *2 + hh_g08c*3 + hh_g08d*1 + hh_g08e*4 +/*
 */ hh_g08f*1 + hh_g08g*4 + hh_g08h *0.5 + hh_g08i*0.5 + hh_g08j *0 
 
 label var FCS "Food Consumption Score"
@@ -292,7 +293,7 @@ drop if FCS ==0
 drop if HDDS ==0
 
 rename y3_hhid case_id 
-save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2016_Malawi.dta", replace
+save "D:\lsms\cleaned_dataset\FCS_2016_Malawi.dta", replace
 
 
 

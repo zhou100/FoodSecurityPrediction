@@ -10,7 +10,7 @@ capture log close
 clear
 set more off 
 *cd "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/Household_Batch3of5_DTA/"
-cd "C:\Users\Administrator\Desktop\lsms\Malawi_2010/Household_Batch3of5_DTA/"
+cd "D:\lsms\Malawi_2010/Household_Batch3of5_DTA/"
 
 
 
@@ -366,7 +366,7 @@ save HW3_FSMs, replace
 
 set more off 
 *use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/Household_Batch1of5_DTA/HH_MOD_A_FILT",clear
-use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_A_FILT",clear
+use "D:\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_A_FILT",clear
 
  
 keep case_id reside hh_wgt hh_a01   hh_a02b 
@@ -401,7 +401,7 @@ save HW3_FSMs, replace
 
 * Merge in geolocation 
 *use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/HouseholdGeovariables.dta", clear
-use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/HouseholdGeovariables.dta",clear
+use "D:\lsms\Malawi_2010/HouseholdGeovariables.dta",clear
 
 keep case_id ea_id lat_modi lon_modi srtm_eaf srtm_eaf_5_15 sq1 sq2 dist_road dist_admarc dist_popcenter afmnslp_pct    fsrad3_agpct 
 rename srtm_eaf elevation
@@ -417,7 +417,7 @@ save HW3_FSMs, replace
 
 * Merge in the basic information
 * use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/ihs3_summary.dta"
-use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/ihs3_summary.dta",clear
+use "D:\lsms\Malawi_2010/ihs3_summary.dta",clear
 
 
 keep case_id ea_id intmonth intyear head_age head_gender head_edlevel  hhsize
@@ -440,7 +440,7 @@ save HW3_FSMs, replace
 
 * Merge in cell phone , roof/floor
 *use "/Users/yujunzhou/Box Sync/lsms/Malawi_2010/Household_Batch1of5_DTA/HH_MOD_F",clear
-use "C:\Users\Administrator\Desktop\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_F.dta",clear
+use "D:\lsms\Malawi_2010/Household_Batch1of5_DTA/HH_MOD_F.dta",clear
 
 keep case_id ea_id hh_f34 hh_f35 hh_f08 hh_f09
 
@@ -475,7 +475,7 @@ save HW3_FSMs, replace
 
 
 ** merge in the assets
-use "C:\Users\Administrator\Desktop\lsms\Malawi_2010\Household_Batch4of5_DTA\HH_MOD_L.dta",clear
+use "D:\lsms\Malawi_2010\Household_Batch4of5_DTA\HH_MOD_L.dta",clear
 
 tab hh_l02  ,nolabel
 keep if hh_l02  ==518 | hh_l02  ==516 | hh_l02  ==517 |hh_l02  ==514 |hh_l02  ==507 |hh_l02  ==509
@@ -530,7 +530,7 @@ drop _merge
 drop if FCS ==0 
 drop if HDDS ==0
 *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Malawi.dta", replace
-save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2010_Malawi.dta", replace
+save "D:\lsms\cleaned_dataset\FCS_2010_Malawi.dta", replace
 
 
 

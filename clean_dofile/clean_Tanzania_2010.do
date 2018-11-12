@@ -13,7 +13,7 @@ set more off
 **** Tanzania 2010/11 obs. 3924***
 
 *cd "/Users/yujunzhou/Box Sync/lsms/Tanzania_2010/TZA_2010_NPS2_v01_M_STATA"
-cd "C:\Users\Administrator\Desktop\lsms\Tanzania_2010\TZA_2010_NPS2_v01_M_STATA"
+cd "D:\lsms\Tanzania_2010\TZA_2010_NPS2_v01_M_STATA"
 
 *_______________________________________________________________________________
 
@@ -55,9 +55,12 @@ replace itemcode="A" if itemcode=="G"
 * generate a numeric version of the item_code to use the collapse functtion
 encode  itemcode, gen(item_code)
 
+
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)item_code, by(y2_hhid hh_k08_3 hh_k08_2 itemcode  )
+collapse (max)hh_k08_3, by(y2_hhid itemcode)
 label var hh_k08_3 "# Days specific food is eaten"
+tab itemcode
+tab hh_k08_3 itemcode
 
 ***Specifying Weights Different Food Categories
 gen FWeight = 0
@@ -76,7 +79,7 @@ label var FCS "Food Consumption Score"
 collapse (sum)FCS, by(y2_hhid)
 label var FCS "HH food consumption score"
 
-
+ 
 sort y2_hhid
 save tanzania_2010.dta, replace
 
@@ -123,10 +126,10 @@ tab itemcode
 *Combining Cereals and roots (Category A and Category G)
 replace itemcode="A" if itemcode=="G" 
 * generate a numeric version of the item_code to use the collapse functtion
-encode  itemcode, gen(item_code)
+* encode  itemcode, gen(item_code)
 
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)item_code, by(y2_hhid hh_k08_3 hh_k08_2 itemcode  )
+collapse (max)hh_k08_3, by(y2_hhid itemcode  )
 
 
 label var hh_k08_3 "# Days specific food is eaten"
@@ -403,7 +406,7 @@ rename clusterid ea_id
  
  *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Tanzania.dta",replace
 
-save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2010_Tanzania.dta", replace
+save "D:\lsms\cleaned_dataset\FCS_2010_Tanzania.dta", replace
 
 
 

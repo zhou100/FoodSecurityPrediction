@@ -13,7 +13,7 @@ set more off
 **** Tanzania 2014/15 obs. 3350***
 
 *cd "/Users/yujunzhou/Box Sync/lsms/tanzania_2014/TZA_2010_NPS2_v01_M_STATA"
-cd "C:\Users\Administrator\Desktop\lsms\Tanzania_2014\TZA_2014_NPS-R4-v01_M_STATA8"
+cd "D:\lsms\Tanzania_2014\TZA_2014_NPS-R4-v01_M_STATA8"
 
 *_______________________________________________________________________________
 
@@ -54,7 +54,7 @@ replace itemcode=1 if itemcode==2
  
 
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)itemcode, by(y4_hhid   hh_j08_3    )
+collapse (max) hh_j08_3 , by(y4_hhid itemcode      )
 label var hh_j08_3 "# Days specific food is eaten"
 
 ***Specifying Weights Different Food Categories
@@ -135,7 +135,7 @@ numlabel  HH_J08_1 ,add
 tab itemcode
 
 *replace hh_g08b="Main Staples; cereals and grains, roots and tubers" if itemcode=="AB"
-collapse (max)itemcode, by(y4_hhid   hh_j08_3    )
+collapse (max) hh_j08_3, by(y4_hhid    itemcode     )
 label var hh_j08_3 "# Days specific food is eaten"
 
  
@@ -404,7 +404,7 @@ rename clusterid ea_id
  
  *save "/Users/yujunzhou/Box Sync/lsms/FCS_2010_Tanzania.dta",replace
 
-save "C:\Users\Administrator\Desktop\lsms\cleaned_dataset\FCS_2014_Tanzania.dta", replace
+save "D:\lsms\cleaned_dataset\FCS_2014_Tanzania.dta", replace
 
 
 
