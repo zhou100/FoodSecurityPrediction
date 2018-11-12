@@ -360,6 +360,7 @@ merge m:m y3_hhid using tanzania_2012
 drop if _merge ==2
 drop _merge
 
+save tanzania_2012, replace
 
 
 

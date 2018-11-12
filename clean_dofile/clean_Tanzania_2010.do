@@ -370,7 +370,8 @@ rename cell_num number_celphones
 merge m:m y2_hhid using tanzania_2010
 drop if _merge ==2
 drop _merge
- 
+ save tanzania_2010, replace
+
  * Merge in housing
 
  use "HH_SEC_J1",clear

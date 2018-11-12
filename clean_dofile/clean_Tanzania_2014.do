@@ -368,6 +368,7 @@ rename cell_num number_celphones
 merge m:m y4_hhid using tanzania_2014
 drop if _merge ==2
 drop _merge
+save tanzania_2014, replace
  
  * Merge in housing
 
