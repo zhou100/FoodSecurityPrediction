@@ -275,6 +275,13 @@ for (i in 1:length(ug_names)){
 
 #landscan_pop <- raster("shapefiles/LandScanData/Population/lspop2011") # land scan data 
 
+# library(curl); 
+# id <- "0B-wuZ2XMFIBUd09Ob0pKVkRzQTA";
+# sURL <- sprintf("https://docs.google.com/uc?id=%s&export=download", id);
+# con <- curl(sURL); 
+# read.csv(con)
+
+
 landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
 
 lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones       
