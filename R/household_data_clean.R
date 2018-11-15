@@ -52,8 +52,8 @@ Tanzania<-read.csv("data/clean/cleaned_dataset/Tanzania_aggregate.csv")
 Uganda<-read.csv("data/clean/cleaned_dataset/Uganda_aggregate.csv")
 Malawi<-read.csv("data/clean/cleaned_dataset/Malawi_aggregate.csv")
 
-Malawi = Malawi %>% 
-  dplyr::filter(FS_year >2014)
+#Malawi = Malawi %>% 
+#  dplyr::filter(FS_year >2014)
 
 # subset columns
 country_coord_list<-list(Tanzania,Uganda,Malawi)
