@@ -18,7 +18,7 @@
 ###################################################################
 
 
-package = c("dplyr","maptools","rgeos", "rgdal", "raster")
+package = c("dplyr","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
 lapply(package, require, character.only = TRUE)
 
 source("R/functions/Yearmon.R") 
