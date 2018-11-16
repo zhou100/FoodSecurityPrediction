@@ -17,19 +17,22 @@
 ###
 rm(list = ls())
 
+library(dplyr)
+
 tz_hh<-read.csv("data/clean/tan_hh.csv")
-tz_hh = tz_hh %>%  select(-X)
+tz_hh = tz_hh %>%  dplyr::select(-X)
 
 tz_weather = read.csv("D:/tz_weather_final.csv")
+save(tz_weather,"data/clean/tz_weather.RData")
+
 colnames(tz_weather)[11] = "ea_id"
-tz_weather = tz_weather %>%  select(-X,-cropyear.x,-cropyear.y)
+tz_weather = tz_weather %>%  dplyr::select(-X,-cropyear.x,-cropyear.y)
 tz_weather = tz_weather %>% mutate(ea_id = as.character(ea_id))
 
 tz_price = read.csv("data/clean/market/tz_price_merge.csv")
-tz_price = tz_price %>%  select(-X,-mkt,dist_km,date)
+tz_price = tz_price %>%  dplyr::select(-X,-mkt,dist_km,date)
 
 
-library(dplyr)
 tz_price = tz_price  %>% dplyr::mutate(ea_id = as.character(ea_id))
 tz_hh = tz_hh  %>% dplyr::mutate(ea_id = as.character(ea_id))
 
@@ -43,17 +46,11 @@ tz_master = dplyr::left_join(tz_master,tz_weather,by = c("ea_id","FS_year","FNID
 write.csv(tz_master,"data/clean/tz_hh_master.csv")
 
 tz_master = read.csv("data/clean/tz_hh_master.csv")
-tz_master = tz_master %>% select(-case_id,-reside,-hh_a01,-date,-X)
+tz_master = tz_master %>% dplyr::select(-case_id,-reside,-hh_a01,-date,-X)
 
 
 test_hh = tz_master[tz_master$FS_year==2014,]
 train_hh = tz_master[tz_master$FS_year!=2014, ]
-
-test_hh = test_hh %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
-train_hh = train_hh %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon,-slope,-ag_percent,-elevation,-distance_index)
-
-test_hh = test_hh %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
-train_hh = train_hh %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
 
 
 write.csv(test_hh,"data/clean/tz_test_hh.csv")
@@ -61,16 +58,13 @@ write.csv(train_hh,"data/clean/tz_train_hh.csv")
 
 
 
-tz_master_cluster  = 
+
   
-  
-  tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
+tz_master_cluster = tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
 write.csv(tz_master_cluster,"data/clean/tz_clust_master.csv")
 
 tz_master_cluster = read.csv("data/clean/tz_clust_master.csv")
 tz_master_cluster["logFCS"] = log(tz_master_cluster["FCS"])
-library(dplyr)
-
 
 unique(tz_master_cluster$FS_year)
 unique(tz_master_cluster$FS_month)
@@ -82,16 +76,16 @@ unique(tz_master_cluster$FS_month)
  train = tz_master_cluster[tz_master_cluster$FS_year!=2014 & tz_master_cluster$FS_year!=2015,]
 
 
-test = test %>% ungroup %>%  select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
-train = train %>%  ungroup %>% select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
+test = test %>% ungroup %>%  dplyr::select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
+train = train %>%  ungroup %>% dplyr::select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
 
 
 
-test_clust = test %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
-train_clust = train %>% select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+test_clust = test %>% dplyr::select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
+train_clust = train %>% dplyr::select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
 
-test_lhz = test %>% select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
-train_lhz = train %>% select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
+test_lhz = test %>% dplyr::select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
+train_lhz = train %>% dplyr::select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
 
 
   
@@ -113,8 +107,8 @@ unique(tz_clust$fs_year)
 test = tz_clust[tz_clust$fs_year==2014|tz_clust$fs_year==2015,]
 train = tz_clust[tz_clust$fs_year!=2014 & tz_clust$fs_year!=2015,]
 
-test= test %>% dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
-train= train %>% dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
+test= test %>% dplyr::dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
+train= train %>% dplyr::dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
 
 
 write.csv(test,"data/clean/tz_test.csv")

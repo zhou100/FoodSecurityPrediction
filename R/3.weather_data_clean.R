@@ -35,7 +35,7 @@
 ### should there be a threshold other than 0 ?
 ######################################
 
-package = c("dplyr","zoo","rgeos", "rgdal", "raster")
+package = c("dplyr","zoo","rgeos", "rgdal", "raster","lubridate")
 lapply(package, require, character.only = TRUE)
 
 source("R/functions/CropYear.R") 
@@ -57,7 +57,7 @@ date_mw = precip_lhz_mw$Date
 precip_lhz_mw = precip_lhz_mw %>% dplyr::select(-X,-Date,-month)
 
 mw_tmin <- read.csv("data/raw/temperature/mw_daily_tmin.csv")
-colnames(precip_lhz_mw_new) = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
+colnames(precip_lhz_mw) = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 
 precip_lhz_mw$date = date_mw
 
@@ -85,7 +85,6 @@ rainlist_cropyear = lapply(rainlist, function(x){CropYear(x,date)})
 
 
 # moving mean for that day and previous days (e.g. 5 represents the mean of that day and the for previous days)
-library(lubridate)
 
 ####livelihood level day1rain for tanzania ###########
 
@@ -485,9 +484,15 @@ mw_hh  = dplyr::bind_rows(mw_2010,mw_2013) %>% distinct() %>% mutate_all(funs(as
 tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
 tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
+tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
+tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+
+
+
+
 colnames(mw_hh) = c("FNID","id")
 colnames(tz_concordance)=c("id","FNID") 
-colnames(ug_concordance)=c("id","FNID") 
+#colnames(ug_concordance)=c("id","FNID") 
 
 source("R/functions/FnidV.R") 
 
@@ -508,12 +513,12 @@ floodmax_lhz_mw2 = mw_lhz_weather[[4]] %>% dplyr::filter(FNID %in% flood_mw_fnid
 floodmax_lhz_mw = dplyr::bind_rows(floodmax_lhz_mw,floodmax_lhz_mw2)
 floodmax_lhz_mw["FS_year"] =floodmax_lhz_mw["cropyear"] 
 
-mw_flood_ea = 
-  mw_hh %>% dplyr::filter(FNID %in% flood_mw_fnid)  %>% dplyr::select(ea_id)
-mw_flood_ea 
+mw_flood_clust = 
+  mw_hh %>% dplyr::filter(FNID %in% flood_mw_fnid)  %>% dplyr::select(id)
+mw_flood_clust 
 
-floodmax_clust_mw = mw_clust_weather[[1]] %>% dplyr::filter(!id %in% mw_flood_ea)%>% mutate(value =0 )
-floodmax_clust_mw2 = mw_clust_weather[[1]] %>% dplyr::filter(id %in% mw_flood_ea)
+floodmax_clust_mw = mw_clust_weather[[1]] %>% dplyr::filter(!id %in% mw_flood_clust)%>% mutate(value =0 )
+floodmax_clust_mw2 = mw_clust_weather[[1]] %>% dplyr::filter(id %in% mw_flood_clust)
 floodmax_clust_mw = dplyr::bind_rows(floodmax_clust_mw2,floodmax_clust_mw)
 floodmax_clust_mw["FS_year"] =floodmax_clust_mw["cropyear"] 
 
@@ -543,6 +548,9 @@ tz_flood_ea =
   tz_concordance %>% dplyr::filter(FNID %in% flood_tz_fnid)  %>% dplyr::select(id)
 tz_flood_ea_str = as.character(tz_flood_ea[,1])
 
+
+tz_clust_weather[[1]]$id = as.vector(tz_clust_weather[[1]]$id)   
+  
 floodmax_clust_tz = tz_clust_weather[[1]] %>% dplyr::filter(!id %in% tz_flood_ea_str)%>% mutate(value =0 )
 floodmax_clust_tz2 = tz_clust_weather[[1]] %>% dplyr::filter(id %in% tz_flood_ea_str)
 floodmax_clust_tz = dplyr::bind_rows(floodmax_clust_tz2,floodmax_clust_tz)
@@ -623,8 +631,10 @@ colnames(floodmax_lhz_mw)[2] = "lhz_floodmax"
 colnames(floodmax_lhz_mw)[3] = "FS_year"
 
 
+floodmax_clust_mw = floodmax_clust_mw[,-3]
+
 floodmax_clust_mw = floodmax_clust_mw %>% mutate(FS_year = as.numeric(FS_year) )
-floodmax_clust_mw = floodmax_clust_mw %>% select(-cropyear)
+# floodmax_clust_mw = floodmax_clust_mw %>% select(-cropyear)
 
 floodmax_lhz_mw = floodmax_lhz_mw %>% select(-cropyear)
 floodmax_lhz_mw = floodmax_lhz_mw %>% mutate(FS_year = as.numeric(FS_year),FNID  = as.character(FNID) )
