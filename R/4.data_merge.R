@@ -22,12 +22,15 @@ library(dplyr)
 tz_hh<-read.csv("data/clean/tan_hh.csv")
 tz_hh = tz_hh %>%  dplyr::select(-X)
 
-tz_weather = read.csv("D:/tz_weather_final.csv")
-save(tz_weather,"data/clean/tz_weather.RData")
+#tz_final = read.csv("D:/tz_weather_final.csv")
+#save(tz_final,"data/clean/tz_final.RData")
 
-colnames(tz_weather)[11] = "ea_id"
-tz_weather = tz_weather %>%  dplyr::select(-X,-cropyear.x,-cropyear.y)
-tz_weather = tz_weather %>% mutate(ea_id = as.character(ea_id))
+load("data/clean/weather/tz_weather_final.rda")
+
+colnames(tz_final)[which(colnames(tz_final)=="id")]= "ea_id"
+
+tz_final = tz_final %>%  dplyr::select(-cropyear.x,-cropyear.y)
+tz_final = tz_final %>% mutate(ea_id = as.character(ea_id))
 
 tz_price = read.csv("data/clean/market/tz_price_merge.csv")
 tz_price = tz_price %>%  dplyr::select(-X,-mkt,dist_km,date)
@@ -38,7 +41,7 @@ tz_hh = tz_hh  %>% dplyr::mutate(ea_id = as.character(ea_id))
 
 
 tz_master = dplyr::left_join(tz_hh,tz_price,by = c("ea_id","yearmon","FNID"))
-tz_master = dplyr::left_join(tz_master,tz_weather,by = c("ea_id","FS_year","FNID"))
+tz_master = dplyr::left_join(tz_master,tz_final,by = c("ea_id","FS_year","FNID"))
 
 
 

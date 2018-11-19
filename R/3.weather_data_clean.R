@@ -61,9 +61,20 @@ colnames(precip_lhz_mw) = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 
 precip_lhz_mw$date = date_mw
 
-precip_clust_tz <- read.csv("D:/CHIRPS_tan_buffer.csv")
-precip_clust_ug <- read.csv("D:/CHIRPS_ug_buffer.csv")
-precip_clust_mw <- read.csv("data/raw/rain/CHIRPS_malawi_cluster.csv")
+# precip_clust_tz <- read.csv("data/raw/rain/CHIRPS_tan_buffer.csv")
+#save(precip_clust_tz,file="data/raw/rain/precip_clust_tz.rda")
+
+precip_clust_tz = load("data/raw/rain/precip_clust_tz.rda")
+
+# precip_clust_ug <- read.csv("data/raw/rain/CHIRPS_ug_buffer.csv")
+# save(precip_clust_ug,file="data/raw/rain/CHIRPS_ug_buffer.rda")
+
+precip_clust_ug = load("data/raw/rain/CHIRPS_ug_buffer.rda")
+
+#precip_clust_mw <- read.csv("data/raw/rain/CHIRPS_malawi_cluster.csv")
+#save(precip_clust_mw,file="data/raw/rain/CHIRPS_malawi_cluster.rda")
+
+precip_clust_ug = load("data/raw/rain/CHIRPS_malawi_cluster.rda")
 
 
 rainlist = list(precip_lhz_mw,precip_lhz_tz,precip_clust_tz,precip_clust_mw)
@@ -75,6 +86,8 @@ date= as.Date(precip_lhz_ug$date_list,"%m/%d/%Y")
 # 1. generate crop year, so that it's summing up by crop year 
 source("R/functions/CropYear.R") 
 source("R/functions/WeatherTranspose.R") 
+
+lapply(rainlist,function(x){colnames(x)})
 
 # generate cropyear 
 rainlist_cropyear = lapply(rainlist, function(x){CropYear(x,date)})
@@ -513,13 +526,15 @@ floodmax_lhz_mw2 = mw_lhz_weather[[4]] %>% dplyr::filter(FNID %in% flood_mw_fnid
 floodmax_lhz_mw = dplyr::bind_rows(floodmax_lhz_mw,floodmax_lhz_mw2)
 floodmax_lhz_mw["FS_year"] =floodmax_lhz_mw["cropyear"] 
 
+# select the clusters that are in the flood prone region 
 mw_flood_clust = 
   mw_hh %>% dplyr::filter(FNID %in% flood_mw_fnid)  %>% dplyr::select(id)
 mw_flood_clust 
 
-floodmax_clust_mw = mw_clust_weather[[1]] %>% dplyr::filter(!id %in% mw_flood_clust)%>% mutate(value =0 )
-floodmax_clust_mw2 = mw_clust_weather[[1]] %>% dplyr::filter(id %in% mw_flood_clust)
-floodmax_clust_mw = dplyr::bind_rows(floodmax_clust_mw2,floodmax_clust_mw)
+# create flood max at mw clust
+floodmax_clust_mw_flood = mw_clust_weather[[1]] %>% dplyr::filter(id %in% mw_flood_clust)%>% mutate(raincytot =0 )
+floodmax_clust_mw_noflood = mw_clust_weather[[1]] %>% dplyr::filter(!id %in% mw_flood_clust)
+floodmax_clust_mw = dplyr::bind_rows(floodmax_clust_mw_noflood,floodmax_clust_mw_flood)
 floodmax_clust_mw["FS_year"] =floodmax_clust_mw["cropyear"] 
 
 floodmax_lhz_mw2 = mw_lhz_weather[[4]] %>% dplyr::filter(FNID %in% flood_mw_fnid)
@@ -618,8 +633,8 @@ colnames(tz_lhz_weather[[4]])[1] = "FNID"
 colnames(tz_lhz_weather[[5]])[3] = "lhz_maxdaysnorain"
 colnames(tz_lhz_weather[[5]])[1] = "FNID"
 
-colnames(floodmax_clust_mw)[2] = "floodmax"
-colnames(floodmax_clust_mw)[3] = "FS_year"
+colnames(floodmax_clust_mw)[3] = "floodmax"
+#colnames(floodmax_clust_mw)[3] = "FS_year"
 
 
 colnames(floodmax_clust_tz)[3] = "floodmax"
@@ -631,20 +646,20 @@ colnames(floodmax_lhz_mw)[2] = "lhz_floodmax"
 colnames(floodmax_lhz_mw)[3] = "FS_year"
 
 
-floodmax_clust_mw = floodmax_clust_mw[,-3]
+floodmax_clust_mw = floodmax_clust_mw %>% dplyr::select(-cropyear)
 
-floodmax_clust_mw = floodmax_clust_mw %>% mutate(FS_year = as.numeric(FS_year) )
+floodmax_clust_mw = floodmax_clust_mw %>% dplyr::mutate(FS_year = as.numeric(FS_year) )
 # floodmax_clust_mw = floodmax_clust_mw %>% select(-cropyear)
 
-floodmax_lhz_mw = floodmax_lhz_mw %>% select(-cropyear)
-floodmax_lhz_mw = floodmax_lhz_mw %>% mutate(FS_year = as.numeric(FS_year),FNID  = as.character(FNID) )
+floodmax_lhz_mw = floodmax_lhz_mw %>% dplyr::select(-cropyear)
+floodmax_lhz_mw = floodmax_lhz_mw %>% dplyr::mutate(FS_year = as.numeric(FS_year),FNID  = as.character(FNID) )
 
-floodmax_lhz_tz = floodmax_lhz_tz %>% select(-cropyear)
-floodmax_lhz_tz = floodmax_lhz_tz %>% mutate(FS_year = as.numeric(FS_year),FNID  = as.character(FNID) )
+floodmax_lhz_tz = floodmax_lhz_tz %>% dplyr::select(-cropyear)
+floodmax_lhz_tz = floodmax_lhz_tz %>% dplyr::mutate(FS_year = as.numeric(FS_year),FNID  = as.character(FNID) )
 
 
-floodmax_clust_tz = floodmax_clust_tz %>% mutate(FS_year = as.numeric(FS_year) )
-floodmax_clust_tz = floodmax_clust_tz %>% select(-cropyear)
+floodmax_clust_tz = floodmax_clust_tz %>% dplyr::mutate(FS_year = as.numeric(FS_year) )
+floodmax_clust_tz = floodmax_clust_tz %>% dplyr::select(-cropyear)
 
 
 mw =   left_join(mw_clust_weather[[1]],mw_clust_weather[[2]] )
@@ -663,7 +678,7 @@ mw_lhz =   left_join(mw_lhz, floodmax_lhz_mw,by = c("FNID","FS_year"))
 
 mw_weather_final = left_join(mw, mw_lhz)
 
-write.csv(mw_weather_final,"data/clean/weather/mw_weather_final.csv")
+save(mw_weather_final,file="data/clean/weather/mw_weather_final.rda")
 
 
 class(tz_concordance[,2])
@@ -683,7 +698,7 @@ tz = left_join(tz_lhz, floodmax_clust_tz)
 tz_final = left_join(tz, tz_c,by = c("id","FS_year"))
   
 
-write.csv(tz_final,"data/clean/weather/tz_weather_final.csv")
+save(tz_final,file="data/clean/weather/tz_weather_final.rda")
 
 
 #################################################################################
