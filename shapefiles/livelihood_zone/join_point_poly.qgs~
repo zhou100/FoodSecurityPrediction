@@ -1,5 +1,6 @@
 <!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>
-<qgis projectname="" version="3.0.1-Girona">
+<qgis projectname="" version="3.4.1-Madeira">
+  <homePath path=""/>
   <title></title>
   <autotransaction active="0"/>
   <evaluateDefaultValues active="0"/>
@@ -18,31 +19,40 @@
   </projectCrs>
   <layer-tree-group>
     <customproperties/>
-    <layer-tree-layer providerKey="ogr" expanded="1" source="../../../../../../OSGEO4~1/bin/ug.gpkg" id="ug_9a026057_b4cf_423b_9663_eb2c077e5632" name="ug" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="Uganda_coord_lhz_b2029f9b_2cd2_4ecd_b955_625c248a8621" name="Uganda_coord_lhz" source="../../data/clean/concordance/Uganda_coord_lhz.csv" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="memory" expanded="1" source="Point?crs=EPSG:4326&amp;field=field_1:integer&amp;field=ea_id:long&amp;field=lat_modified:double&amp;field=lon_modified:double&amp;field=FNID:string(18)&amp;field=EFF_YEAR:integer(4)&amp;field=COUNTRY:string(2)&amp;field=LZNUM:integer(2)&amp;field=LZCODE:string(4)&amp;field=LZNAMEEN:string(254)&amp;field=LZNAMEFR:string(254)&amp;field=LZNAMESP:string(254)&amp;field=LZNAMEPT:string(254)&amp;field=CLASS:string(4)&amp;uid={1e65da2f-09de-48ea-bf9b-99c9fbf051e2}" id="output_88c03806_3f1c_4766_955a_e4429e104489" name="tz" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="Tanzania_coord_lhz_964114ae_15b3_4318_958c_9536461dc485" name="Tanzania_coord_lhz" source="../../data/clean/concordance/Tanzania_coord_lhz.csv" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="memory" expanded="1" source="Point?crs=EPSG:4326&amp;field=field_1:integer&amp;field=ea_id:integer&amp;field=lat_modified:double&amp;field=lon_modified:double&amp;field=FNID:string(18)&amp;field=EFF_YEAR:integer(4)&amp;field=COUNTRY:string(2)&amp;field=ADMIN0:string(50)&amp;field=ADMIN1:string(50)&amp;field=ADMIN2:string(50)&amp;field=ADMIN3:string(50)&amp;field=LZCODE:string(4)&amp;field=LZNAME:string(254)&amp;field=FNID_OLD:long(10)&amp;field=EFF_PERD:integer(1)&amp;uid={05512da1-b686-4973-a325-929ae78010f4}" id="output_377bf5f6_ac4f_4121_be4c_08a3d016289a" name="mw" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="output_88c03806_3f1c_4766_955a_e4429e104489" name="tz" source="memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:int8(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=LZNUM:integer(2,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAMEEN:string(254,0)&amp;field=LZNAMEFR:string(254,0)&amp;field=LZNAMESP:string(254,0)&amp;field=LZNAMEPT:string(254,0)&amp;field=CLASS:string(4,0)&amp;uid={ffa6366c-67dd-4081-950d-e20b8971b0db}" providerKey="memory">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="ogr" expanded="1" source="./malawi/livelihood zone 2012/MW_Admin1_LHZ_2012.3/MW_Admin1_LHZ_2012.3.shp" id="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c" name="MW_Admin1_LHZ_2012.3" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d" name="tz_intersect" source="./TZ_LHZ_2009/intersect/tz_intersect.shp" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="ogr" expanded="1" source="./TZ_LHZ_2009/TZ_LHZ_2009.shp" id="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8" name="TZ_LHZ_2009" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="Malawi_coord_lhz_e2e9b61d_e5c1_4c43_b596_144ef4f01143" name="Malawi_coord_lhz" source="../../data/clean/concordance/Malawi_coord_lhz.csv" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="ogr" expanded="1" source="./UG_LHZ_2011/UG_LHZ_2011.shp" id="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1" name="UG_LHZ_2011" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="output_377bf5f6_ac4f_4121_be4c_08a3d016289a" name="mw" source="memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:integer(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=ADMIN0:string(50,0)&amp;field=ADMIN1:string(50,0)&amp;field=ADMIN2:string(50,0)&amp;field=ADMIN3:string(50,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAME:string(254,0)&amp;field=FNID_OLD:int8(10,0)&amp;field=EFF_PERD:integer(1,0)&amp;uid={5036b1e9-b819-4bb5-812e-ca2dbc788f60}" providerKey="memory">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="delimitedtext" expanded="1" source="file:///C:/Users/Administrator/Desktop/FS_metrics/data/clean/concordance/Uganda_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" id="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff" name="Uganda_coord" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d" name="Malawi_coord" source="file:///C:/Users/Administrator/FoodSecurityPrediction/data/clean/concordance/Malawi_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" providerKey="delimitedtext">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="delimitedtext" expanded="1" source="file:///C:/Users/Administrator/Desktop/FS_metrics/data/clean/concordance/Tanzania_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" id="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773" name="Tanzania_coord" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Checked" id="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c" name="MW_Admin1_LHZ_2012.3" source="./malawi/livelihood zone 2012/MW_Admin1_LHZ_2012.3/MW_Admin1_LHZ_2012.3.shp" providerKey="ogr">
       <customproperties/>
     </layer-tree-layer>
-    <layer-tree-layer providerKey="delimitedtext" expanded="1" source="file:///C:/Users/Administrator/Desktop/FS_metrics/data/clean/concordance/Malawi_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" id="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d" name="Malawi_coord" checked="Qt::Checked">
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8" name="TZ_LHZ_2009" source="./TZ_LHZ_2009/TZ_LHZ_2009.shp" providerKey="ogr">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1" name="UG_LHZ_2011" source="./UG_LHZ_2011/UG_LHZ_2011.shp" providerKey="ogr">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff" name="Uganda_coord" source="file:///C:/Users/Administrator/FoodSecurityPrediction/data/clean/concordance/Uganda_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" providerKey="delimitedtext">
+      <customproperties/>
+    </layer-tree-layer>
+    <layer-tree-layer expanded="1" checked="Qt::Unchecked" id="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773" name="Tanzania_coord" source="file:///C:/Users/Administrator/FoodSecurityPrediction/data/clean/concordance/Tanzania_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no" providerKey="delimitedtext">
       <customproperties/>
     </layer-tree-layer>
     <custom-order enabled="0">
@@ -52,32 +62,32 @@
       <item>UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1</item>
       <item>TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8</item>
       <item>MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c</item>
-      <item>ug_9a026057_b4cf_423b_9663_eb2c077e5632</item>
       <item>output_88c03806_3f1c_4766_955a_e4429e104489</item>
       <item>output_377bf5f6_ac4f_4121_be4c_08a3d016289a</item>
+      <item>tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d</item>
     </custom-order>
   </layer-tree-group>
-  <snapping-settings unit="1" type="1" intersection-snapping="0" mode="2" tolerance="12" enabled="0">
+  <snapping-settings unit="1" enabled="0" mode="2" tolerance="12" type="1" intersection-snapping="0">
     <individual-layer-settings>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="output_88c03806_3f1c_4766_955a_e4429e104489"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="ug_9a026057_b4cf_423b_9663_eb2c077e5632"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="output_377bf5f6_ac4f_4121_be4c_08a3d016289a"/>
-      <layer-setting units="1" type="1" tolerance="12" enabled="0" id="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773"/>
+      <layer-setting enabled="0" id="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="output_88c03806_3f1c_4766_955a_e4429e104489" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773" tolerance="12" type="1" units="1"/>
+      <layer-setting enabled="0" id="output_377bf5f6_ac4f_4121_be4c_08a3d016289a" tolerance="12" type="1" units="1"/>
     </individual-layer-settings>
   </snapping-settings>
   <relations/>
-  <mapcanvas annotationsVisible="1" name="theMapCanvas">
+  <mapcanvas name="theMapCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
-      <xmin>34.29873217896935245</xmin>
-      <ymin>-18.62757786072422306</ymin>
-      <xmax>40.71123967896935625</xmax>
-      <ymax>-2.91739386072422491</ymax>
+      <xmin>33.98322781793439873</xmin>
+      <ymin>-13.71061798196622483</ymin>
+      <xmax>35.68573474170938908</xmax>
+      <ymax>-9.63795217129122683</ymax>
     </extent>
     <rotation>0</rotation>
     <destinationsrs>
@@ -94,56 +104,72 @@
     </destinationsrs>
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
+  <projectModels/>
   <legend updateDrawingOrder="true">
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="ug" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="ug_9a026057_b4cf_423b_9663_eb2c077e5632"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Checked" name="Uganda_coord_lhz" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="Uganda_coord_lhz_b2029f9b_2cd2_4ecd_b955_625c248a8621"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="tz" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="output_88c03806_3f1c_4766_955a_e4429e104489"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Checked" name="Tanzania_coord_lhz" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="Tanzania_coord_lhz_964114ae_15b3_4318_958c_9536461dc485"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="mw" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="output_377bf5f6_ac4f_4121_be4c_08a3d016289a"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="tz" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="output_88c03806_3f1c_4766_955a_e4429e104489"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="MW_Admin1_LHZ_2012.3" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Checked" name="tz_intersect" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="TZ_LHZ_2009" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Checked" name="Malawi_coord_lhz" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="Malawi_coord_lhz_e2e9b61d_e5c1_4c43_b596_144ef4f01143"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="UG_LHZ_2011" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="mw" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="output_377bf5f6_ac4f_4121_be4c_08a3d016289a"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Uganda_coord" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="Malawi_coord" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Tanzania_coord" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Checked" name="MW_Admin1_LHZ_2012.3" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="1" isInOverview="0" layerid="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c"/>
       </filegroup>
     </legendlayer>
-    <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Malawi_coord" showFeatureCount="0">
-      <filegroup open="true" hidden="false">
-        <legendlayerfile isInOverview="0" visible="1" layerid="Malawi_coord_96165753_c738_4368_9443_f4a7db8bef3d"/>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="TZ_LHZ_2009" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="UG_LHZ_2011" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="Uganda_coord" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff"/>
+      </filegroup>
+    </legendlayer>
+    <legendlayer showFeatureCount="0" checked="Qt::Unchecked" name="Tanzania_coord" drawingOrder="-1" open="true">
+      <filegroup hidden="false" open="true">
+        <legendlayerfile visible="0" isInOverview="0" layerid="Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773"/>
       </filegroup>
     </legendlayer>
   </legend>
   <mapViewDocks/>
   <mapViewDocks3D/>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -166,7 +192,7 @@
     </destinationsrs>
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -189,7 +215,7 @@
     </destinationsrs>
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
-  <mapcanvas annotationsVisible="1" name="mAreaCanvas">
+  <mapcanvas name="mAreaCanvas" annotationsVisible="1">
     <units>degrees</units>
     <extent>
       <xmin>0</xmin>
@@ -213,7 +239,7 @@
     <rendermaptile>0</rendermaptile>
   </mapcanvas>
   <projectlayers>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Polygon" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Polygon" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
       <extent>
         <xmin>32.67395019500008857</xmin>
         <ymin>-17.12499999999994316</ymin>
@@ -245,6 +271,7 @@
         <type></type>
         <title></title>
         <abstract></abstract>
+        <links/>
         <fees></fees>
         <encoding></encoding>
         <crs>
@@ -256,25 +283,30 @@
             <description></description>
             <projectionacronym></projectionacronym>
             <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>false</geographicflag>
+            <geographicflag>true</geographicflag>
           </spatialrefsys>
         </crs>
         <extent/>
-        <links/>
       </resourceMetadata>
       <provider encoding="UTF-8">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
       <map-layer-style-manager current="default">
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
         <symbols>
-          <symbol type="fill" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleFill" pass="0">
+          <symbol name="0" clip_to_extent="1" alpha="1" type="fill">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
               <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
               <prop v="231,82,221,255" k="color"/>
               <prop v="bevel" k="joinstyle"/>
@@ -288,9 +320,9 @@
               <prop v="solid" k="style"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
+                  <Option name="name" type="QString" value=""/>
                   <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
+                  <Option name="type" type="QString" value="collection"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -303,6 +335,10 @@
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
       <fieldConfiguration>
         <field name="FNID">
           <editWidget type="">
@@ -383,45 +419,45 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="FNID" index="0" name=""/>
-        <alias field="EFF_YEAR" index="1" name=""/>
-        <alias field="COUNTRY" index="2" name=""/>
-        <alias field="ADMIN0" index="3" name=""/>
-        <alias field="ADMIN1" index="4" name=""/>
-        <alias field="ADMIN2" index="5" name=""/>
-        <alias field="ADMIN3" index="6" name=""/>
-        <alias field="LZCODE" index="7" name=""/>
-        <alias field="LZNAME" index="8" name=""/>
-        <alias field="FNID_OLD" index="9" name=""/>
-        <alias field="EFF_PERD" index="10" name=""/>
+        <alias field="FNID" name="" index="0"/>
+        <alias field="EFF_YEAR" name="" index="1"/>
+        <alias field="COUNTRY" name="" index="2"/>
+        <alias field="ADMIN0" name="" index="3"/>
+        <alias field="ADMIN1" name="" index="4"/>
+        <alias field="ADMIN2" name="" index="5"/>
+        <alias field="ADMIN3" name="" index="6"/>
+        <alias field="LZCODE" name="" index="7"/>
+        <alias field="LZNAME" name="" index="8"/>
+        <alias field="FNID_OLD" name="" index="9"/>
+        <alias field="EFF_PERD" name="" index="10"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN0"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN1"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN2"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN3"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAME"/>
-        <default expression="" applyOnUpdate="0" field="FNID_OLD"/>
-        <default expression="" applyOnUpdate="0" field="EFF_PERD"/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN0" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN1" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN2" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN3" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAME" expression=""/>
+        <default applyOnUpdate="0" field="FNID_OLD" expression=""/>
+        <default applyOnUpdate="0" field="EFF_PERD" expression=""/>
       </defaults>
       <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN0" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN2" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN3" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAME" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID_OLD" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_PERD" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN0" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN2" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN3" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAME" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID_OLD" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_PERD" notnull_strength="0" exp_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="FNID"/>
@@ -436,13 +472,18 @@
         <constraint desc="" exp="" field="FNID_OLD"/>
         <constraint desc="" exp="" field="EFF_PERD"/>
       </constraintExpressions>
+      <expressionfields/>
       <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
       </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
@@ -452,15 +493,10 @@
       <editable/>
       <labelOnTop/>
       <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
       <previewExpression></previewExpression>
       <mapTip></mapTip>
     </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Point" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
       <extent>
         <xmin>32.76176799999999645</xmin>
         <ymin>-16.98549999999999827</ymin>
@@ -492,6 +528,7 @@
         <type></type>
         <title></title>
         <abstract></abstract>
+        <links/>
         <fees></fees>
         <encoding></encoding>
         <crs>
@@ -507,21 +544,26 @@
           </spatialrefsys>
         </crs>
         <extent/>
-        <links/>
       </resourceMetadata>
       <provider encoding="UTF-8">delimitedtext</provider>
       <vectorjoins/>
       <layerDependencies/>
       <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
       <map-layer-style-manager current="default">
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
         <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
+          <symbol name="0" clip_to_extent="1" alpha="1" type="marker">
+            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
               <prop v="0" k="angle"/>
               <prop v="38,243,20,255" k="color"/>
               <prop v="1" k="horizontal_anchor_point"/>
@@ -542,9 +584,9 @@
               <prop v="1" k="vertical_anchor_point"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
+                  <Option name="name" type="QString" value=""/>
                   <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
+                  <Option name="type" type="QString" value="collection"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -553,10 +595,18 @@
         <rotation/>
         <sizescale/>
       </renderer-v2>
-      <customproperties/>
+      <customproperties>
+        <property key="dualview/previewExpressions">
+          <value>"ea_id"</value>
+        </property>
+      </customproperties>
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
       <fieldConfiguration>
         <field name="field_1">
           <editWidget type="">
@@ -588,24 +638,24 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="field_1" index="0" name=""/>
-        <alias field="ea_id" index="1" name=""/>
-        <alias field="lat_modified" index="2" name=""/>
-        <alias field="lon_modified" index="3" name=""/>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
       </defaults>
       <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="field_1"/>
@@ -613,13 +663,18 @@
         <constraint desc="" exp="" field="lat_modified"/>
         <constraint desc="" exp="" field="lon_modified"/>
       </constraintExpressions>
+      <expressionfields/>
       <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
       </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
@@ -629,27 +684,16 @@
       <editable/>
       <labelOnTop/>
       <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
+      <previewExpression>"ea_id"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Polygon" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
-      <extent>
-        <xmin>29.32716751100003805</xmin>
-        <ymin>-11.74569606800008259</ymin>
-        <xmax>40.44322204600019433</xmax>
-        <ymax>-0.99073600800011796</ymax>
-      </extent>
-      <id>TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8</id>
-      <datasource>./TZ_LHZ_2009/TZ_LHZ_2009.shp</datasource>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="No geometry" refreshOnNotifyEnabled="0" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0">
+      <id>Malawi_coord_lhz_e2e9b61d_e5c1_4c43_b596_144ef4f01143</id>
+      <datasource>../../data/clean/concordance/Malawi_coord_lhz.csv</datasource>
       <keywordList>
         <value></value>
       </keywordList>
-      <layername>TZ_LHZ_2009</layername>
+      <layername>Malawi_coord_lhz</layername>
       <srs>
         <spatialrefsys>
           <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
@@ -669,6 +713,7 @@
         <type></type>
         <title></title>
         <abstract></abstract>
+        <links/>
         <fees></fees>
         <encoding></encoding>
         <crs>
@@ -684,882 +729,31 @@
           </spatialrefsys>
         </crs>
         <extent/>
-        <links/>
       </resourceMetadata>
       <provider encoding="UTF-8">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
       <map-layer-style-manager current="default">
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
-        <symbols>
-          <symbol type="fill" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleFill" pass="0">
-              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
-              <prop v="24,223,233,255" k="color"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0.26" k="outline_width"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="solid" k="style"/>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
-                  <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale/>
-      </renderer-v2>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerOpacity>1</layerOpacity>
-      <fieldConfiguration>
-        <field name="FNID">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="EFF_YEAR">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="COUNTRY">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNUM">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZCODE">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEEN">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEFR">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMESP">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEPT">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="CLASS">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-      </fieldConfiguration>
-      <aliases>
-        <alias field="FNID" index="0" name=""/>
-        <alias field="EFF_YEAR" index="1" name=""/>
-        <alias field="COUNTRY" index="2" name=""/>
-        <alias field="LZNUM" index="3" name=""/>
-        <alias field="LZCODE" index="4" name=""/>
-        <alias field="LZNAMEEN" index="5" name=""/>
-        <alias field="LZNAMEFR" index="6" name=""/>
-        <alias field="LZNAMESP" index="7" name=""/>
-        <alias field="LZNAMEPT" index="8" name=""/>
-        <alias field="CLASS" index="9" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <defaults>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="LZNUM"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEEN"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEFR"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMESP"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEPT"/>
-        <default expression="" applyOnUpdate="0" field="CLASS"/>
-      </defaults>
-      <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNUM" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEEN" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEFR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMESP" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEPT" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="CLASS" notnull_strength="0"/>
-      </constraints>
-      <constraintExpressions>
-        <constraint desc="" exp="" field="FNID"/>
-        <constraint desc="" exp="" field="EFF_YEAR"/>
-        <constraint desc="" exp="" field="COUNTRY"/>
-        <constraint desc="" exp="" field="LZNUM"/>
-        <constraint desc="" exp="" field="LZCODE"/>
-        <constraint desc="" exp="" field="LZNAMEEN"/>
-        <constraint desc="" exp="" field="LZNAMEFR"/>
-        <constraint desc="" exp="" field="LZNAMESP"/>
-        <constraint desc="" exp="" field="LZNAMEPT"/>
-        <constraint desc="" exp="" field="CLASS"/>
-      </constraintExpressions>
-      <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
-      </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
-        <columns/>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
-      <mapTip></mapTip>
-    </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
-      <extent>
-        <xmin>29.60356290929999901</xmin>
-        <ymin>-11.49701232490000002</ymin>
-        <xmax>40.42122262510000041</xmax>
-        <ymax>-0.998074200016</ymax>
-      </extent>
-      <id>Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773</id>
-      <datasource>file:../../data/clean/concordance/Tanzania_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>Tanzania_coord</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <resourceMetadata>
-        <identifier></identifier>
-        <parentidentifier></parentidentifier>
-        <language></language>
-        <type></type>
-        <title></title>
-        <abstract></abstract>
-        <fees></fees>
-        <encoding></encoding>
-        <crs>
-          <spatialrefsys>
-            <proj4></proj4>
-            <srsid>0</srsid>
-            <srid>0</srid>
-            <authid></authid>
-            <description></description>
-            <projectionacronym></projectionacronym>
-            <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>false</geographicflag>
-          </spatialrefsys>
-        </crs>
-        <extent/>
-        <links/>
-      </resourceMetadata>
-      <provider encoding="UTF-8">delimitedtext</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <dataDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="default">
-        <map-layer-style name="default"/>
-      </map-layer-style-manager>
-      <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
-        <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
-              <prop v="0" k="angle"/>
-              <prop v="82,74,230,255" k="color"/>
-              <prop v="1" k="horizontal_anchor_point"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="circle" k="name"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0" k="outline_width"/>
-              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="diameter" k="scale_method"/>
-              <prop v="2" k="size"/>
-              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
-              <prop v="MM" k="size_unit"/>
-              <prop v="1" k="vertical_anchor_point"/>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
-                  <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale/>
-      </renderer-v2>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerOpacity>1</layerOpacity>
-      <fieldConfiguration>
-        <field name="field_1">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="ea_id">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="lat_modified">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="lon_modified">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-      </fieldConfiguration>
-      <aliases>
-        <alias field="field_1" index="0" name=""/>
-        <alias field="ea_id" index="1" name=""/>
-        <alias field="lat_modified" index="2" name=""/>
-        <alias field="lon_modified" index="3" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <defaults>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
-      </defaults>
-      <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
-      </constraints>
-      <constraintExpressions>
-        <constraint desc="" exp="" field="field_1"/>
-        <constraint desc="" exp="" field="ea_id"/>
-        <constraint desc="" exp="" field="lat_modified"/>
-        <constraint desc="" exp="" field="lon_modified"/>
-      </constraintExpressions>
-      <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
-      </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
-        <columns/>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
-      <mapTip></mapTip>
-    </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Polygon" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
-      <extent>
-        <xmin>29.57325172400002344</xmin>
-        <ymin>-1.48404991599992897</ymin>
-        <xmax>35.03604888900019887</xmax>
-        <ymax>4.21442699400021059</ymax>
-      </extent>
-      <id>UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1</id>
-      <datasource>./UG_LHZ_2011/UG_LHZ_2011.shp</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>UG_LHZ_2011</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <resourceMetadata>
-        <identifier></identifier>
-        <parentidentifier></parentidentifier>
-        <language></language>
-        <type></type>
-        <title></title>
-        <abstract></abstract>
-        <fees></fees>
-        <encoding></encoding>
-        <crs>
-          <spatialrefsys>
-            <proj4></proj4>
-            <srsid>0</srsid>
-            <srid>0</srid>
-            <authid></authid>
-            <description></description>
-            <projectionacronym></projectionacronym>
-            <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>false</geographicflag>
-          </spatialrefsys>
-        </crs>
-        <extent/>
-        <links/>
-      </resourceMetadata>
-      <provider encoding="UTF-8">ogr</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <dataDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="default">
-        <map-layer-style name="default"/>
-      </map-layer-style-manager>
-      <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
-        <symbols>
-          <symbol type="fill" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleFill" pass="0">
-              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
-              <prop v="87,130,87,255" k="color"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0.26" k="outline_width"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="solid" k="style"/>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
-                  <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale/>
-      </renderer-v2>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerOpacity>1</layerOpacity>
-      <fieldConfiguration>
-        <field name="FNID">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="EFF_YEAR">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="COUNTRY">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNUM">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZCODE">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEEN">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEFR">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMESP">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="LZNAMEPT">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="CLASS">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-      </fieldConfiguration>
-      <aliases>
-        <alias field="FNID" index="0" name=""/>
-        <alias field="EFF_YEAR" index="1" name=""/>
-        <alias field="COUNTRY" index="2" name=""/>
-        <alias field="LZNUM" index="3" name=""/>
-        <alias field="LZCODE" index="4" name=""/>
-        <alias field="LZNAMEEN" index="5" name=""/>
-        <alias field="LZNAMEFR" index="6" name=""/>
-        <alias field="LZNAMESP" index="7" name=""/>
-        <alias field="LZNAMEPT" index="8" name=""/>
-        <alias field="CLASS" index="9" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <defaults>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="LZNUM"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEEN"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEFR"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMESP"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEPT"/>
-        <default expression="" applyOnUpdate="0" field="CLASS"/>
-      </defaults>
-      <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNUM" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEEN" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEFR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMESP" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEPT" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="CLASS" notnull_strength="0"/>
-      </constraints>
-      <constraintExpressions>
-        <constraint desc="" exp="" field="FNID"/>
-        <constraint desc="" exp="" field="EFF_YEAR"/>
-        <constraint desc="" exp="" field="COUNTRY"/>
-        <constraint desc="" exp="" field="LZNUM"/>
-        <constraint desc="" exp="" field="LZCODE"/>
-        <constraint desc="" exp="" field="LZNAMEEN"/>
-        <constraint desc="" exp="" field="LZNAMEFR"/>
-        <constraint desc="" exp="" field="LZNAMESP"/>
-        <constraint desc="" exp="" field="LZNAMEPT"/>
-        <constraint desc="" exp="" field="CLASS"/>
-      </constraintExpressions>
-      <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
-      </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
-        <columns/>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
-      <mapTip></mapTip>
-    </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
-      <extent>
-        <xmin>29.59143100000000004</xmin>
-        <ymin>-1.46793400000000007</ymin>
-        <xmax>34.85711700000000235</xmax>
-        <ymax>3.69256729999999989</ymax>
-      </extent>
-      <id>Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff</id>
-      <datasource>file:../../data/clean/concordance/Uganda_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>Uganda_coord</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <resourceMetadata>
-        <identifier></identifier>
-        <parentidentifier></parentidentifier>
-        <language></language>
-        <type></type>
-        <title></title>
-        <abstract></abstract>
-        <fees></fees>
-        <encoding></encoding>
-        <crs>
-          <spatialrefsys>
-            <proj4></proj4>
-            <srsid>0</srsid>
-            <srid>0</srid>
-            <authid></authid>
-            <description></description>
-            <projectionacronym></projectionacronym>
-            <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>false</geographicflag>
-          </spatialrefsys>
-        </crs>
-        <extent/>
-        <links/>
-      </resourceMetadata>
-      <provider encoding="UTF-8">delimitedtext</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <dataDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="default">
-        <map-layer-style name="default"/>
-      </map-layer-style-manager>
-      <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
-        <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
-              <prop v="0" k="angle"/>
-              <prop v="254,82,88,255" k="color"/>
-              <prop v="1" k="horizontal_anchor_point"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="circle" k="name"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0" k="outline_width"/>
-              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="diameter" k="scale_method"/>
-              <prop v="2" k="size"/>
-              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
-              <prop v="MM" k="size_unit"/>
-              <prop v="1" k="vertical_anchor_point"/>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
-                  <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale/>
-      </renderer-v2>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerOpacity>1</layerOpacity>
-      <fieldConfiguration>
-        <field name="field_1">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="ea_id">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="lat_modified">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-        <field name="lon_modified">
-          <editWidget type="">
-            <config>
-              <Option/>
-            </config>
-          </editWidget>
-        </field>
-      </fieldConfiguration>
-      <aliases>
-        <alias field="field_1" index="0" name=""/>
-        <alias field="ea_id" index="1" name=""/>
-        <alias field="lat_modified" index="2" name=""/>
-        <alias field="lon_modified" index="3" name=""/>
-      </aliases>
-      <excludeAttributesWMS/>
-      <excludeAttributesWFS/>
-      <defaults>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
-      </defaults>
-      <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
-      </constraints>
-      <constraintExpressions>
-        <constraint desc="" exp="" field="field_1"/>
-        <constraint desc="" exp="" field="ea_id"/>
-        <constraint desc="" exp="" field="lat_modified"/>
-        <constraint desc="" exp="" field="lon_modified"/>
-      </constraintExpressions>
-      <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
-      </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
-        <columns/>
-      </attributetableconfig>
-      <editform></editform>
-      <editforminit/>
-      <editforminitcodesource>0</editforminitcodesource>
-      <editforminitfilepath></editforminitfilepath>
-      <editforminitcode><![CDATA[]]></editforminitcode>
-      <featformsuppress>0</featformsuppress>
-      <editorlayout>generatedlayout</editorlayout>
-      <editable/>
-      <labelOnTop/>
-      <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
-      <mapTip></mapTip>
-    </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
-      <extent>
-        <xmin>32.76176799999999645</xmin>
-        <ymin>-16.98549999999999827</ymin>
-        <xmax>35.8153429999999986</xmax>
-        <ymax>-9.50445999999999991</ymax>
-      </extent>
-      <id>output_377bf5f6_ac4f_4121_be4c_08a3d016289a</id>
-      <datasource>memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:integer(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=ADMIN0:string(50,0)&amp;field=ADMIN1:string(50,0)&amp;field=ADMIN2:string(50,0)&amp;field=ADMIN3:string(50,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAME:string(254,0)&amp;field=FNID_OLD:int8(10,0)&amp;field=EFF_PERD:integer(1,0)</datasource>
-      <keywordList>
-        <value></value>
-      </keywordList>
-      <layername>mw</layername>
-      <srs>
-        <spatialrefsys>
-          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
-          <srsid>3452</srsid>
-          <srid>4326</srid>
-          <authid>EPSG:4326</authid>
-          <description>WGS 84</description>
-          <projectionacronym>longlat</projectionacronym>
-          <ellipsoidacronym>WGS84</ellipsoidacronym>
-          <geographicflag>true</geographicflag>
-        </spatialrefsys>
-      </srs>
-      <resourceMetadata>
-        <identifier></identifier>
-        <parentidentifier></parentidentifier>
-        <language></language>
-        <type></type>
-        <title></title>
-        <abstract></abstract>
-        <fees></fees>
-        <encoding></encoding>
-        <crs>
-          <spatialrefsys>
-            <proj4></proj4>
-            <srsid>0</srsid>
-            <srid>0</srid>
-            <authid></authid>
-            <description></description>
-            <projectionacronym></projectionacronym>
-            <ellipsoidacronym></ellipsoidacronym>
-            <geographicflag>false</geographicflag>
-          </spatialrefsys>
-        </crs>
-        <extent/>
-        <links/>
-      </resourceMetadata>
-      <provider encoding="UTF-8">memory</provider>
-      <vectorjoins/>
-      <layerDependencies/>
-      <dataDependencies/>
-      <expressionfields/>
-      <map-layer-style-manager current="default">
-        <map-layer-style name="default"/>
-      </map-layer-style-manager>
-      <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
-        <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
-              <prop v="0" k="angle"/>
-              <prop v="100,223,86,255" k="color"/>
-              <prop v="1" k="horizontal_anchor_point"/>
-              <prop v="bevel" k="joinstyle"/>
-              <prop v="circle" k="name"/>
-              <prop v="0,0" k="offset"/>
-              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
-              <prop v="MM" k="offset_unit"/>
-              <prop v="35,35,35,255" k="outline_color"/>
-              <prop v="solid" k="outline_style"/>
-              <prop v="0" k="outline_width"/>
-              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
-              <prop v="MM" k="outline_width_unit"/>
-              <prop v="diameter" k="scale_method"/>
-              <prop v="2" k="size"/>
-              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
-              <prop v="MM" k="size_unit"/>
-              <prop v="1" k="vertical_anchor_point"/>
-              <data_defined_properties>
-                <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
-                  <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
-                </Option>
-              </data_defined_properties>
-            </layer>
-          </symbol>
-        </symbols>
-        <rotation/>
-        <sizescale/>
-      </renderer-v2>
-      <customproperties/>
-      <blendMode>0</blendMode>
-      <featureBlendMode>0</featureBlendMode>
-      <layerOpacity>1</layerOpacity>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties>
+        <property key="dualview/previewExpressions">
+          <value>"ea_id"</value>
+        </property>
+      </customproperties>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
       <fieldConfiguration>
         <field name="field_1">
           <editWidget type="">
@@ -1668,57 +862,57 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="field_1" index="0" name=""/>
-        <alias field="ea_id" index="1" name=""/>
-        <alias field="lat_modified" index="2" name=""/>
-        <alias field="lon_modified" index="3" name=""/>
-        <alias field="FNID" index="4" name=""/>
-        <alias field="EFF_YEAR" index="5" name=""/>
-        <alias field="COUNTRY" index="6" name=""/>
-        <alias field="ADMIN0" index="7" name=""/>
-        <alias field="ADMIN1" index="8" name=""/>
-        <alias field="ADMIN2" index="9" name=""/>
-        <alias field="ADMIN3" index="10" name=""/>
-        <alias field="LZCODE" index="11" name=""/>
-        <alias field="LZNAME" index="12" name=""/>
-        <alias field="FNID_OLD" index="13" name=""/>
-        <alias field="EFF_PERD" index="14" name=""/>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+        <alias field="FNID" name="" index="4"/>
+        <alias field="EFF_YEAR" name="" index="5"/>
+        <alias field="COUNTRY" name="" index="6"/>
+        <alias field="ADMIN0" name="" index="7"/>
+        <alias field="ADMIN1" name="" index="8"/>
+        <alias field="ADMIN2" name="" index="9"/>
+        <alias field="ADMIN3" name="" index="10"/>
+        <alias field="LZCODE" name="" index="11"/>
+        <alias field="LZNAME" name="" index="12"/>
+        <alias field="FNID_OLD" name="" index="13"/>
+        <alias field="EFF_PERD" name="" index="14"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN0"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN1"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN2"/>
-        <default expression="" applyOnUpdate="0" field="ADMIN3"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAME"/>
-        <default expression="" applyOnUpdate="0" field="FNID_OLD"/>
-        <default expression="" applyOnUpdate="0" field="EFF_PERD"/>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN0" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN1" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN2" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN3" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAME" expression=""/>
+        <default applyOnUpdate="0" field="FNID_OLD" expression=""/>
+        <default applyOnUpdate="0" field="EFF_PERD" expression=""/>
       </defaults>
       <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN0" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN2" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ADMIN3" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAME" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID_OLD" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_PERD" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN0" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN2" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN3" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAME" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID_OLD" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_PERD" notnull_strength="0" exp_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="field_1"/>
@@ -1737,13 +931,18 @@
         <constraint desc="" exp="" field="FNID_OLD"/>
         <constraint desc="" exp="" field="EFF_PERD"/>
       </constraintExpressions>
+      <expressionfields/>
       <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
       </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
@@ -1753,27 +952,22 @@
       <editable/>
       <labelOnTop/>
       <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
+      <previewExpression>"ea_id"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Polygon" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
       <extent>
-        <xmin>29.60356290929999901</xmin>
-        <ymin>-11.49701232490000002</ymin>
-        <xmax>40.42122262510000041</xmax>
-        <ymax>-0.998074200016</ymax>
+        <xmin>29.32716751100003805</xmin>
+        <ymin>-11.74569606800008259</ymin>
+        <xmax>40.44322204600019433</xmax>
+        <ymax>-0.99073600800011796</ymax>
       </extent>
-      <id>output_88c03806_3f1c_4766_955a_e4429e104489</id>
-      <datasource>memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:int8(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=LZNUM:integer(2,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAMEEN:string(254,0)&amp;field=LZNAMEFR:string(254,0)&amp;field=LZNAMESP:string(254,0)&amp;field=LZNAMEPT:string(254,0)&amp;field=CLASS:string(4,0)</datasource>
+      <id>TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8</id>
+      <datasource>./TZ_LHZ_2009/TZ_LHZ_2009.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
-      <layername>tz</layername>
+      <layername>TZ_LHZ_2009</layername>
       <srs>
         <spatialrefsys>
           <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
@@ -1793,6 +987,7 @@
         <type></type>
         <title></title>
         <abstract></abstract>
+        <links/>
         <fees></fees>
         <encoding></encoding>
         <crs>
@@ -1808,23 +1003,274 @@
           </spatialrefsys>
         </crs>
         <extent/>
-        <links/>
       </resourceMetadata>
-      <provider encoding="UTF-8">memory</provider>
+      <provider encoding="UTF-8">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
       <map-layer-style-manager current="default">
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
         <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
+          <symbol name="0" clip_to_extent="1" alpha="1" type="fill">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="24,223,233,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="FNID" name="" index="0"/>
+        <alias field="EFF_YEAR" name="" index="1"/>
+        <alias field="COUNTRY" name="" index="2"/>
+        <alias field="LZNUM" name="" index="3"/>
+        <alias field="LZCODE" name="" index="4"/>
+        <alias field="LZNAMEEN" name="" index="5"/>
+        <alias field="LZNAMEFR" name="" index="6"/>
+        <alias field="LZNAMESP" name="" index="7"/>
+        <alias field="LZNAMEPT" name="" index="8"/>
+        <alias field="CLASS" name="" index="9"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="FNID"/>
+        <constraint desc="" exp="" field="EFF_YEAR"/>
+        <constraint desc="" exp="" field="COUNTRY"/>
+        <constraint desc="" exp="" field="LZNUM"/>
+        <constraint desc="" exp="" field="LZCODE"/>
+        <constraint desc="" exp="" field="LZNAMEEN"/>
+        <constraint desc="" exp="" field="LZNAMEFR"/>
+        <constraint desc="" exp="" field="LZNAMESP"/>
+        <constraint desc="" exp="" field="LZNAMEPT"/>
+        <constraint desc="" exp="" field="CLASS"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Point" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
+      <extent>
+        <xmin>29.60356290929999901</xmin>
+        <ymin>-11.49701232490000002</ymin>
+        <xmax>40.42122262510000041</xmax>
+        <ymax>-0.998074200016</ymax>
+      </extent>
+      <id>Tanzania_coord_8ef0ec23_97f8_4d1f_9191_1415d93a2773</id>
+      <datasource>file:../../data/clean/concordance/Tanzania_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Tanzania_coord</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">delimitedtext</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol name="0" clip_to_extent="1" alpha="1" type="marker">
+            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
               <prop v="0" k="angle"/>
-              <prop v="102,185,192,255" k="color"/>
+              <prop v="82,74,230,255" k="color"/>
               <prop v="1" k="horizontal_anchor_point"/>
               <prop v="bevel" k="joinstyle"/>
               <prop v="circle" k="name"/>
@@ -1843,9 +1289,9 @@
               <prop v="1" k="vertical_anchor_point"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
+                  <Option name="name" type="QString" value=""/>
                   <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
+                  <Option name="type" type="QString" value="collection"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -1858,6 +1304,157 @@
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ea_id">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="field_1"/>
+        <constraint desc="" exp="" field="ea_id"/>
+        <constraint desc="" exp="" field="lat_modified"/>
+        <constraint desc="" exp="" field="lon_modified"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="No geometry" refreshOnNotifyEnabled="0" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0">
+      <id>Tanzania_coord_lhz_964114ae_15b3_4318_958c_9536461dc485</id>
+      <datasource>../../data/clean/concordance/Tanzania_coord_lhz.csv</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Tanzania_coord_lhz</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties>
+        <property key="dualview/previewExpressions">
+          <value>"ea_id"</value>
+        </property>
+      </customproperties>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
       <fieldConfiguration>
         <field name="field_1">
           <editWidget type="">
@@ -1959,54 +1556,54 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="field_1" index="0" name=""/>
-        <alias field="ea_id" index="1" name=""/>
-        <alias field="lat_modified" index="2" name=""/>
-        <alias field="lon_modified" index="3" name=""/>
-        <alias field="FNID" index="4" name=""/>
-        <alias field="EFF_YEAR" index="5" name=""/>
-        <alias field="COUNTRY" index="6" name=""/>
-        <alias field="LZNUM" index="7" name=""/>
-        <alias field="LZCODE" index="8" name=""/>
-        <alias field="LZNAMEEN" index="9" name=""/>
-        <alias field="LZNAMEFR" index="10" name=""/>
-        <alias field="LZNAMESP" index="11" name=""/>
-        <alias field="LZNAMEPT" index="12" name=""/>
-        <alias field="CLASS" index="13" name=""/>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+        <alias field="FNID" name="" index="4"/>
+        <alias field="EFF_YEAR" name="" index="5"/>
+        <alias field="COUNTRY" name="" index="6"/>
+        <alias field="LZNUM" name="" index="7"/>
+        <alias field="LZCODE" name="" index="8"/>
+        <alias field="LZNAMEEN" name="" index="9"/>
+        <alias field="LZNAMEFR" name="" index="10"/>
+        <alias field="LZNAMESP" name="" index="11"/>
+        <alias field="LZNAMEPT" name="" index="12"/>
+        <alias field="CLASS" name="" index="13"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="LZNUM"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEEN"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEFR"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMESP"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEPT"/>
-        <default expression="" applyOnUpdate="0" field="CLASS"/>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
       </defaults>
       <constraints>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNUM" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEEN" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEFR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMESP" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEPT" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="CLASS" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="field_1"/>
@@ -2024,13 +1621,18 @@
         <constraint desc="" exp="" field="LZNAMEPT"/>
         <constraint desc="" exp="" field="CLASS"/>
       </constraintExpressions>
+      <expressionfields/>
       <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
       </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
@@ -2040,27 +1642,22 @@
       <editable/>
       <labelOnTop/>
       <widgets/>
-      <conditionalstyles>
-        <rowstyles/>
-        <fieldstyles/>
-      </conditionalstyles>
-      <expressionfields/>
-      <previewExpression></previewExpression>
+      <previewExpression>"ea_id"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
-    <maplayer simplifyLocal="1" type="vector" simplifyDrawingTol="1" autoRefreshTime="0" simplifyAlgorithm="0" hasScaleBasedVisibilityFlag="0" geometry="Point" labelsEnabled="0" refreshOnNotifyEnabled="0" readOnly="0" autoRefreshEnabled="0" simplifyDrawingHints="1" minScale="1e+8" refreshOnNotifyMessage="" simplifyMaxScale="1" maxScale="0">
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Polygon" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
       <extent>
-        <xmin>29.59140000000000015</xmin>
-        <ymin>-1.46792999999999996</ymin>
-        <xmax>34.85710000000000264</xmax>
-        <ymax>3.69256999999999991</ymax>
+        <xmin>29.57325172400002344</xmin>
+        <ymin>-1.48404991599992897</ymin>
+        <xmax>35.03604888900019887</xmax>
+        <ymax>4.21442699400021059</ymax>
       </extent>
-      <id>ug_9a026057_b4cf_423b_9663_eb2c077e5632</id>
-      <datasource>../../../../../../OSGEO4~1/bin/ug.gpkg</datasource>
+      <id>UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1</id>
+      <datasource>./UG_LHZ_2011/UG_LHZ_2011.shp</datasource>
       <keywordList>
         <value></value>
       </keywordList>
-      <layername>ug</layername>
+      <layername>UG_LHZ_2011</layername>
       <srs>
         <spatialrefsys>
           <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
@@ -2080,6 +1677,7 @@
         <type></type>
         <title></title>
         <abstract></abstract>
+        <links/>
         <fees></fees>
         <encoding></encoding>
         <crs>
@@ -2095,23 +1693,274 @@
           </spatialrefsys>
         </crs>
         <extent/>
-        <links/>
       </resourceMetadata>
       <provider encoding="UTF-8">ogr</provider>
       <vectorjoins/>
       <layerDependencies/>
       <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
       <map-layer-style-manager current="default">
         <map-layer-style name="default"/>
       </map-layer-style-manager>
       <auxiliaryLayer/>
-      <renderer-v2 forceraster="0" type="singleSymbol" symbollevels="0" enableorderby="0">
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
         <symbols>
-          <symbol type="marker" alpha="1" name="0" clip_to_extent="1">
-            <layer enabled="1" locked="0" class="SimpleMarker" pass="0">
+          <symbol name="0" clip_to_extent="1" alpha="1" type="fill">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="87,130,87,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="FNID" name="" index="0"/>
+        <alias field="EFF_YEAR" name="" index="1"/>
+        <alias field="COUNTRY" name="" index="2"/>
+        <alias field="LZNUM" name="" index="3"/>
+        <alias field="LZCODE" name="" index="4"/>
+        <alias field="LZNAMEEN" name="" index="5"/>
+        <alias field="LZNAMEFR" name="" index="6"/>
+        <alias field="LZNAMESP" name="" index="7"/>
+        <alias field="LZNAMEPT" name="" index="8"/>
+        <alias field="CLASS" name="" index="9"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="FNID"/>
+        <constraint desc="" exp="" field="EFF_YEAR"/>
+        <constraint desc="" exp="" field="COUNTRY"/>
+        <constraint desc="" exp="" field="LZNUM"/>
+        <constraint desc="" exp="" field="LZCODE"/>
+        <constraint desc="" exp="" field="LZNAMEEN"/>
+        <constraint desc="" exp="" field="LZNAMEFR"/>
+        <constraint desc="" exp="" field="LZNAMESP"/>
+        <constraint desc="" exp="" field="LZNAMEPT"/>
+        <constraint desc="" exp="" field="CLASS"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Point" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
+      <extent>
+        <xmin>29.59143100000000004</xmin>
+        <ymin>-1.46793400000000007</ymin>
+        <xmax>34.85711700000000235</xmax>
+        <ymax>3.69256729999999989</ymax>
+      </extent>
+      <id>Uganda_coord_6ae1a351_0f53_41d8_aed2_e536b4ad29ff</id>
+      <datasource>file:../../data/clean/concordance/Uganda_coord.csv?type=csv&amp;xField=lon_modified&amp;yField=lat_modified&amp;crs=EPSG:4326&amp;spatialIndex=yes&amp;subsetIndex=no&amp;watchFile=no</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Uganda_coord</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">delimitedtext</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol name="0" clip_to_extent="1" alpha="1" type="marker">
+            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
               <prop v="0" k="angle"/>
-              <prop v="249,47,189,255" k="color"/>
+              <prop v="254,82,88,255" k="color"/>
               <prop v="1" k="horizontal_anchor_point"/>
               <prop v="bevel" k="joinstyle"/>
               <prop v="circle" k="name"/>
@@ -2130,9 +1979,9 @@
               <prop v="1" k="vertical_anchor_point"/>
               <data_defined_properties>
                 <Option type="Map">
-                  <Option type="QString" value="" name="name"/>
+                  <Option name="name" type="QString" value=""/>
                   <Option name="properties"/>
-                  <Option type="QString" value="collection" name="type"/>
+                  <Option name="type" type="QString" value="collection"/>
                 </Option>
               </data_defined_properties>
             </layer>
@@ -2145,6 +1994,153 @@
       <blendMode>0</blendMode>
       <featureBlendMode>0</featureBlendMode>
       <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ea_id">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="field_1"/>
+        <constraint desc="" exp="" field="ea_id"/>
+        <constraint desc="" exp="" field="lat_modified"/>
+        <constraint desc="" exp="" field="lon_modified"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="No geometry" refreshOnNotifyEnabled="0" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0">
+      <id>Uganda_coord_lhz_b2029f9b_2cd2_4ecd_b955_625c248a8621</id>
+      <datasource>../../data/clean/concordance/Uganda_coord_lhz.csv</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>Uganda_coord_lhz</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <customproperties/>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
       <fieldConfiguration>
         <field name="fid">
           <editWidget type="">
@@ -2253,57 +2249,57 @@
         </field>
       </fieldConfiguration>
       <aliases>
-        <alias field="fid" index="0" name=""/>
-        <alias field="field_1" index="1" name=""/>
-        <alias field="ea_id" index="2" name=""/>
-        <alias field="lat_modified" index="3" name=""/>
-        <alias field="lon_modified" index="4" name=""/>
-        <alias field="FNID" index="5" name=""/>
-        <alias field="EFF_YEAR" index="6" name=""/>
-        <alias field="COUNTRY" index="7" name=""/>
-        <alias field="LZNUM" index="8" name=""/>
-        <alias field="LZCODE" index="9" name=""/>
-        <alias field="LZNAMEEN" index="10" name=""/>
-        <alias field="LZNAMEFR" index="11" name=""/>
-        <alias field="LZNAMESP" index="12" name=""/>
-        <alias field="LZNAMEPT" index="13" name=""/>
-        <alias field="CLASS" index="14" name=""/>
+        <alias field="fid" name="" index="0"/>
+        <alias field="field_1" name="" index="1"/>
+        <alias field="ea_id" name="" index="2"/>
+        <alias field="lat_modified" name="" index="3"/>
+        <alias field="lon_modified" name="" index="4"/>
+        <alias field="FNID" name="" index="5"/>
+        <alias field="EFF_YEAR" name="" index="6"/>
+        <alias field="COUNTRY" name="" index="7"/>
+        <alias field="LZNUM" name="" index="8"/>
+        <alias field="LZCODE" name="" index="9"/>
+        <alias field="LZNAMEEN" name="" index="10"/>
+        <alias field="LZNAMEFR" name="" index="11"/>
+        <alias field="LZNAMESP" name="" index="12"/>
+        <alias field="LZNAMEPT" name="" index="13"/>
+        <alias field="CLASS" name="" index="14"/>
       </aliases>
       <excludeAttributesWMS/>
       <excludeAttributesWFS/>
       <defaults>
-        <default expression="" applyOnUpdate="0" field="fid"/>
-        <default expression="" applyOnUpdate="0" field="field_1"/>
-        <default expression="" applyOnUpdate="0" field="ea_id"/>
-        <default expression="" applyOnUpdate="0" field="lat_modified"/>
-        <default expression="" applyOnUpdate="0" field="lon_modified"/>
-        <default expression="" applyOnUpdate="0" field="FNID"/>
-        <default expression="" applyOnUpdate="0" field="EFF_YEAR"/>
-        <default expression="" applyOnUpdate="0" field="COUNTRY"/>
-        <default expression="" applyOnUpdate="0" field="LZNUM"/>
-        <default expression="" applyOnUpdate="0" field="LZCODE"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEEN"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEFR"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMESP"/>
-        <default expression="" applyOnUpdate="0" field="LZNAMEPT"/>
-        <default expression="" applyOnUpdate="0" field="CLASS"/>
+        <default applyOnUpdate="0" field="fid" expression=""/>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
       </defaults>
       <constraints>
-        <constraint exp_strength="0" constraints="3" unique_strength="1" field="fid" notnull_strength="1"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="field_1" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="ea_id" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lat_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="lon_modified" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="FNID" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="EFF_YEAR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="COUNTRY" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNUM" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZCODE" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEEN" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEFR" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMESP" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="LZNAMEPT" notnull_strength="0"/>
-        <constraint exp_strength="0" constraints="0" unique_strength="0" field="CLASS" notnull_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="fid" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
       </constraints>
       <constraintExpressions>
         <constraint desc="" exp="" field="fid"/>
@@ -2322,13 +2318,18 @@
         <constraint desc="" exp="" field="LZNAMEPT"/>
         <constraint desc="" exp="" field="CLASS"/>
       </constraintExpressions>
+      <expressionfields/>
       <attributeactions>
-        <defaultAction value="{00000000-0000-0000-0000-000000000000}" key="Canvas"/>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
       </attributeactions>
-      <attributetableconfig sortExpression="" sortOrder="0" actionWidgetStyle="dropDown">
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
         <columns/>
       </attributetableconfig>
-      <editform></editform>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
       <editforminit/>
       <editforminitcodesource>0</editforminitcodesource>
       <editforminitfilepath></editforminitfilepath>
@@ -2338,12 +2339,935 @@
       <editable/>
       <labelOnTop/>
       <widgets/>
+      <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Point" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
+      <id>output_377bf5f6_ac4f_4121_be4c_08a3d016289a</id>
+      <datasource>memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:integer(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=ADMIN0:string(50,0)&amp;field=ADMIN1:string(50,0)&amp;field=ADMIN2:string(50,0)&amp;field=ADMIN3:string(50,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAME:string(254,0)&amp;field=FNID_OLD:int8(10,0)&amp;field=EFF_PERD:integer(1,0)</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>mw</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">memory</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol name="0" clip_to_extent="1" alpha="1" type="marker">
+            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
+              <prop v="0" k="angle"/>
+              <prop v="100,223,86,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="2" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property key="dualview/previewExpressions" value="&quot;ea_id&quot;"/>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ea_id">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ADMIN0">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ADMIN1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ADMIN2">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ADMIN3">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAME">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="FNID_OLD">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_PERD">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+        <alias field="FNID" name="" index="4"/>
+        <alias field="EFF_YEAR" name="" index="5"/>
+        <alias field="COUNTRY" name="" index="6"/>
+        <alias field="ADMIN0" name="" index="7"/>
+        <alias field="ADMIN1" name="" index="8"/>
+        <alias field="ADMIN2" name="" index="9"/>
+        <alias field="ADMIN3" name="" index="10"/>
+        <alias field="LZCODE" name="" index="11"/>
+        <alias field="LZNAME" name="" index="12"/>
+        <alias field="FNID_OLD" name="" index="13"/>
+        <alias field="EFF_PERD" name="" index="14"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN0" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN1" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN2" expression=""/>
+        <default applyOnUpdate="0" field="ADMIN3" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAME" expression=""/>
+        <default applyOnUpdate="0" field="FNID_OLD" expression=""/>
+        <default applyOnUpdate="0" field="EFF_PERD" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN0" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN2" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ADMIN3" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAME" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID_OLD" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_PERD" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="field_1"/>
+        <constraint desc="" exp="" field="ea_id"/>
+        <constraint desc="" exp="" field="lat_modified"/>
+        <constraint desc="" exp="" field="lon_modified"/>
+        <constraint desc="" exp="" field="FNID"/>
+        <constraint desc="" exp="" field="EFF_YEAR"/>
+        <constraint desc="" exp="" field="COUNTRY"/>
+        <constraint desc="" exp="" field="ADMIN0"/>
+        <constraint desc="" exp="" field="ADMIN1"/>
+        <constraint desc="" exp="" field="ADMIN2"/>
+        <constraint desc="" exp="" field="ADMIN3"/>
+        <constraint desc="" exp="" field="LZCODE"/>
+        <constraint desc="" exp="" field="LZNAME"/>
+        <constraint desc="" exp="" field="FNID_OLD"/>
+        <constraint desc="" exp="" field="EFF_PERD"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="&quot;ea_id&quot;" sortOrder="1">
+        <columns>
+          <column name="field_1" hidden="0" type="field" width="-1"/>
+          <column name="ea_id" hidden="0" type="field" width="-1"/>
+          <column name="lat_modified" hidden="0" type="field" width="-1"/>
+          <column name="lon_modified" hidden="0" type="field" width="-1"/>
+          <column name="FNID" hidden="0" type="field" width="-1"/>
+          <column name="EFF_YEAR" hidden="0" type="field" width="-1"/>
+          <column name="COUNTRY" hidden="0" type="field" width="-1"/>
+          <column name="ADMIN0" hidden="0" type="field" width="-1"/>
+          <column name="ADMIN1" hidden="0" type="field" width="-1"/>
+          <column name="ADMIN2" hidden="0" type="field" width="-1"/>
+          <column name="ADMIN3" hidden="0" type="field" width="-1"/>
+          <column name="LZCODE" hidden="0" type="field" width="-1"/>
+          <column name="LZNAME" hidden="0" type="field" width="-1"/>
+          <column name="FNID_OLD" hidden="0" type="field" width="-1"/>
+          <column name="EFF_PERD" hidden="0" type="field" width="-1"/>
+          <column hidden="1" type="actions" width="-1"/>
+        </columns>
+      </attributetableconfig>
       <conditionalstyles>
         <rowstyles/>
         <fieldstyles/>
       </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression>"ea_id"</previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Point" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
+      <id>output_88c03806_3f1c_4766_955a_e4429e104489</id>
+      <datasource>memory?geometry=Point&amp;crs=EPSG:4326&amp;field=field_1:integer(-1,0)&amp;field=ea_id:int8(-1,0)&amp;field=lat_modified:double(20,5)&amp;field=lon_modified:double(20,5)&amp;field=FNID:string(18,0)&amp;field=EFF_YEAR:integer(4,0)&amp;field=COUNTRY:string(2,0)&amp;field=LZNUM:integer(2,0)&amp;field=LZCODE:string(4,0)&amp;field=LZNAMEEN:string(254,0)&amp;field=LZNAMEFR:string(254,0)&amp;field=LZNAMESP:string(254,0)&amp;field=LZNAMEPT:string(254,0)&amp;field=CLASS:string(4,0)</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>tz</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">memory</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
       <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol name="0" clip_to_extent="1" alpha="1" type="marker">
+            <layer locked="0" enabled="1" class="SimpleMarker" pass="0">
+              <prop v="0" k="angle"/>
+              <prop v="102,185,192,255" k="color"/>
+              <prop v="1" k="horizontal_anchor_point"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="circle" k="name"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0" k="outline_width"/>
+              <prop v="3x:0,0,0,0,0,0" k="outline_width_map_unit_scale"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="diameter" k="scale_method"/>
+              <prop v="2" k="size"/>
+              <prop v="3x:0,0,0,0,0,0" k="size_map_unit_scale"/>
+              <prop v="MM" k="size_unit"/>
+              <prop v="1" k="vertical_anchor_point"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties/>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="ea_id">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon_modified">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="field_1" name="" index="0"/>
+        <alias field="ea_id" name="" index="1"/>
+        <alias field="lat_modified" name="" index="2"/>
+        <alias field="lon_modified" name="" index="3"/>
+        <alias field="FNID" name="" index="4"/>
+        <alias field="EFF_YEAR" name="" index="5"/>
+        <alias field="COUNTRY" name="" index="6"/>
+        <alias field="LZNUM" name="" index="7"/>
+        <alias field="LZCODE" name="" index="8"/>
+        <alias field="LZNAMEEN" name="" index="9"/>
+        <alias field="LZNAMEFR" name="" index="10"/>
+        <alias field="LZNAMESP" name="" index="11"/>
+        <alias field="LZNAMEPT" name="" index="12"/>
+        <alias field="CLASS" name="" index="13"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="ea_id" expression=""/>
+        <default applyOnUpdate="0" field="lat_modified" expression=""/>
+        <default applyOnUpdate="0" field="lon_modified" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="ea_id" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon_modified" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="field_1"/>
+        <constraint desc="" exp="" field="ea_id"/>
+        <constraint desc="" exp="" field="lat_modified"/>
+        <constraint desc="" exp="" field="lon_modified"/>
+        <constraint desc="" exp="" field="FNID"/>
+        <constraint desc="" exp="" field="EFF_YEAR"/>
+        <constraint desc="" exp="" field="COUNTRY"/>
+        <constraint desc="" exp="" field="LZNUM"/>
+        <constraint desc="" exp="" field="LZCODE"/>
+        <constraint desc="" exp="" field="LZNAMEEN"/>
+        <constraint desc="" exp="" field="LZNAMEFR"/>
+        <constraint desc="" exp="" field="LZNAMESP"/>
+        <constraint desc="" exp="" field="LZNAMEPT"/>
+        <constraint desc="" exp="" field="CLASS"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
       <previewExpression></previewExpression>
+      <mapTip></mapTip>
+    </maplayer>
+    <maplayer maxScale="0" styleCategories="AllStyleCategories" minScale="1e+08" readOnly="0" refreshOnNotifyMessage="" geometry="Polygon" simplifyAlgorithm="0" refreshOnNotifyEnabled="0" labelsEnabled="0" simplifyDrawingHints="1" simplifyMaxScale="1" autoRefreshTime="0" autoRefreshEnabled="0" type="vector" hasScaleBasedVisibilityFlag="0" simplifyLocal="1" simplifyDrawingTol="1">
+      <extent>
+        <xmin>447530.34608203999232501</xmin>
+        <ymin>-1386272.57665248541161418</ymin>
+        <xmax>1592788.44410518812946975</xmax>
+        <ymax>-118400.11844328604638577</ymax>
+      </extent>
+      <id>tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d</id>
+      <datasource>./TZ_LHZ_2009/intersect/tz_intersect.shp</datasource>
+      <keywordList>
+        <value></value>
+      </keywordList>
+      <layername>tz_intersect</layername>
+      <srs>
+        <spatialrefsys>
+          <proj4>+proj=longlat +datum=WGS84 +no_defs</proj4>
+          <srsid>3452</srsid>
+          <srid>4326</srid>
+          <authid>EPSG:4326</authid>
+          <description>WGS 84</description>
+          <projectionacronym>longlat</projectionacronym>
+          <ellipsoidacronym>WGS84</ellipsoidacronym>
+          <geographicflag>true</geographicflag>
+        </spatialrefsys>
+      </srs>
+      <resourceMetadata>
+        <identifier></identifier>
+        <parentidentifier></parentidentifier>
+        <language></language>
+        <type></type>
+        <title></title>
+        <abstract></abstract>
+        <links/>
+        <fees></fees>
+        <encoding></encoding>
+        <crs>
+          <spatialrefsys>
+            <proj4></proj4>
+            <srsid>0</srsid>
+            <srid>0</srid>
+            <authid></authid>
+            <description></description>
+            <projectionacronym></projectionacronym>
+            <ellipsoidacronym></ellipsoidacronym>
+            <geographicflag>false</geographicflag>
+          </spatialrefsys>
+        </crs>
+        <extent/>
+      </resourceMetadata>
+      <provider encoding="UTF-8">ogr</provider>
+      <vectorjoins/>
+      <layerDependencies/>
+      <dataDependencies/>
+      <legend type="default-vector"/>
+      <expressionfields/>
+      <map-layer-style-manager current="default">
+        <map-layer-style name="default"/>
+      </map-layer-style-manager>
+      <auxiliaryLayer/>
+      <flags>
+        <Identifiable>1</Identifiable>
+        <Removable>1</Removable>
+        <Searchable>1</Searchable>
+      </flags>
+      <renderer-v2 forceraster="0" enableorderby="0" symbollevels="0" type="singleSymbol">
+        <symbols>
+          <symbol name="0" clip_to_extent="1" alpha="1" type="fill">
+            <layer locked="0" enabled="1" class="SimpleFill" pass="0">
+              <prop v="3x:0,0,0,0,0,0" k="border_width_map_unit_scale"/>
+              <prop v="190,207,80,255" k="color"/>
+              <prop v="bevel" k="joinstyle"/>
+              <prop v="0,0" k="offset"/>
+              <prop v="3x:0,0,0,0,0,0" k="offset_map_unit_scale"/>
+              <prop v="MM" k="offset_unit"/>
+              <prop v="35,35,35,255" k="outline_color"/>
+              <prop v="solid" k="outline_style"/>
+              <prop v="0.26" k="outline_width"/>
+              <prop v="MM" k="outline_width_unit"/>
+              <prop v="solid" k="style"/>
+              <data_defined_properties>
+                <Option type="Map">
+                  <Option name="name" type="QString" value=""/>
+                  <Option name="properties"/>
+                  <Option name="type" type="QString" value="collection"/>
+                </Option>
+              </data_defined_properties>
+            </layer>
+          </symbol>
+        </symbols>
+        <rotation/>
+        <sizescale/>
+      </renderer-v2>
+      <customproperties>
+        <property key="dualview/previewExpressions">
+          <value>"FID_TZ_LHZ"</value>
+        </property>
+      </customproperties>
+      <blendMode>0</blendMode>
+      <featureBlendMode>0</featureBlendMode>
+      <layerOpacity>1</layerOpacity>
+      <geometryOptions geometryPrecision="0" removeDuplicateNodes="0">
+        <activeChecks/>
+        <checkConfiguration/>
+      </geometryOptions>
+      <fieldConfiguration>
+        <field name="FID_TZ_LHZ">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="FNID">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="EFF_YEAR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="COUNTRY">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNUM">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZCODE">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEEN">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEFR">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMESP">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="LZNAMEPT">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="CLASS">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="FID_thiess">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="field_1">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lat">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="lon">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+        <field name="mkt">
+          <editWidget type="">
+            <config>
+              <Option/>
+            </config>
+          </editWidget>
+        </field>
+      </fieldConfiguration>
+      <aliases>
+        <alias field="FID_TZ_LHZ" name="" index="0"/>
+        <alias field="FNID" name="" index="1"/>
+        <alias field="EFF_YEAR" name="" index="2"/>
+        <alias field="COUNTRY" name="" index="3"/>
+        <alias field="LZNUM" name="" index="4"/>
+        <alias field="LZCODE" name="" index="5"/>
+        <alias field="LZNAMEEN" name="" index="6"/>
+        <alias field="LZNAMEFR" name="" index="7"/>
+        <alias field="LZNAMESP" name="" index="8"/>
+        <alias field="LZNAMEPT" name="" index="9"/>
+        <alias field="CLASS" name="" index="10"/>
+        <alias field="FID_thiess" name="" index="11"/>
+        <alias field="field_1" name="" index="12"/>
+        <alias field="lat" name="" index="13"/>
+        <alias field="lon" name="" index="14"/>
+        <alias field="mkt" name="" index="15"/>
+      </aliases>
+      <excludeAttributesWMS/>
+      <excludeAttributesWFS/>
+      <defaults>
+        <default applyOnUpdate="0" field="FID_TZ_LHZ" expression=""/>
+        <default applyOnUpdate="0" field="FNID" expression=""/>
+        <default applyOnUpdate="0" field="EFF_YEAR" expression=""/>
+        <default applyOnUpdate="0" field="COUNTRY" expression=""/>
+        <default applyOnUpdate="0" field="LZNUM" expression=""/>
+        <default applyOnUpdate="0" field="LZCODE" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEEN" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEFR" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMESP" expression=""/>
+        <default applyOnUpdate="0" field="LZNAMEPT" expression=""/>
+        <default applyOnUpdate="0" field="CLASS" expression=""/>
+        <default applyOnUpdate="0" field="FID_thiess" expression=""/>
+        <default applyOnUpdate="0" field="field_1" expression=""/>
+        <default applyOnUpdate="0" field="lat" expression=""/>
+        <default applyOnUpdate="0" field="lon" expression=""/>
+        <default applyOnUpdate="0" field="mkt" expression=""/>
+      </defaults>
+      <constraints>
+        <constraint unique_strength="0" constraints="0" field="FID_TZ_LHZ" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FNID" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="EFF_YEAR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="COUNTRY" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNUM" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZCODE" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEEN" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEFR" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMESP" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="LZNAMEPT" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="CLASS" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="FID_thiess" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="field_1" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lat" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="lon" notnull_strength="0" exp_strength="0"/>
+        <constraint unique_strength="0" constraints="0" field="mkt" notnull_strength="0" exp_strength="0"/>
+      </constraints>
+      <constraintExpressions>
+        <constraint desc="" exp="" field="FID_TZ_LHZ"/>
+        <constraint desc="" exp="" field="FNID"/>
+        <constraint desc="" exp="" field="EFF_YEAR"/>
+        <constraint desc="" exp="" field="COUNTRY"/>
+        <constraint desc="" exp="" field="LZNUM"/>
+        <constraint desc="" exp="" field="LZCODE"/>
+        <constraint desc="" exp="" field="LZNAMEEN"/>
+        <constraint desc="" exp="" field="LZNAMEFR"/>
+        <constraint desc="" exp="" field="LZNAMESP"/>
+        <constraint desc="" exp="" field="LZNAMEPT"/>
+        <constraint desc="" exp="" field="CLASS"/>
+        <constraint desc="" exp="" field="FID_thiess"/>
+        <constraint desc="" exp="" field="field_1"/>
+        <constraint desc="" exp="" field="lat"/>
+        <constraint desc="" exp="" field="lon"/>
+        <constraint desc="" exp="" field="mkt"/>
+      </constraintExpressions>
+      <expressionfields/>
+      <attributeactions>
+        <defaultAction key="Canvas" value="{00000000-0000-0000-0000-000000000000}"/>
+      </attributeactions>
+      <attributetableconfig actionWidgetStyle="dropDown" sortExpression="" sortOrder="0">
+        <columns/>
+      </attributetableconfig>
+      <conditionalstyles>
+        <rowstyles/>
+        <fieldstyles/>
+      </conditionalstyles>
+      <editform tolerant="1"></editform>
+      <editforminit/>
+      <editforminitcodesource>0</editforminitcodesource>
+      <editforminitfilepath></editforminitfilepath>
+      <editforminitcode><![CDATA[]]></editforminitcode>
+      <featformsuppress>0</featformsuppress>
+      <editorlayout>generatedlayout</editorlayout>
+      <editable/>
+      <labelOnTop/>
+      <widgets/>
+      <previewExpression>"FID_TZ_LHZ"</previewExpression>
       <mapTip></mapTip>
     </maplayer>
   </projectlayers>
@@ -2354,11 +3278,37 @@
     <layer id="UG_LHZ_2011_25ec24ef_8c54_4b5b_ba03_f3390d57e0d1"/>
     <layer id="TZ_LHZ_2009_2e014b9b_bfc3_46d2_97c0_9764402c7bc8"/>
     <layer id="MW_Admin1_LHZ_2012_3_fac35ef7_b240_46df_a89e_a894966ebc9c"/>
-    <layer id="ug_9a026057_b4cf_423b_9663_eb2c077e5632"/>
     <layer id="output_88c03806_3f1c_4766_955a_e4429e104489"/>
     <layer id="output_377bf5f6_ac4f_4121_be4c_08a3d016289a"/>
+    <layer id="tz_intersect_d0bc4689_7dba_499b_b878_dbc85b52a83d"/>
   </layerorder>
   <properties>
+    <Paths>
+      <Absolute type="bool">false</Absolute>
+    </Paths>
+    <SpatialRefSys>
+      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
+    </SpatialRefSys>
+    <PAL>
+      <ShowingCandidates type="bool">false</ShowingCandidates>
+      <DrawOutlineLabels type="bool">true</DrawOutlineLabels>
+      <ShowingAllLabels type="bool">false</ShowingAllLabels>
+      <ShowingPartialsLabels type="bool">true</ShowingPartialsLabels>
+      <CandidatesPoint type="int">16</CandidatesPoint>
+      <DrawRectOnly type="bool">false</DrawRectOnly>
+      <CandidatesLine type="int">50</CandidatesLine>
+      <CandidatesPolygon type="int">30</CandidatesPolygon>
+      <SearchMethod type="int">0</SearchMethod>
+    </PAL>
+    <Gui>
+      <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
+      <SelectionColorBluePart type="int">0</SelectionColorBluePart>
+      <SelectionColorRedPart type="int">255</SelectionColorRedPart>
+      <CanvasColorRedPart type="int">255</CanvasColorRedPart>
+      <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
+      <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
+      <CanvasColorBluePart type="int">255</CanvasColorBluePart>
+    </Gui>
     <Measure>
       <Ellipsoid type="QString">WGS84</Ellipsoid>
     </Measure>
@@ -2369,28 +3319,24 @@
       <Automatic type="bool">true</Automatic>
       <DecimalPlaces type="int">2</DecimalPlaces>
     </PositionPrecision>
-    <Paths>
-      <Absolute type="bool">false</Absolute>
-    </Paths>
-    <SpatialRefSys>
-      <ProjectionsEnabled type="int">1</ProjectionsEnabled>
-    </SpatialRefSys>
     <Measurement>
-      <DistanceUnits type="QString"></DistanceUnits>
       <AreaUnits type="QString"></AreaUnits>
+      <DistanceUnits type="QString"></DistanceUnits>
     </Measurement>
-    <Gui>
-      <SelectionColorRedPart type="int">255</SelectionColorRedPart>
-      <SelectionColorAlphaPart type="int">255</SelectionColorAlphaPart>
-      <CanvasColorRedPart type="int">255</CanvasColorRedPart>
-      <CanvasColorBluePart type="int">255</CanvasColorBluePart>
-      <SelectionColorBluePart type="int">0</SelectionColorBluePart>
-      <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
-      <CanvasColorGreenPart type="int">255</CanvasColorGreenPart>
-    </Gui>
   </properties>
   <visibility-presets/>
   <transformContext/>
+  <projectMetadata>
+    <identifier></identifier>
+    <parentidentifier></parentidentifier>
+    <language></language>
+    <type></type>
+    <title></title>
+    <abstract></abstract>
+    <links/>
+    <author></author>
+    <creation></creation>
+  </projectMetadata>
   <Annotations/>
   <Layouts/>
 </qgis>

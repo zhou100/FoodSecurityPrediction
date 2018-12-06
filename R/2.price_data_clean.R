@@ -18,8 +18,10 @@
 ###################################################################
 
 
-package = c("dplyr","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
+package = c("plyr","dplyr","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
+
 lapply(package, require, character.only = TRUE)
+
 
 source("R/functions/Yearmon.R") 
 source("R/functions/market_transpose.R") 
@@ -41,6 +43,7 @@ source("R/functions/MktReshape.R")
 ###################################################################
 source("R/functions/GoogleMapApi.r") 
 
+
 # subset 
 price_raw<-read.csv("data/raw/price/price_ethiopia_tanzania_uganda.csv")
 # head(price_raw)
@@ -48,6 +51,9 @@ price_master =  dplyr::select(price_raw,adm0_name, mkt_name, cm_name,mp_month,mp
 
 tanzania_price = dplyr::filter(price_master,adm0_name == "United Republic of Tanzania")
 uganda_price = dplyr::filter(price_master,adm0_name == "Uganda")
+
+malawi.maize.price = read.csv("data/raw/price/malawi/maize_joined_0817.csv")
+
 
 # find the geo-coordinates of the markets in TZN using google map api
 market_names_tan<-unique(tanzania_price$mkt_name)
@@ -61,12 +67,18 @@ address_tanzania = unlist (address_tanzania)
  
 coord_tanzania = coordFind(address_tanzania)
 coord_tanzania$mkt  = market_names_tan
-# -4.816988, 34.750763
-coord_tanzania[coord_tanzania$mkt =="Singida",]$lat = -4.816988
-coord_tanzania[coord_tanzania$mkt =="Singida",]$lon = 34.750763
+
 coord_tanzania
 
+# # -4.816988, 34.750763
+# coord_tanzania[coord_tanzania$mkt =="Singida",]$lat = -4.816988
+# coord_tanzania[coord_tanzania$mkt =="Singida",]$lon = 34.750763
+
+coord_tanzania[coord_tanzania$mkt =="Lindi",]$lat = -9.996098
+coord_tanzania[coord_tanzania$mkt =="Lindi",]$lon = 39.713580
+
 mkt_coord_TZN = dplyr::select(coord_tanzania,lat,lon,mkt)
+mkt_coord_TZN
 write.csv(x= mkt_coord_TZN,file = "data/clean/market/mkt_coord_TZN.csv")
 
 # find the geo-coordinates of the markets using google map api
@@ -88,12 +100,82 @@ coord_ug$mkt  = market_names_ug
 coord_ug
 # 2.772771, 32.301031
 
-coord_ug[coord_ug$mkt =="Gulu",]$lat = 2.772771
-coord_ug[coord_ug$mkt =="Gulu",]$lon = 32.301031
+# coord_ug[coord_ug$mkt =="Gulu",]$lat = 2.772771
+# coord_ug[coord_ug$mkt =="Gulu",]$lon = 32.301031
+
+
+#0.916289, 31.766471
+coord_ug[coord_ug$mkt =="Kiboga",]$lat = 0.916289
+coord_ug[coord_ug$mkt =="Kiboga",]$lon = 31.766471
+
 coord_ug
 
 mkt_coord_ug = dplyr::select(coord_ug,lat,lon,mkt)
 write.csv(x= mkt_coord_ug,file = "data/clean/market/mkt_coord_ug.csv")
+
+
+
+# find the geo-coordinates of the markets in Malawi using google map api
+mkt.names.mw = colnames(malawi.maize.price)
+mkt.names.mw = mkt.names.mw[6:length(mkt.names.mw)]
+mkt.names.mw[42] = "BEMBEKE"
+mkt.names.mw[45]= "TSANGANO"
+mkt.names.mw[51]= "MONKEY BAY"
+
+mkt.names.mw.lower = unlist(lapply(mkt.names.mw,tolower))
+
+mkt.list.mw <- lapply(mkt.names.mw.lower, function(x){paste("grocery",x,sep=" ")})
+mkt.list.mw = unlist (mkt.list.mw)
+
+
+address.mw<- lapply(mkt.list.mw, function(x){paste(x,"Malawi",sep=",")})
+address.mw = unlist (address.mw)
+address.mw
+
+coord.mw = coordFind(address.mw)
+coord.mw$mkt = mkt.names.mw
+coord.mw
+
+# HEWE	-11.19237,	33.46928
+# CHATOLOMA	-12.81557795,	33.43434
+# KASIYA	-13.76667,	33.38333
+# CHIMBIYA	-14.59522,	35.7987
+# BEMBEKE_TURNOFF	-14.403275,	34.36941
+# SHARPEVALEY	-14.60627,	34.73305
+# MAYAKA	-15.58018384,	35.3545
+# EMBANGWENI	-12.166667,	33.46667
+
+
+mkt.coord.mw = coord.mw %>% dplyr::select(lat,lon,mkt)
+
+coord.mw[coord.mw$mkt =="HEWE",]$lat = -11.19237
+coord.mw[coord.mw$mkt =="HEWE",]$lon = 33.46928
+
+coord.mw[coord.mw$mkt =="CHATOLOMA",]$lat = -12.81557795
+coord.mw[coord.mw$mkt =="CHATOLOMA",]$lon = 33.43434
+
+coord.mw[coord.mw$mkt =="KASIYA",]$lat = -13.76667
+coord.mw[coord.mw$mkt =="KASIYA",]$lon = 33.38333
+
+coord.mw[coord.mw$mkt =="CHIMBIYA",]$lat = -14.59522
+coord.mw[coord.mw$mkt =="CHIMBIYA",]$lon = 35.7987
+
+coord.mw[coord.mw$mkt =="BEMBEKE",]$lat = -14.403275
+coord.mw[coord.mw$mkt =="BEMBEKE",]$lon =34.36941
+
+
+coord.mw[coord.mw$mkt =="SHARPEVALEY",]$lat = 	-14.60627
+coord.mw[coord.mw$mkt =="SHARPEVALEY",]$lon =34.73305
+
+
+coord.mw[coord.mw$mkt =="MAYAKA",]$lat = -15.58018384
+coord.mw[coord.mw$mkt =="MAYAKA",]$lon =35.3545
+
+
+coord.mw[coord.mw$mkt =="EMBANGWENI",]$lat = -12.166667
+coord.mw[coord.mw$mkt =="EMBANGWENI",]$lon =33.46667
+
+write.csv(x= coord.mw,file = "data/clean/market/mkt_coord_mw.csv")
 
 
 #############################################################################################################
@@ -204,7 +286,30 @@ uganda_prices_trans <- lapply(uganda_prices, function(x){
 })
 
 
+malawi.maize.price = read.csv("data/raw/price/malawi/maize_joined_0817.csv")
+malawi.rice.price = read.csv("data/raw/price/malawi/rice_joined_0817.csv")
+malawi.nuts.price = read.csv("data/raw/price/malawi/nuts_joined_0817.csv")
+malawi.beans.price = read.csv("data/raw/price/malawi/beans_joined_0817.csv")
 
+mw.prices.list<-list(malawi.maize.price,malawi.rice.price,malawi.nuts.price,malawi.beans.price)
+
+mw_mkt_transpose = function(df){
+    df = df %>% dplyr::select(-X)
+    df.trans = as.data.frame(t(df))
+    colnames(df.trans)  =   as.character(unlist(df.trans[1,]))
+    df.trans = df.trans[-(1:4),]
+    df.trans = df.trans %>% tibble::rownames_to_column()
+    colnames(df.trans)[1] = "mkt"    
+    df.trans[["mkt"]][which(df.trans[["mkt"]]=="BEMBEKE.TURN.OFF")]="BEMBEKE"
+    df.trans[["mkt"]][which(df.trans[["mkt"]]=="TSANGANO.TURN.OFF")]="TSANGANO"
+    df.trans[["mkt"]][which(df.trans[["mkt"]]=="MONKEY.BAY")]="MONKEY BAY"
+    return(df.trans)
+}
+
+
+mw_prices_trans <- lapply(mw.prices.list, function(x){
+  mw_mkt_transpose(x)
+})
 
 ########################################################################
 # 3.  impute price by the nearest market 
@@ -212,23 +317,32 @@ uganda_prices_trans <- lapply(uganda_prices, function(x){
 
 # read in the mkt coordinates 
 
+
+
 mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
 mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
+mkt_coord_mw<-read.csv("data/clean/market/mkt_coord_mw.csv")
 
 # find the nearest mkt for each market using NearMKt function
 source("R/functions/NearMkt.R") 
 near_ug =  NearMkt(mkt_coord_ug)
 near_tzn = NearMkt(mkt_coord_TZN)
+near_mw = NearMkt(mkt_coord_mw)
+
  
 # impute missing price by the price of the nearest mkt using SpatialPriceImpu function
 source("R/functions/spatial_price_impute.R") 
 uganda_prices_imputed <- lapply(uganda_prices_trans, function(x){
   SpatialPriceImpu(x,near_ug)
 })
+
 tanzania_prices_imputed <- lapply(tanzania_prices_trans, function(x){
   SpatialPriceImpu(x,near_tzn)
 })
 
+mw_prices_imputed <- lapply(mw_prices_trans, function(x){
+  SpatialPriceImpu(x,near_mw)
+})
 ################################################################################
 # 4. generate mkt_thinness measure for each market 
 ###############################################################################
@@ -246,10 +360,22 @@ for (i in 1:length(uganda_prices_trans)) {
 }
  
 
+mw_mktthin<- lapply(mw_prices_trans,function(x){ifelse(is.na(x), 1, 0)})
+for (i in 1:length(mw_prices_trans)) {
+  mw_mktthin[[i]][,1]<-mw_prices_trans[[i]][,1]
+}
+
+
+
 tan_names = c("bean","maize","rice")
+mw_names = c("maize","rice","nuts","beans")
 ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+
 path = "data/clean/market/impute_thin/"
 
+###########################################################################################
+####  write imputed prices
+###########################################################################################
 for (i in 1:length(tan_names)){
   write.csv(tanzania_prices_imputed[[i]], paste(path,paste(tan_names[i],"_price_tz.csv",sep = ""),sep = "" ))
 }
@@ -258,6 +384,19 @@ for (i in 1:length(tan_names)){
 for (i in 1:length(ug_names)){
   write.csv(uganda_prices_imputed[[i]], paste(path,paste(ug_names[i],"_price_ug.csv",sep = ""),sep = "" ))
 }
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_prices_imputed[[i]], paste(path,paste(mw_names[i],"_price_mw.csv",sep = ""),sep = "" ))
+}
+
+
+###########################################################################################
+####  write market thinness variable 
+###########################################################################################
+for (i in 1:length(mw_names)){
+  write.csv(mw_mktthin[[i]], paste(path,paste(mw_names[i],"_mktthin_mw.csv",sep = ""),sep = "" ))
+}
+
 
 for (i in 1:length(tan_names)){
   write.csv(tanzania_mktthin[[i]], paste(path,paste(tan_names[i],"_mktthin_tz.csv",sep = ""),sep = "" ))
@@ -275,40 +414,49 @@ for (i in 1:length(ug_names)){
 
 #landscan_pop <- raster("shapefiles/LandScanData/Population/lspop2011") # land scan data 
 
-# library(curl); 
+# library(curl);
 # id <- "0B-wuZ2XMFIBUd09Ob0pKVkRzQTA";
 # sURL <- sprintf("https://docs.google.com/uc?id=%s&export=download", id);
-# con <- curl(sURL); 
+# con <- curl(sURL);
 # read.csv(con)
-
-
+ 
+ 
 landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
+ 
+lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones
+lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness
 
-lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones       
-lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness        
-
-lhz_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/UG_LHZ_2011.shp")                # Uganda  livelihood zones  
+lhz_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/UG_LHZ_2011.shp")                # Uganda  livelihood zones
 lhz_UG_nowater = lhz_UG[lhz_UG$LZNAMEEN!="Lake and Open Water",]    # drop the lake area since no population there
-lhz_UG_intersect <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/intersect/ug_intersect.shp")  # intersection of lhz and market_thinness  
+lhz_UG_intersect <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/intersect/ug_intersect.shp")  # intersection of lhz and market_thinness
 
 
-source("R/functions/PopuWeight.R") 
+lhz_mw <- readOGR("shapefiles/livelihood_zone/malawi/livelihood zone 2012/MW_Admin1_LHZ_2012.3/MW_Admin1_LHZ_2012.3.shp")                  # Tanzania livelihood zones
+lhz_mw_intersect <- readOGR("shapefiles/livelihood_zone/malawi/mw_intersect.shp")  # intersection of lhz and market_thinness
+
+
+ 
+
+source("R/functions/PopuWeight.R")
 tz_popweight = PopuWeight(landscan_pop,lhz_TZ,lhz_TZ_intersect)
 ug_popweight = PopuWeight(landscan_pop,lhz_UG_nowater,lhz_UG_intersect)
+mw_popweight = PopuWeight(landscan_pop,lhz_mw,lhz_mw_intersect)
 
+write.csv(mw_popweight,"data/clean/market/mw_popweight.csv" )
 write.csv(tz_popweight,"data/clean/market/tz_popweight.csv" )
 write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
 
 ###############################################################################
 # 6. link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
 ###############################################################################
-
-tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
-ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
+ 
+#tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
+#ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
+#mw_popweight <- read.csv("data/clean/market/mw_popweight.csv")
 
 path = "data/clean/market/impute_thin/"
 
-file_list <- list.files(path=path, 
+file_list <- list.files(path=path,
                         pattern = "csv$",
                         full.names=FALSE)
 dfnames<-file_list
@@ -316,30 +464,38 @@ dfnames <- gsub(".csv","", dfnames)
 
 
 list2env(
-  lapply(setNames(file_list, make.names(dfnames)), 
-         function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
+  lapply(setNames(file_list, make.names(dfnames)),
+         function(i){read.csv(paste(path,i,sep=""),stringsAsFactors = FALSE)}), envir = .GlobalEnv)
 
- 
-# save the prices in a list to make the loop easy 
+
+# save the prices in a list to make the loop easy
 
 tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
 ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
+mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,beans_price_mw)
+
 
 tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
 ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
+mw_mktthin<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,beans_mktthin_mw)
 
 
 
-source("R/functions/NameToPrice.R") 
+source("R/functions/NameToPrice.R")
 
 tz_lhz_price_unweight <- lapply(tz_prices_impu, function(x){
   NameToPrice(tz_popweight,x)
 })
 
-
 ug_lhz_price_unweight <- lapply(ug_prices_impu, function(x){
   NameToPrice(ug_popweight,x)
 })
+
+mw_lhz_price_unweight <- lapply(mw_prices_impu, function(x){
+  NameToPrice(mw_popweight,x)
+})
+
+
 
 tz_lhz_mktthin_unweight <- lapply(tz_mktthin, function(x){
   NameToPrice(tz_popweight,x)
@@ -350,16 +506,26 @@ ug_lhz_mktthin_unweight <- lapply(ug_mktthin, function(x){
   NameToPrice(ug_popweight,x)
 })
 
+mw_lhz_mktthin_unweight <- lapply(mw_mktthin, function(x){
+  NameToPrice(mw_popweight,x)
+})
 
+source("R/functions/WeightedPrice.R")
 
-source("R/functions/WeightedPrice.R") 
 
 tz_lhz_price <- lapply(tz_lhz_price_unweight, function(x){
   WeightedPrice(x)
 })
+
 ug_lhz_price <- lapply(ug_lhz_price_unweight, function(x){
   WeightedPrice(x)
 })
+
+mw_lhz_price <- lapply(mw_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+
+
 
 tz_lhz_mktthin <- lapply(tz_lhz_mktthin_unweight, function(x){
   WeightedPrice(x)
@@ -368,20 +534,30 @@ tz_lhz_mktthin <- lapply(tz_lhz_mktthin_unweight, function(x){
 ug_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
   WeightedPrice(x)
 })
- 
+
+mw_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
 
 tan_names = c("bean","maize","rice")
 ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+mw_names = c("maize","rice","nuts","beans")
+
 path = "data/clean/market/lhz_prices/"
 
  for (i in 1:length(tan_names)){
    write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ))
  }
-    
+
 
 for (i in 1:length(ug_names)){
   write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ))
 }
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_lhz_price[[i]], paste(path,paste(mw_names[i],"_lhz_price_mw.csv",sep = ""),sep = "" ))
+}
+
 
 for (i in 1:length(tan_names)){
   write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ))
@@ -390,7 +566,176 @@ for (i in 1:length(tan_names)){
 for (i in 1:length(ug_names)){
   write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
 }
-# 
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_lhz_mktthin[[i]], paste(path,paste(mw_names[i],"_lhz_mktthin_mw.csv",sep = ""),sep = "" ))
+}
+
+#
+
+################################################################################
+# 7.  TA with population weights for each market shed
+###############################################################################
+
+
+landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
+
+lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones
+lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness
+
+lhz_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/UG_LHZ_2011.shp")                # Uganda  livelihood zones
+lhz_UG_nowater = lhz_UG[lhz_UG$LZNAMEEN!="Lake and Open Water",]    # drop the lake area since no population there
+lhz_UG_intersect <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/intersect/ug_intersect.shp")  # intersection of lhz and market_thinness
+
+
+lhz_mw <- readOGR("shapefiles/livelihood_zone/malawi/livelihood zone 2012/MW_Admin1_LHZ_2012.3/MW_Admin1_LHZ_2012.3.shp")                  # Tanzania livelihood zones
+lhz_mw_intersect <- readOGR("shapefiles/livelihood_zone/malawi/mw_intersect.shp")  # intersection of lhz and market_thinness
+
+
+
+
+source("R/functions/PopuWeight.R")
+tz_popweight = PopuWeight(landscan_pop,lhz_TZ,lhz_TZ_intersect)
+ug_popweight = PopuWeight(landscan_pop,lhz_UG_nowater,lhz_UG_intersect)
+mw_popweight = PopuWeight(landscan_pop,lhz_mw,lhz_mw_intersect)
+
+write.csv(mw_popweight,"data/clean/market/mw_popweight.csv" )
+write.csv(tz_popweight,"data/clean/market/tz_popweight.csv" )
+write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
+
+###############################################################################
+# 6. link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
+###############################################################################
+
+#tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
+#ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
+#mw_popweight <- read.csv("data/clean/market/mw_popweight.csv")
+
+path = "data/clean/market/impute_thin/"
+
+file_list <- list.files(path=path,
+                        pattern = "csv$",
+                        full.names=FALSE)
+dfnames<-file_list
+dfnames <- gsub(".csv","", dfnames)
+
+
+list2env(
+  lapply(setNames(file_list, make.names(dfnames)),
+         function(i){read.csv(paste(path,i,sep=""),stringsAsFactors = FALSE)}), envir = .GlobalEnv)
+
+
+# save the prices in a list to make the loop easy
+
+tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
+ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
+mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,beans_price_mw)
+
+
+tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
+ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
+mw_mktthin<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,beans_mktthin_mw)
+
+
+
+source("R/functions/NameToPrice.R")
+
+tz_lhz_price_unweight <- lapply(tz_prices_impu, function(x){
+  NameToPrice(tz_popweight,x)
+})
+
+ug_lhz_price_unweight <- lapply(ug_prices_impu, function(x){
+  NameToPrice(ug_popweight,x)
+})
+
+mw_lhz_price_unweight <- lapply(mw_prices_impu, function(x){
+  NameToPrice(mw_popweight,x)
+})
+
+
+
+tz_lhz_mktthin_unweight <- lapply(tz_mktthin, function(x){
+  NameToPrice(tz_popweight,x)
+})
+
+
+ug_lhz_mktthin_unweight <- lapply(ug_mktthin, function(x){
+  NameToPrice(ug_popweight,x)
+})
+
+mw_lhz_mktthin_unweight <- lapply(mw_mktthin, function(x){
+  NameToPrice(mw_popweight,x)
+})
+
+source("R/functions/WeightedPrice.R")
+
+
+tz_lhz_price <- lapply(tz_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+
+ug_lhz_price <- lapply(ug_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+
+mw_lhz_price <- lapply(mw_lhz_price_unweight, function(x){
+  WeightedPrice(x)
+})
+
+
+
+tz_lhz_mktthin <- lapply(tz_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
+
+ug_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
+
+mw_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
+  WeightedPrice(x)
+})
+
+tan_names = c("bean","maize","rice")
+ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+mw_names = c("maize","rice","nuts","beans")
+
+path = "data/clean/market/lhz_prices/"
+
+for (i in 1:length(tan_names)){
+  write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ))
+}
+
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_lhz_price[[i]], paste(path,paste(mw_names[i],"_lhz_price_mw.csv",sep = ""),sep = "" ))
+}
+
+
+for (i in 1:length(tan_names)){
+  write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(ug_names)){
+  write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
+}
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_lhz_mktthin[[i]], paste(path,paste(mw_names[i],"_lhz_mktthin_mw.csv",sep = ""),sep = "" ))
+}
+
+
+
+
+
+
+
+
+
 
 ###############################################################################
 # 7. link price and mkt_thinness measure at the Cluster level 
@@ -400,23 +745,29 @@ for (i in 1:length(ug_names)){
 # Market geo-coordinates 
 mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
 mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
-
+mkt_coord_mw<-read.csv("data/clean/market/mkt_coord_mw.csv")
 
 # cluster geo-coordinates 
 clust_coord_tz<-read.csv("data/clean/Tanzania_coord.csv")
 clust_coord_ug<-read.csv("data/clean/Uganda_coord.csv")
+clust_coord_mw<-read.csv("data/clean/Malawi_coord.csv")
 
 clust_coord_ug = na.omit(clust_coord_ug)
 clust_coord_tz = na.omit(clust_coord_tz)
+clust_coord_mw = na.omit(clust_coord_mw)
+
 
 source("R/functions/MktNearCluster.R") 
 
 # cluster geo-coordinates 
 cluster_mkt_concord_tz = MktNearCluster(clust_coord_tz,mkt_coord_TZN)
 cluster_mkt_concord_ug = MktNearCluster(clust_coord_ug,mkt_coord_ug)
+cluster_mkt_concord_mw = MktNearCluster(clust_coord_mw,mkt_coord_mw)
+
+
 colnames(cluster_mkt_concord_tz)[2] = "mkt"
 colnames(cluster_mkt_concord_ug)[2] = "mkt"
-
+colnames(cluster_mkt_concord_mw)[2] = "mkt"
 
 # read in the imputed price data 
 path = "data/clean/market/impute_thin/"
@@ -437,9 +788,13 @@ list2env(
 
 tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
 ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
+mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,bean_price_mw)
+
+
 
 tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
 ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
+mw_mktthins_impu<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,bean_mktthin_mw)
 
 
 
@@ -467,6 +822,8 @@ ug_cluster_mktthin <- lapply(ug_mktthin, function(x){
 
 tan_names = c("bean","maize","rice")
 ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+mw_names = c("maize","rice","nuts","beans")
+
 dir.create("data/clean/market/cluster_prices")
 path = "data/clean/market/cluster_prices/"
 

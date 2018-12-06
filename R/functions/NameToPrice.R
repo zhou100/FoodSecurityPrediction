@@ -11,6 +11,7 @@
 # 1. df: price joined to the pop weight , ready for computing weighted price  
 ################################################################### 
 library(dplyr)
+
 NameToPrice <- function(market_df, price_df,MKTcolname="mkt"){
   
   # ideas: for a mkt name found in market_df 
@@ -26,9 +27,16 @@ NameToPrice <- function(market_df, price_df,MKTcolname="mkt"){
     joined_df <- rbind(joined_df,price_vector)
   }
   joined_df = as.data.frame(joined_df)
+  rownames(joined_df)=NULL
+  col2 =  as.character(unlist(joined_df$V2))
+  
+  indx <- sapply(joined_df[,3:ncol(joined_df)], is.factor)
+  joined_df[indx] <- lapply(joined_df[indx], function(x) as.numeric(as.character(x)))
+  
+  joined_df["V2"] = col2 
+  
   colnames(joined_df) = colnames(price_df)
   
-  
   merged_df <- dplyr::left_join(market_df,joined_df,by =MKTcolname)
-  
+
   return ( dplyr::distinct(merged_df))}
