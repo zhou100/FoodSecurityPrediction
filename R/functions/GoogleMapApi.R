@@ -10,7 +10,7 @@ library(RCurl)
 library(RJSONIO)
 library(dplyr)
 
-map.key = "AIzaSyCekhGFVTC9Vsp5W3lrxFD2TMZP_wbWjhk"
+map.key = ""
 
 url <- function(address, return.call = "json", sensor = "false") {
   root <- "https://maps.google.com/maps/api/geocode/"
