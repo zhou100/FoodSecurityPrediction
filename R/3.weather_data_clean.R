@@ -125,236 +125,267 @@ load("data/raw/rain/TZMW_rain_cropyear.rda")
 load("data/raw/rain/UG_rain_cropyear.rda")
 # moving mean for that day and previous days (e.g. 5 represents the mean of that day and the for previous days)
 
-
-
-
 ####livelihood level day1rain for tanzania ###########
 
 # rain.TZMW.list = list(precip_lhz_tz,precip_lhz_mw,precip_clust_tz,precip_clust_mw)
 # rain.UG.list = list(precip_lhz_ug,precip_clust_ug)
 
-precip_lhz_tz_rain = rain.TZMW.cropyear[[1]]%>%
+precip.lhz.tz.rain = rain.TZMW.cropyear[[1]]%>%
   dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(rollmedian(., 5, align = "right", fill = NA))) %>%
   na.omit()
 
-
-
-
-
-
-lhz_tz_raindate=
-  precip_lhz_tz_rain %>%
-  dplyr::mutate(Date=as.Date(Date))  %>%
+lhz.tz.day1rain=
+  precip.lhz.tz.rain %>%
+  dplyr::select(-Date,everything()) %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs())
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
+
+lhz.tz.day1rain[is.na(lhz.tz.day1rain)]=156
 
 
 
 
-lhz_tz_day1rain = 
-lhz_tz_raindate %>%
-  dplyr::select(-cropyear)%>%
-  dplyr::mutate_all(funs(interval(.,Date))) %>%
-  dplyr::mutate_all(funs(as.duration(.))) %>%
-  dplyr::mutate_all(funs(as.numeric(.,"days"))) %>%
-  dplyr::mutate_all(funs(.*-1)) 
-lhz_tz_day1rain$cropyear = lhz_tz_raindate$cropyear
+####livelihood level day1rain for Uganda ###########
+precip.lhz.ug.rain = rain.UG.cropyear[[1]]%>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear,-year,-month) %>%
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
+  na.omit()
 
-write.csv(lhz_tz_day1rain,"data/clean/weather/lhz_tz_day1rain.csv",row.names = FALSE)
+#colnames(precip.lhz.mw.rain)[3]
+
+lhz.ug.day1rain=
+  precip.lhz.mw.rain %>%
+  dplyr::select(-Date,everything()) %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
+
 
 ####livelihood level day1rain for malawi ###########
-precip_lhz_mw_rain = rain.TZMW.cropyear[[2]]%>%
+precip.lhz.mw.rain = rain.TZMW.cropyear[[2]]%>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear,-year,-month) %>%
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
+  na.omit()
+
+lhz.mw.day1rain=
+  precip.lhz.mw.rain %>%
+  dplyr::select(-Date,everything()) %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
+
+save(lhz.tz.day1rain,lhz.ug.day1rain,lhz.mw.day1rain,file="data/clean/weather/lhz_day1rain.RData" )
+
+ 
+####cluster level day1rain for tanzania ###########
+ 
+
+# rain.TZMW.list = list(precip_lhz_tz,precip_lhz_mw,precip_clust_tz,precip_clust_mw)
+# rain.UG.list = list(precip_lhz_ug,precip_clust_ug)
+
+precip.clust.tz.rain = rain.TZMW.cropyear[[3]]%>%
   dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(rollmedian(., 5, align = "right", fill = NA))) %>%
   na.omit()
 
-colnames(precip_lhz_mw_rain)[3]
-
- lhz_mw_raindate=
-  precip_lhz_mw_rain %>%
-  dplyr::select(everything(),Date) %>%
+clust.tz.day1rain=
+  precip.clust.tz.rain %>%
+  dplyr::select(-Date,everything()) %>%
   dplyr::group_by(cropyear) %>%
-   
-  dplyr::summarise_all(funs(first(Date[na.omit(.)>2.2])))
- 
-  #dplyr::summarise_all(funs(first(Date[.>0])))
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
+
+#lhz.tz.day1rain[is.na(lhz.tz.day1rain)]=156
 
 
-lhz_mw_day1rain = 
-  
-  lhz_mw_raindate %>%
-  dplyr::select(-cropyear)%>%
-  dplyr::mutate_all(funs(interval(.,Date))) %>%
-  dplyr::mutate_all(funs(as.duration(.))) %>%
-  dplyr::mutate_all(funs(as.numeric(.,"days"))) %>%
-  dplyr::mutate_all(funs(.*-1)) 
-lhz_mw_day1rain$cropyear = lhz_mw_raindate$cropyear
-
-write.csv(lhz_mw_day1rain,"data/clean/weather/lhz_mw_day1rain.csv")
-
-
-
-####cluster level day1rain for tanzania ###########
-
-precip_clust_tz_rain = rain.TZMW.cropyear[[3]]%>%
-  dplyr::group_by(cropyear) %>%  # by cropyear
+####cluster level day1rain for Uganda ###########
+precip.clust.ug.rain = rain.UG.cropyear[[2]]%>%
+  dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
-  dplyr::mutate_all(funs(rollmedian(., 5, align = "right", fill = NA))) %>%      # generate a 5 days moving median of rain
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
   na.omit()
 
-clust_tz_raindate=
-  precip_clust_tz_rain %>%
+#colnames(precip.lhz.mw.rain)[3]
+
+clust.ug.day1rain=
+  precip.clust.ug.rain %>%
+  dplyr::select(-Date,everything()) %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(first(Date[.>2.2])))   # first day that has a moving median >2.2
-
-
-# generate the days from the beginning of the rainy season to the first day of rain
-clust_tz_day1rain = 
-  clust_tz_raindate %>%
-  dplyr::select(-cropyear)%>%
-  dplyr::mutate_all(funs(interval(.,date))) %>%                 # difference betweeen the starting date of the rainy season and first day of rain
-  dplyr::mutate_all(funs(as.duration(.))) %>%
-  dplyr::mutate_all(funs(as.numeric(.,"days"))) %>%
-  dplyr::mutate_all(funs(.*-1)) 
-
-clust_tz_day1rain$cropyear = clust_tz_raindate$cropyear
-
-write.csv(clust_tz_day1rain,"data/clean/weather/clust_tz_day1rain.csv")
-
-
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
 
 
 ####cluster level day1rain for malawi ###########
-
-precip_clust_mw_rain = rain.TZMW.cropyear[[4]]%>%
-  dplyr::group_by(cropyear) %>%  # by cropyear
+precip.clust.mw.rain = rain.TZMW.cropyear[[4]]%>%
+  dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
-  dplyr::mutate_all(funs(rollmedian(., 5, align = "right", fill = NA))) %>%      # generate a 5 days moving median of rain
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
   na.omit()
 
-clust_mw_raindate=
-  precip_clust_mw_rain %>%
+clust.mw.day1rain=
+  precip.clust.mw.rain %>%
+  dplyr::select(-Date,everything()) %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(first(Date[.>2.2])))   # first day that has a moving median >2.2
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date)
+
+save(clust.tz.day1rain,clust.ug.day1rain,clust.mw.day1rain,file="data/clean/weather/clust_day1rain.RData" )
 
 
-# generate the days from the beginning of the rainy season to the first day of rain
-clust_mw_day1rain = 
-  clust_mw_raindate %>%
-  dplyr::select(-cropyear)%>%
-  dplyr::mutate_all(funs(interval(.,date))) %>%                 # difference betweeen the starting date of the rainy season and first day of rain
-  dplyr::mutate_all(funs(as.duration(.))) %>%
-  dplyr::mutate_all(funs(as.numeric(.,"days"))) %>%
-  dplyr::mutate_all(funs(.*-1)) 
 
-clust_mw_day1rain$cropyear = clust_mw_raindate$cropyear
-
-write.csv(clust_mw_day1rain,"data/clean/weather/clust_mw_day1rain.csv")
 #################################################################################
 #### generate maxdaysno rain 
 ########### longest dry spell during the rainy season (Oct-Mar) per crop year (May-Apr)"
 #################################################################################
 
-maxdaysnorain_lhz_tz = 
-  rainlist_cropyear[[2]] %>%
+
+# rain.TZMW.list = list(precip_lhz_tz,precip_lhz_mw,precip_clust_tz,precip_clust_mw)
+# rain.UG.list = list(precip_lhz_ug,precip_clust_ug)
+
+maxdaysnorain.lhz.tz = 
+  rain.TZMW.cropyear[[1]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # 1 indicates that the day has 0 rainfall
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
-
-
-write.csv(maxdaysnorain_lhz_tz,"data/clean/weather/maxdaysnorain_lhz_tz.csv")
-
-maxdaysnorain_clust_tz = 
-  rainlist_cropyear[[3]] %>%
+  dplyr::summarise_all(funs(length(Date[.==1]))) %>%   # count the days with 0 rain
+  dplyr::select(-Date)
+  
+maxdaysnorain.clust.tz = 
+  rain.TZMW.cropyear[[3]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # indicate that the day has 0 rainfall
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
+  dplyr::summarise_all(funs(length(Date[.==1])))  %>%  # count the days with 0 rain
+  dplyr::select(-Date)
 
-maxdaysnorain_clust_tz = maxdaysnorain_clust_tz %>% dplyr::select(-Date)
-
-write.csv(maxdaysnorain_clust_tz,"data/clean/weather/maxdaysnorain_clust_tz.csv")
-
-
-maxdaysnorain_lhz_mw = 
-  rainlist_cropyear[[1]] %>%
+maxdaysnorain.lhz.mw = 
+  rain.TZMW.cropyear[[2]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # 1 indicates that the day has 0 rainfall
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
+  dplyr::summarise_all(funs(length(Date[.==1]))) %>%   # count the days with 0 rain
+  dplyr::select(-Date)
 
-
-write.csv(maxdaysnorain_lhz_mw,"data/clean/weather/maxdaysnorain_lhz_mw.csv")
-
-maxdaysnorain_clust_mw = 
-  rainlist_cropyear[[4]] %>%
+maxdaysnorain.clust.mw = 
+  rain.TZMW.cropyear[[4]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
   dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # indicate that the day has 0 rainfall
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
+  dplyr::summarise_all(funs(length(Date[.==1])))  %>%  # count the days with 0 rain
+  dplyr::select(-Date)
 
-maxdaysnorain_clust_mw = maxdaysnorain_clust_mw %>% dplyr::select(-Date)
 
-write.csv(maxdaysnorain_clust_mw,"data/clean/weather/maxdaysnorain_clust_mw.csv")
+maxdaysnorain.lhz.ug = 
+  rain.UG.cropyear[[1]] %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear,-year,-month) %>%
+  dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # 1 indicates that the day has 0 rainfall
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(length(Date[.==1]))) %>%   # count the days with 0 rain
+  dplyr::select(-Date)
+
+maxdaysnorain.clust.ug = 
+  rain.UG.cropyear[[2]] %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear,-year,-month) %>%
+  dplyr::mutate_all(funs(ifelse(.==0,1,0))) %>% # indicate that the day has 0 rainfall
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(length(Date[.==1])))  %>%  # count the days with 0 rain
+  dplyr::select(-Date)
+
+
+
+save(maxdaysnorain.lhz.tz,maxdaysnorain.lhz.ug,maxdaysnorain.lhz.mw,file="data/clean/weather/lhz_maxdaysnorain.RData" )
+save(maxdaysnorain.clust.tz,maxdaysnorain.clust.ug,maxdaysnorain.clust.mw,file="data/clean/weather/clust_maxdaysnorain.RData" )
 
 
 #################################################################################
 #### generate rain_cytot
-###########  "total rainfall from Oct to Apr by ipczone and cropyear"
+###########  "total rainfall from Oct to Apr （or march to july） by ipczone and cropyear" 
 #################################################################################
-rain_cytot_lhz_tz = 
-rainlist_cropyear[[2]] %>%
+
+
+# rain.TZMW.list = list(precip_lhz_tz,precip_lhz_mw,precip_clust_tz,precip_clust_mw)
+# rain.UG.list = list(precip_lhz_ug,precip_clust_ug)
+
+rain.cytot.lhz.tz = 
+  rain.TZMW.cropyear[[1]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
-  dplyr::summarise_all(funs(sum))   # count the total rain 
+  dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
+  dplyr::select(-Date)
 
-write.csv(rain_cytot_lhz_tz,"data/clean/weather/rain_cytot_lhz_tz.csv")
 
-rain_cytot_clust_tz = 
-  rainlist_cropyear[[3]] %>%
+ rain.cytot.clust.tz = 
+  rain.TZMW.cropyear[[3]] %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::select(-Date,cropyear,-year,-month) %>%
   dplyr::summarise_all(funs(sum))   # count the total rain 
 
-write.csv(rain_cytot_clust_tz,"data/clean/weather/rain_cytot_clust_tz.csv")
+ 
+ rain.cytot.lhz.mw = 
+   rain.TZMW.cropyear[[2]] %>%
+   dplyr::group_by(cropyear) %>%
+   dplyr::arrange(Date) %>%
+   dplyr::select(-cropyear,-year,-month) %>%
+   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
+   dplyr::select(-Date)
+ 
+ 
+ rain.cytot.clust.mw = 
+   rain.TZMW.cropyear[[4]] %>%
+   dplyr::group_by(cropyear) %>%
+   dplyr::arrange(Date) %>%
+   dplyr::select(-Date,cropyear,-year,-month) %>%
+   dplyr::summarise_all(funs(sum))  # count the total rain 
 
-rain_cytot_lhz_mw = 
-  rainlist_cropyear[[1]] %>%
-  dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
-  dplyr::select(-cropyear,-year,-month) %>%
-  dplyr::summarise_all(funs(sum))   # count the total rain 
-
-write.csv(rain_cytot_lhz_mw,"data/clean/weather/rain_cytot_lhz_mw.csv")
-
-rain_cytot_clust_mw = 
-  rainlist_cropyear[[4]] %>%
-  dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
-  dplyr::select(-Date,cropyear,-year,-month) %>%
-  dplyr::summarise_all(funs(sum))   # count the total rain 
-
-write.csv(rain_cytot_clust_mw,"data/clean/weather/rain_cytot_clust_mw.csv")
-
-
+ rain.cytot.lhz.ug = 
+   rain.UG.cropyear[[1]] %>%
+   dplyr::group_by(cropyear) %>%
+   dplyr::arrange(Date) %>%
+   dplyr::select(-cropyear,-year,-month) %>%
+   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
+   dplyr::select(-Date)
+ 
+ 
+ rain.cytot.clust.ug = 
+   rain.UG.cropyear [[2]] %>%
+   dplyr::group_by(cropyear) %>%
+   dplyr::arrange(Date) %>%
+   dplyr::select(-cropyear,-year,-month) %>%
+   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
+   dplyr::select(-Date)
+ 
+ 
+ save(rain.cytot.lhz.tz,rain.cytot.lhz.ug,rain.cytot.lhz.mw,file="data/clean/weather/lhz_rain_cytot.RData" )
+ save(rain.cytot.clust.tz,rain.cytot.clust.ug,rain.cytot.clust.mw,file="data/clean/weather/clust_rain_cytot.RData" )
+ 
+ 
+ 
 #################################################################################
 #### generate mean temperature in the growing season   
 #################################################################################
@@ -366,68 +397,103 @@ tz_tmax <- read.csv("data/raw/temperature/tz_daily_tmax.csv")
 ug_tmin <- read.csv("data/raw/temperature/ug_daily_tmin.csv")
 ug_tmax <- read.csv("data/raw/temperature/ug_daily_tmax.csv")
 
-date =as.Date(mw_tmax$date1,"%m/%d/%Y")
+source("R/functions/CropYearTZMW.R") 
+source("R/functions/CropYearUG.R") 
 
-mw_tmin_cy= CropYear(mw_tmin,date)
-mw_tmax_cy= CropYear(mw_tmax,date)
-
-cropyear = mw_tmin_cy$cropyear 
-cropyear_date = mw_tmin_cy$date
-
-mw_tmin_cy = mw_tmin_cy %>% dplyr::select(-date1,-X,-month,-year,-date)
-mw_tmax_cy = mw_tmax_cy %>% dplyr::select(-date1,-X,-month,-year,-date)
+temp.TZMW.list= list(tz_tmax,tz_tmin,mw_tmax,mw_tmin)
+temp.UG.list= list(ug_tmax,ug_tmin)
 
 
-mw_tmean_full = (mw_tmax_cy + mw_tmin_cy)/2 -273.15
+formatTempDF= function(df){
+  formatted.DF = df %>% dplyr::mutate(Date= as.Date(date1,"%m/%d/%Y")) %>% dplyr::select(-date1)   
+    
+  tryCatch( {formatted.DF = formatted.DF %>% dplyr::select(-X)},error=function(e){} )
+  return(formatted.DF)
+}
+
+temp.TZMW.list.format = lapply(temp.TZMW.list, function(x){formatTempDF(x)})
+temp.UG.list.format = lapply(temp.UG.list, function(x){formatTempDF(x)})
 
 
-mw_tmean_full$cropyear = cropyear
-mw_tmean_full$date = cropyear_date
+temp.TZMW.cropyear = lapply(temp.TZMW.list.format, function(x){CropYearTZMW(x)})
+temp.UG.cropyear = lapply(temp.UG.list.format, function(x){CropYearUG(x)})
 
-mw_tmean = 
-  
-  mw_tmean_full %>%
+##########################################################
+## create mean temp variable for Uganda
+##########################################################
+
+ug.date = temp.UG.cropyear[[1]]$Date
+ug.cropyear = temp.UG.cropyear[[1]]$cropyear
+
+temp.UG.cropyear[[1]] = temp.UG.cropyear[[1]] %>% dplyr::select(-Date,-month,-year,-cropyear)
+temp.UG.cropyear[[2]] = temp.UG.cropyear[[2]] %>% dplyr::select(-Date,-month,-year,-cropyear)
+
+ug.temp.mean.full = (temp.UG.cropyear[[1]] + temp.UG.cropyear[[2]])/2 -273.15
+ug.temp.mean.full["Date"] = ug.date
+ug.temp.mean.full["cropyear"] = ug.cropyear
+
+
+ug.tmean = 
+  ug.temp.mean.full %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
-  dplyr::select(-date) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-Date) %>%
+  dplyr::summarise_all(funs(mean))   # generate the mean temperature by year by ipczone
+
+ 
+##########################################################
+## create mean temp variable for Tanzania 
+##########################################################
+
+tz.date = temp.TZMW.cropyear[[1]]$Date
+tz.cropyear = temp.TZMW.cropyear[[1]]$cropyear
+
+
+temp.TZMW.cropyear[[1]] = temp.TZMW.cropyear[[1]] %>% dplyr::select(-Date,-month,-year,-cropyear)
+temp.TZMW.cropyear[[2]] = temp.TZMW.cropyear[[2]] %>% dplyr::select(-Date,-month,-year,-cropyear)
+
+tz.temp.mean.full = (temp.TZMW.cropyear[[1]] + temp.TZMW.cropyear[[2]])/2 -273.15
+tz.temp.mean.full["Date"] = tz.date
+tz.temp.mean.full["cropyear"] = tz.cropyear
+
+
+tz.tmean = 
+  tz.temp.mean.full %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-Date) %>%
   dplyr::summarise_all(funs(mean))   # generate the mean temperature by year by ipczone
 
 
-write.csv(mw_tmean,"data/clean/weather/mw_tmean.csv")
+##########################################################
+## create mean temp variable for Tanzania 
+##########################################################
+
+mw.date = temp.TZMW.cropyear[[3]]$Date
+mw.cropyear = temp.TZMW.cropyear[[3]]$cropyear
 
 
+temp.TZMW.cropyear[[3]] = temp.TZMW.cropyear[[3]] %>% dplyr::select(-Date,-month,-year,-cropyear)
+temp.TZMW.cropyear[[4]] = temp.TZMW.cropyear[[4]] %>% dplyr::select(-Date,-month,-year,-cropyear)
 
-tz_tmin <- read.csv("data/raw/temperature/tz_daily_tmin.csv")
-tz_tmax <- read.csv("data/raw/temperature/tz_daily_tmax.csv")
-
-date =as.Date(tz_tmax$date1,"%m/%d/%Y")
-
-tz_tmin_cy= CropYear(tz_tmin,date)
-tz_tmax_cy= CropYear(tz_tmax,date)
-
-cropyear = tz_tmin_cy$cropyear 
-cropyear_date = tz_tmin_cy$date
-
-tz_tmin_cy = tz_tmin_cy %>% dplyr::select(-date1,-X,-month,-year,-date)
-tz_tmax_cy = tz_tmax_cy %>% dplyr::select(-date1,-month,-year,-date)
+mw.temp.mean.full = (temp.TZMW.cropyear[[3]] + temp.TZMW.cropyear[[4]])/2 -273.15
+mw.temp.mean.full["Date"] = mw.date
+mw.temp.mean.full["cropyear"] = mw.cropyear
 
 
-tz_tmean_full = (tz_tmax_cy + tz_tmin_cy)/2 -273.15
-
-
-tz_tmean_full$cropyear = cropyear
-tz_tmean_full$date = cropyear_date
-
-tz_tmean = 
-  
-  tz_tmean_full %>%
+mw.tmean = 
+  mw.temp.mean.full %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
-  dplyr::select(-date) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-Date) %>%
   dplyr::summarise_all(funs(mean))   # generate the mean temperature by year by ipczone
 
 
-write.csv(tz_tmean,"data/clean/weather/tz_tmean.csv")
+
+
+save(tz.tmean,ug.tmean,mw.tmean,file="data/clean/weather/tmean.RData" )
+
+
 
 #################################################################################
 #### generate growing degree days  
@@ -435,89 +501,50 @@ write.csv(tz_tmean,"data/clean/weather/tz_tmean.csv")
 #################################################################################
 
 
-mw_gdd = mw_tmean_full %>%
+mw.gdd = mw.temp.mean.full %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::mutate_all(funs(ifelse(.>8 & .<32,1,0))) %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
+  dplyr::summarise_all(funs(length(Date[.==1])))   %>% # count the days with 0 rain
+  dplyr::select(-Date)
 
-write.csv(mw_gdd,"data/clean/weather/mw_gdd.csv")
-
-
-tz_gdd = tz_tmean_full %>%
+tz.gdd = tz.temp.mean.full %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::arrange(date) %>%
+  dplyr::arrange(Date) %>%
   dplyr::mutate_all(funs(ifelse(.>8 & .<32,1,0))) %>%
   dplyr::group_by(cropyear) %>%
-  dplyr::summarise_all(funs(length(date[.==1])))   # count the days with 0 rain
+  dplyr::summarise_all(funs(length(Date[.==1]))) %>%  # count the days with 0 rain
+  dplyr::select(-Date)
+  
+ug.gdd = 
+  ug.temp.mean.full %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::mutate_all(funs(ifelse(.>8 & .<32,1,0))) %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(length(Date[.==1]))) %>%  # count the days with 0 rain
+  dplyr::select(-Date)
 
-write.csv(tz_gdd,"data/clean/weather/tz_gdd.csv")
-
-
-
-
+save(tz.gdd,ug.gdd,mw.gdd, file="data/clean/weather/gdd.RData")
 #################################################################################
 ## merge the rainfall variable with cluster/ipc zone id and year 
 #############################################################################
 
 
 library(dplyr)
-rain_cytot_clust_mw  = read.csv("data/clean/weather/rain_cytot_clust_mw.csv")
-rain_cytot_clust_mw = rain_cytot_clust_mw %>% dplyr::select(-X,-X.1,-date)  # remove unneeded variables 
+rm(list=ls())
 
-rain_cytot_clust_tz = read.csv("data/clean/weather/rain_cytot_clust_tz.csv")
-rain_cytot_clust_tz = rain_cytot_clust_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
+load("data/clean/weather/clust_day1rain.RData")
+load("data/clean/weather/clust_maxdaysnorain.RData")
+load("data/clean/weather/clust_rain_cytot.RData")
 
-rain_cytot_lhz_mw = read.csv("data/clean/weather/rain_cytot_lhz_mw.csv")
-rain_cytot_lhz_mw = rain_cytot_lhz_mw %>% dplyr::select(-X,-date)  # remove unneeded variables 
+load("data/clean/weather/lhz_day1rain.RData")
+load("data/clean/weather/lhz_maxdaysnorain.RData")
+load("data/clean/weather/lhz_rain_cytot.RData")
 
-
-rain_cytot_lhz_tz = read.csv("data/clean/weather/rain_cytot_lhz_tz.csv")
-rain_cytot_lhz_tz = rain_cytot_lhz_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-
-maxdaysnorain_clust_mw  = read.csv("data/clean/weather/maxdaysnorain_clust_mw.csv")
-maxdaysnorain_clust_mw = maxdaysnorain_clust_mw %>% dplyr::select(-X,-X.1,-date)  # remove unneeded variables 
-
-maxdaysnorain_clust_tz = read.csv("data/clean/weather/maxdaysnorain_clust_tz.csv")
-maxdaysnorain_clust_tz = maxdaysnorain_clust_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-maxdaysnorain_lhz_mw = read.csv("data/clean/weather/maxdaysnorain_lhz_mw.csv")
-maxdaysnorain_lhz_mw = maxdaysnorain_lhz_mw %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-
-maxdaysnorain_lhz_tz = read.csv("data/clean/weather/maxdaysnorain_lhz_tz.csv")
-maxdaysnorain_lhz_tz = maxdaysnorain_lhz_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-
-day1rain_clust_mw  = read.csv("data/clean/weather/clust_mw_day1rain.csv")
-day1rain_clust_mw = day1rain_clust_mw %>% dplyr::select(-X,-X.1,-date)  # remove unneeded variables 
-
-
-day1rain_clust_tz = read.csv("data/clean/weather/clust_tz_day1rain.csv")
-day1rain_clust_tz = day1rain_clust_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-
-day1rain_lhz_mw = read.csv("data/clean/weather/lhz_mw_day1rain.csv")
-day1rain_lhz_mw = day1rain_lhz_mw %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-day1rain_lhz_tz = read.csv("data/clean/weather/lhz_tz_day1rain.csv")
-day1rain_lhz_tz = day1rain_lhz_tz %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-tz_gdd  = read.csv("data/clean/weather/tz_gdd.csv")
-tz_gdd = tz_gdd %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-
-tz_tmean = read.csv("data/clean/weather/tz_tmean.csv")
-tz_tmean = tz_tmean %>% dplyr::select(-X)  # remove unneeded variables 
-
-mw_gdd = read.csv("data/clean/weather/mw_gdd.csv")
-mw_gdd = mw_gdd %>% dplyr::select(-X,-date)  # remove unneeded variables 
-
-mw_tmean = read.csv("data/clean/weather/mw_tmean.csv")
-mw_tmean = mw_tmean %>% dplyr::select(-X)  # remove unneeded variables 
-
+load("data/clean/weather/gdd.RData")
+load("data/clean/weather/tmean.RData")
 
 source("R/functions/WeatherTranspose.R") 
 mw_clust= list(rain_cytot_clust_mw,day1rain_clust_mw,maxdaysnorain_clust_mw)
