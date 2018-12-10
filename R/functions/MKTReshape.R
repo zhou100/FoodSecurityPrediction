@@ -8,10 +8,22 @@ library(zoo)
 library(stringr)
 
 MktReshape <- function(market_df){
-  market_df = market_df %>%  dplyr::select(-X,-X.1)
   
-  position = str_which(colnames(market_df), "X2006.01.01") 
+  tryCatch(
+    {  market_df = market_df %>%  dplyr::select(-X)},
+    error = function(e){
+      market_df = market_df
+    }
+      )
+
   
+#  position = str_which(colnames(market_df), "X2006.01.01") 
+  
+  if (colnames(market_df)[1]=="FNID"){
+    position = 3 
+  } else {
+    position = 4
+  }
   
   market_df_long = market_df  %>%
     tidyr:: gather( key = date, value ="value", position:ncol(market_df))  # wide to long 

@@ -4,57 +4,51 @@
 
 # Input : 
 # 1.df: df, rains extracted from CHIRPS or temperature from African Drought monitor
-# 2.date: vector, contains the date variable 
+# 2.Date: vector, contains the Date variable 
 
 
 
 # Output: 
 # 1. df: cropyear_weather with only rain during the raining season with    
 ################################################################### 
+library(dplyr)
+library(zoo)
 
-CropYear = function(df,date){
-  library(dplyr)
-  library(zoo)
-  month = strftime(date,"%m")
-  month = as.numeric(month)
-  year = strftime(date,"%Y")
-  year = as.numeric(year)
+CropYearUG = function(df){
   
-  df["date"]  = date
-  df["month"] = month
-  df["year"] = year
+  df = df %>% dplyr::mutate(month = strftime(as.Date(Date),"%m") )%>% dplyr::mutate(year = as.numeric (strftime(as.Date(Date),"%Y")) )
   
-  
+
   cropyear1 =   df %>% 
-    filter( date>=as.Date("2008-04-01") & date<=as.Date("2009-05-01") )  %>%
+    filter( Date>=as.Date("2008-03-01") & Date<=as.Date("2008-07-01") )  %>%
     dplyr::mutate(cropyear = 2008)
   
   cropyear2 =   df %>% 
-    filter( date>=as.Date("2009-04-01") & date<=as.Date("2010-05-01") ) %>%
+    filter( Date>=as.Date("2009-03-01") & Date<=as.Date("2009-07-01") ) %>%
     dplyr::mutate(cropyear = 2009)
   
   cropyear3 =   df %>% 
-    filter( date>=as.Date("2010-04-01") & date<=as.Date("2011-05-01") )  %>%
+    filter( Date>=as.Date("2010-03-01") & Date<=as.Date("2011-07-01") )  %>%
     dplyr::mutate(cropyear = 2010)
   
   cropyear4 =   df %>% 
-    filter( date>=as.Date("2011-04-01") & date<=as.Date("2012-05-01") )  %>%
+    filter( Date>=as.Date("2011-03-01") & Date<=as.Date("2012-07-01") )  %>%
     dplyr::mutate(cropyear = 2011)
   
   cropyear5 =   df %>% 
-    filter( date>=as.Date("2012-04-01") & date<=as.Date("2013-05-01") )  %>%
+    filter( Date>=as.Date("2012-03-01") & Date<=as.Date("2013-07-01") )  %>%
     dplyr::mutate(cropyear = 2012)
   
   cropyear6 =   df %>% 
-    filter( date>=as.Date("2013-04-01") & date<=as.Date("2014-05-01") )  %>%
+    filter( Date>=as.Date("2013-03-01") & Date<=as.Date("2014-07-01") )  %>%
     dplyr::mutate(cropyear = 2013)
   
   cropyear7 =   df %>% 
-    filter( date>=as.Date("2014-04-01") & date<=as.Date("2015-05-01") )  %>%
+    filter( Date>=as.Date("2014-03-01") & Date<=as.Date("2015-07-01") )  %>%
     dplyr::mutate(cropyear = 2014)
   
   cropyear8 =   df %>% 
-    filter( date>=as.Date("2015-04-01") & date<=as.Date("2016-05-01") )  %>%
+    filter( Date>=as.Date("2015-03-01") & Date<=as.Date("2016-07-01") )  %>%
     dplyr::mutate(cropyear = 2015)
   
   cropyear_weather = dplyr::bind_rows(cropyear1,cropyear2,cropyear3,cropyear4,cropyear5,cropyear6,cropyear7,cropyear8)

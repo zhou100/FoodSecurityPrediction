@@ -42,6 +42,7 @@ source("R/functions/MktReshape.R")
 # output:  a list of market geoordinates for the given countries. 
 ###################################################################
 source("R/functions/GoogleMapApi.r") 
+map.key = ""
 
 
 # subset 
@@ -377,16 +378,16 @@ path = "data/clean/market/impute_thin/"
 ####  write imputed prices
 ###########################################################################################
 for (i in 1:length(tan_names)){
-  write.csv(tanzania_prices_imputed[[i]], paste(path,paste(tan_names[i],"_price_tz.csv",sep = ""),sep = "" ))
+  write.csv(tanzania_prices_imputed[[i]], paste(path,paste(tan_names[i],"_price_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
 for (i in 1:length(ug_names)){
-  write.csv(uganda_prices_imputed[[i]], paste(path,paste(ug_names[i],"_price_ug.csv",sep = ""),sep = "" ))
+  write.csv(uganda_prices_imputed[[i]], paste(path,paste(ug_names[i],"_price_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 for (i in 1:length(mw_names)){
-  write.csv(mw_prices_imputed[[i]], paste(path,paste(mw_names[i],"_price_mw.csv",sep = ""),sep = "" ))
+  write.csv(mw_prices_imputed[[i]], paste(path,paste(mw_names[i],"_price_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
@@ -394,16 +395,16 @@ for (i in 1:length(mw_names)){
 ####  write market thinness variable 
 ###########################################################################################
 for (i in 1:length(mw_names)){
-  write.csv(mw_mktthin[[i]], paste(path,paste(mw_names[i],"_mktthin_mw.csv",sep = ""),sep = "" ))
+  write.csv(mw_mktthin[[i]], paste(path,paste(mw_names[i],"_mktthin_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
 for (i in 1:length(tan_names)){
-  write.csv(tanzania_mktthin[[i]], paste(path,paste(tan_names[i],"_mktthin_tz.csv",sep = ""),sep = "" ))
+  write.csv(tanzania_mktthin[[i]], paste(path,paste(tan_names[i],"_mktthin_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 for (i in 1:length(ug_names)){
-  write.csv(uganda_mktthin[[i]], paste(path,paste(ug_names[i],"_mktthin_ug.csv",sep = ""),sep = "" ))
+  write.csv(uganda_mktthin[[i]], paste(path,paste(ug_names[i],"_mktthin_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
@@ -546,195 +547,32 @@ mw_names = c("maize","rice","nuts","beans")
 path = "data/clean/market/lhz_prices/"
 
  for (i in 1:length(tan_names)){
-   write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ))
+   write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
  }
 
 
 for (i in 1:length(ug_names)){
-  write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ))
+  write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 for (i in 1:length(mw_names)){
-  write.csv(mw_lhz_price[[i]], paste(path,paste(mw_names[i],"_lhz_price_mw.csv",sep = ""),sep = "" ))
+  write.csv(mw_lhz_price[[i]], paste(path,paste(mw_names[i],"_lhz_price_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
 for (i in 1:length(tan_names)){
-  write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ))
+  write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ),row.names=FALSE )
 }
 
 for (i in 1:length(ug_names)){
-  write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
+  write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ),row.names=FALSE )
 }
 
 for (i in 1:length(mw_names)){
-  write.csv(mw_lhz_mktthin[[i]], paste(path,paste(mw_names[i],"_lhz_mktthin_mw.csv",sep = ""),sep = "" ))
+  write.csv(mw_lhz_mktthin[[i]], paste(path,paste(mw_names[i],"_lhz_mktthin_mw.csv",sep = ""),sep = "" ),row.names=FALSE )
 }
 
 #
-
-################################################################################
-# 7.  TA with population weights for each market shed
-###############################################################################
-
-
-landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
-
-lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones
-lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness
-
-lhz_UG <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/UG_LHZ_2011.shp")                # Uganda  livelihood zones
-lhz_UG_nowater = lhz_UG[lhz_UG$LZNAMEEN!="Lake and Open Water",]    # drop the lake area since no population there
-lhz_UG_intersect <- readOGR("shapefiles/livelihood_zone/UG_LHZ_2011/intersect/ug_intersect.shp")  # intersection of lhz and market_thinness
-
-
-lhz_mw <- readOGR("shapefiles/livelihood_zone/malawi/livelihood zone 2012/MW_Admin1_LHZ_2012.3/MW_Admin1_LHZ_2012.3.shp")                  # Tanzania livelihood zones
-lhz_mw_intersect <- readOGR("shapefiles/livelihood_zone/malawi/mw_intersect.shp")  # intersection of lhz and market_thinness
-
-
-
-
-source("R/functions/PopuWeight.R")
-tz_popweight = PopuWeight(landscan_pop,lhz_TZ,lhz_TZ_intersect)
-ug_popweight = PopuWeight(landscan_pop,lhz_UG_nowater,lhz_UG_intersect)
-mw_popweight = PopuWeight(landscan_pop,lhz_mw,lhz_mw_intersect)
-
-write.csv(mw_popweight,"data/clean/market/mw_popweight.csv" )
-write.csv(tz_popweight,"data/clean/market/tz_popweight.csv" )
-write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
-
-###############################################################################
-# 6. link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
-###############################################################################
-
-#tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
-#ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
-#mw_popweight <- read.csv("data/clean/market/mw_popweight.csv")
-
-path = "data/clean/market/impute_thin/"
-
-file_list <- list.files(path=path,
-                        pattern = "csv$",
-                        full.names=FALSE)
-dfnames<-file_list
-dfnames <- gsub(".csv","", dfnames)
-
-
-list2env(
-  lapply(setNames(file_list, make.names(dfnames)),
-         function(i){read.csv(paste(path,i,sep=""),stringsAsFactors = FALSE)}), envir = .GlobalEnv)
-
-
-# save the prices in a list to make the loop easy
-
-tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
-ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
-mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,beans_price_mw)
-
-
-tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
-ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
-mw_mktthin<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,beans_mktthin_mw)
-
-
-
-source("R/functions/NameToPrice.R")
-
-tz_lhz_price_unweight <- lapply(tz_prices_impu, function(x){
-  NameToPrice(tz_popweight,x)
-})
-
-ug_lhz_price_unweight <- lapply(ug_prices_impu, function(x){
-  NameToPrice(ug_popweight,x)
-})
-
-mw_lhz_price_unweight <- lapply(mw_prices_impu, function(x){
-  NameToPrice(mw_popweight,x)
-})
-
-
-
-tz_lhz_mktthin_unweight <- lapply(tz_mktthin, function(x){
-  NameToPrice(tz_popweight,x)
-})
-
-
-ug_lhz_mktthin_unweight <- lapply(ug_mktthin, function(x){
-  NameToPrice(ug_popweight,x)
-})
-
-mw_lhz_mktthin_unweight <- lapply(mw_mktthin, function(x){
-  NameToPrice(mw_popweight,x)
-})
-
-source("R/functions/WeightedPrice.R")
-
-
-tz_lhz_price <- lapply(tz_lhz_price_unweight, function(x){
-  WeightedPrice(x)
-})
-
-ug_lhz_price <- lapply(ug_lhz_price_unweight, function(x){
-  WeightedPrice(x)
-})
-
-mw_lhz_price <- lapply(mw_lhz_price_unweight, function(x){
-  WeightedPrice(x)
-})
-
-
-
-tz_lhz_mktthin <- lapply(tz_lhz_mktthin_unweight, function(x){
-  WeightedPrice(x)
-})
-
-ug_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
-  WeightedPrice(x)
-})
-
-mw_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
-  WeightedPrice(x)
-})
-
-tan_names = c("bean","maize","rice")
-ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
-mw_names = c("maize","rice","nuts","beans")
-
-path = "data/clean/market/lhz_prices/"
-
-for (i in 1:length(tan_names)){
-  write.csv(tz_lhz_price[[i]], paste(path,paste(tan_names[i],"_lhz_price_tz.csv",sep = ""),sep = "" ))
-}
-
-
-for (i in 1:length(ug_names)){
-  write.csv(ug_lhz_price[[i]], paste(path,paste(ug_names[i],"_lhz_price_ug.csv",sep = ""),sep = "" ))
-}
-
-for (i in 1:length(mw_names)){
-  write.csv(mw_lhz_price[[i]], paste(path,paste(mw_names[i],"_lhz_price_mw.csv",sep = ""),sep = "" ))
-}
-
-
-for (i in 1:length(tan_names)){
-  write.csv(tz_lhz_mktthin[[i]], paste(path,paste(tan_names[i],"_lhz_mktthin_tz.csv",sep = ""),sep = "" ))
-}
-
-for (i in 1:length(ug_names)){
-  write.csv(ug_lhz_mktthin[[i]], paste(path,paste(ug_names[i],"_lhz_mktthin_ug.csv",sep = ""),sep = "" ))
-}
-
-for (i in 1:length(mw_names)){
-  write.csv(mw_lhz_mktthin[[i]], paste(path,paste(mw_names[i],"_lhz_mktthin_mw.csv",sep = ""),sep = "" ))
-}
-
-
-
-
-
-
-
-
 
 
 ###############################################################################
@@ -743,7 +581,7 @@ for (i in 1:length(mw_names)){
 # need a concordance table with cluster and its nearest mkt using MktNearCluster function 
 
 # Market geo-coordinates 
-mkt_coord_TZN<-read.csv("data/clean/market/mkt_coord_TZN.csv")
+mkt_coord_tz<-read.csv("data/clean/market/mkt_coord_TZN.csv")
 mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
 mkt_coord_mw<-read.csv("data/clean/market/mkt_coord_mw.csv")
 
@@ -760,7 +598,7 @@ clust_coord_mw = na.omit(clust_coord_mw)
 source("R/functions/MktNearCluster.R") 
 
 # cluster geo-coordinates 
-cluster_mkt_concord_tz = MktNearCluster(clust_coord_tz,mkt_coord_TZN)
+cluster_mkt_concord_tz = MktNearCluster(clust_coord_tz,mkt_coord_tz)
 cluster_mkt_concord_ug = MktNearCluster(clust_coord_ug,mkt_coord_ug)
 cluster_mkt_concord_mw = MktNearCluster(clust_coord_mw,mkt_coord_mw)
 
@@ -784,18 +622,18 @@ list2env(
          function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
 
 
+
+
 # save the prices in a list to make the loop easy 
 
 tz_prices_impu<-list(bean_price_tz,maize_price_tz,rice_price_tz)
 ug_prices_impu<-list(bean_price_ug,maize_price_ug,cassava_price_ug,maizeflour_price_ug,millet_price_ug,sorghum_price_ug)
-mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,bean_price_mw)
-
+mw_prices_impu<-list(maize_price_mw,rice_price_mw,nuts_price_mw,beans_price_mw)
 
 
 tz_mktthin<-list(bean_mktthin_tz,maize_mktthin_tz,rice_mktthin_tz)
 ug_mktthin<-list(bean_mktthin_ug,maize_mktthin_ug,cassava_mktthin_ug,maizeflour_mktthin_ug,millet_mktthin_ug,sorghum_mktthin_ug)
-mw_mktthins_impu<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,bean_mktthin_mw)
-
+mw_mktthin<-list(maize_mktthin_mw,rice_mktthin_mw,nuts_mktthin_mw,beans_mktthin_mw)
 
 
 source("R/functions/NameToPrice.R") 
@@ -809,6 +647,11 @@ ug_cluster_price <- lapply(ug_prices_impu, function(x){
   NameToPrice(cluster_mkt_concord_ug,x)
 })
 
+mw_cluster_price <- lapply(mw_prices_impu, function(x){
+  NameToPrice(cluster_mkt_concord_mw,x)
+})
+
+
 tz_cluster_mktthin <- lapply(tz_mktthin, function(x){
   NameToPrice(cluster_mkt_concord_tz,x)
 })
@@ -818,6 +661,9 @@ ug_cluster_mktthin <- lapply(ug_mktthin, function(x){
   NameToPrice(cluster_mkt_concord_ug,x)
 })
 
+mw_cluster_mktthin <- lapply(mw_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_mw,x)
+})
 
 
 tan_names = c("bean","maize","rice")
@@ -828,86 +674,221 @@ dir.create("data/clean/market/cluster_prices")
 path = "data/clean/market/cluster_prices/"
 
 for (i in 1:length(tan_names)){
-  write.csv(tz_cluster_price[[i]], paste(path,paste(tan_names[i],"_clust_price_tz.csv",sep = ""),sep = "" ))
+  write.csv(tz_cluster_price[[i]], paste(path,paste(tan_names[i],"_clust_price_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 
 for (i in 1:length(ug_names)){
-  write.csv(ug_cluster_price[[i]], paste(path,paste(ug_names[i],"_clust_price_ug.csv",sep = ""),sep = "" ))
+  write.csv(ug_cluster_price[[i]], paste(path,paste(ug_names[i],"_clust_price_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
+
+for (i in 1:length(mw_names)){
+  write.csv(mw_cluster_price[[i]], paste(path,paste(mw_names[i],"_clust_price_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
+}
+
 
 for (i in 1:length(tan_names)){
-  write.csv(tz_cluster_mktthin[[i]], paste(path,paste(tan_names[i],"_clust_mktthin_tz.csv",sep = ""),sep = "" ))
+  write.csv(tz_cluster_mktthin[[i]], paste(path,paste(tan_names[i],"_clust_mktthin_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
 for (i in 1:length(ug_names)){
-  write.csv(ug_cluster_mktthin[[i]], paste(path,paste(ug_names[i],"_cluster_mktthin_ug.csv",sep = ""),sep = "" ))
+  write.csv(ug_cluster_mktthin[[i]], paste(path,paste(ug_names[i],"_clust_mktthin_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
  
+for (i in 1:length(mw_names)){
+  write.csv(mw_cluster_mktthin[[i]], paste(path,paste(mw_names[i],"_clust_mktthin_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
+}
 
 
-maize_clust_price_tz= read.csv("data/clean/market/cluster_prices/maize_clust_price_tz.csv")
-maize_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/maize_clust_mktthin_tz.csv")
+# maize_clust_price_tz= read.csv("data/clean/market/cluster_prices/maize_clust_price_tz.csv")
+# maize_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/maize_clust_mktthin_tz.csv")
+# 
+# rice_clust_price_tz= read.csv("data/clean/market/cluster_prices/rice_clust_price_tz.csv")
+# rice_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/rice_clust_mktthin_tz.csv")
+# 
+# maize_lhz_price_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_price_tz.csv")
+# position = str_which(colnames(maize_lhz_price_tz), "weights") 
+# colnames(maize_lhz_price_tz)[position] = "X.1"
+# 
+# maize_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_mktthin_tz.csv")
+# position = str_which(colnames(maize_lhz_mktthin_tz), "weights") 
+# colnames(maize_lhz_mktthin_tz)[position] = "X.1"
+# 
+# rice_lhz_price_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_price_tz.csv")
+# position = str_which(colnames(rice_lhz_price_tz), "weights") 
+# colnames(rice_lhz_price_tz)[position] = "X.1"
+# 
+# 
+# rice_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_mktthin_tz.csv")
+# position = str_which(colnames(rice_lhz_mktthin_tz), "weights") 
+# colnames(rice_lhz_mktthin_tz)[position] = "X.1"
 
-rice_clust_price_tz= read.csv("data/clean/market/cluster_prices/rice_clust_price_tz.csv")
-rice_clust_mktthin_tz= read.csv("data/clean/market/cluster_prices/rice_clust_mktthin_tz.csv")
 
-maize_lhz_price_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_price_tz.csv")
-position = str_which(colnames(maize_lhz_price_tz), "weights") 
-colnames(maize_lhz_price_tz)[position] = "X.1"
+###############################################################################
+# 8. Transpose all the prices 
+###############################################################################
 
-maize_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/maize_lhz_mktthin_tz.csv")
-position = str_which(colnames(maize_lhz_mktthin_tz), "weights") 
-colnames(maize_lhz_mktthin_tz)[position] = "X.1"
+rm(list=ls())
 
-rice_lhz_price_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_price_tz.csv")
-position = str_which(colnames(rice_lhz_price_tz), "weights") 
-colnames(rice_lhz_price_tz)[position] = "X.1"
+path = "data/clean/market/cluster_prices/"
+
+file_list <- list.files(path=path, 
+                        pattern = "csv$",
+                        full.names=FALSE)
+dfnames<-file_list
+dfnames <- gsub(".csv","", dfnames)
 
 
-rice_lhz_mktthin_tz= read.csv("data/clean/market/lhz_prices/rice_lhz_mktthin_tz.csv")
-position = str_which(colnames(rice_lhz_mktthin_tz), "weights") 
-colnames(rice_lhz_mktthin_tz)[position] = "X.1"
+list2env(
+  lapply(setNames(file_list, make.names(dfnames)), 
+         function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
 
-library(stringr)
 
-clust_price_tz = list(maize_clust_price_tz,maize_clust_mktthin_tz,rice_clust_price_tz,rice_clust_mktthin_tz)
-lhz_price_tz = list(maize_lhz_price_tz,maize_lhz_mktthin_tz,rice_lhz_price_tz,rice_lhz_mktthin_tz)
+
+
+path = "data/clean/market/lhz_prices/"
+
+file_list <- list.files(path=path, 
+                        pattern = "csv$",
+                        full.names=FALSE)
+dfnames<-file_list
+dfnames <- gsub(".csv","", dfnames)
+
+
+list2env(
+  lapply(setNames(file_list, make.names(dfnames)), 
+         function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
+
+
+
+tan_names = c("bean","maize","rice")
+ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
+mw_names = c("maize","rice","nuts","beans")
+
+tz_clust_price<-list(bean_clust_price_tz,maize_clust_price_tz,rice_clust_price_tz)
+ug_clust_price<-list(bean_clust_price_ug,maize_clust_price_ug,cassava_clust_price_ug,maizeflour_clust_price_ug,millet_clust_price_ug,sorghum_clust_price_ug)
+mw_clust_price<-list(maize_clust_price_mw,rice_clust_price_mw,nuts_clust_price_mw,beans_clust_price_mw)
+
+tz_clust_mktthin<-list(bean_clust_mktthin_tz,maize_clust_mktthin_tz,rice_clust_mktthin_tz)
+ug_clust_mktthin<-list(bean_clust_mktthin_ug,maize_clust_mktthin_ug,cassava_clust_mktthin_ug,maizeflour_clust_mktthin_ug,millet_clust_mktthin_ug,sorghum_clust_mktthin_ug)
+mw_clust_mktthin<-list(maize_clust_mktthin_mw,rice_clust_mktthin_mw,nuts_clust_mktthin_mw,beans_clust_mktthin_mw)
+
+tz_lhz_price<-list(bean_lhz_price_tz,maize_lhz_price_tz,rice_lhz_price_tz)
+ug_lhz_price<-list(bean_lhz_price_ug,maize_lhz_price_ug,cassava_lhz_price_ug,maizeflour_lhz_price_ug,millet_lhz_price_ug,sorghum_lhz_price_ug)
+mw_lhz_price<-list(maize_lhz_price_mw,rice_lhz_price_mw,nuts_lhz_price_mw,beans_lhz_price_mw)
+
+tz_lhz_mktthin<-list(bean_lhz_mktthin_tz,maize_lhz_mktthin_tz,rice_lhz_mktthin_tz)
+ug_lhz_mktthin<-list(bean_lhz_mktthin_ug,maize_lhz_mktthin_ug,cassava_lhz_mktthin_ug,maizeflour_lhz_mktthin_ug,millet_lhz_mktthin_ug,sorghum_lhz_mktthin_ug)
+mw_lhz_mktthin<-list(maize_lhz_mktthin_mw,rice_lhz_mktthin_mw,nuts_lhz_mktthin_mw,beans_lhz_mktthin_mw)
 
 
 source("R/functions/MktReshape.R") 
-clust_price_tz_long = lapply(clust_price_tz,MktReshape)
-lhz_price_tz_long = lapply(lhz_price_tz,MktReshape)
+clust_price_tz_long = lapply(tz_clust_price,MktReshape)
+clust_mktthin_tz_long = lapply(tz_clust_mktthin,MktReshape)
+
+clust_price_ug_long = lapply(ug_clust_price,MktReshape)
+clust_mktthin_ug_long = lapply(ug_clust_mktthin,MktReshape)
+
+clust_price_mw_long = lapply(mw_clust_price,MktReshape)
+clust_mktthin_mw_long = lapply(mw_clust_mktthin,MktReshape)
+
+lhz_price_tz_long = lapply(tz_lhz_price,MktReshape)
+lhz_mktthin_tz_long = lapply(tz_lhz_mktthin,MktReshape)
+
+lhz_price_ug_long = lapply(ug_lhz_price,MktReshape)
+lhz_mktthin_ug_long = lapply(ug_lhz_mktthin,MktReshape)
+
+lhz_price_mw_long = lapply(mw_lhz_price,MktReshape)
+lhz_mktthin_mw_long = lapply(mw_lhz_mktthin,MktReshape)
 
 
+ 
 # change column names 
-colnames(clust_price_tz_long[[1]])[5] = "maize_price" 
-colnames(clust_price_tz_long[[2]])[5] = "maize_mktthin" 
-colnames(clust_price_tz_long[[3]])[5] = "rice_price" 
-colnames(clust_price_tz_long[[4]])[5] = "rice_mktthin" 
 
-colnames(lhz_price_tz_long[[1]])[3] = "lhz_maize_price" 
-colnames(lhz_price_tz_long[[2]])[3] = "lhz_maize_mktthin" 
-colnames(lhz_price_tz_long[[3]])[3] = "lhz_rice_price" 
-colnames(lhz_price_tz_long[[4]])[3] = "lhz_rice_mktthin" 
+tan_clust_price_names= paste("clust",tan_names,"price",sep = "_")
+tan_lhz_price_names= paste("lhz",tan_names,"price",sep = "_")
+tan_clust_thin_names= paste("clust",tan_names,"mktthin",sep = "_")
+tan_lhz_thin_names= paste("lhz",tan_names,"mktthin",sep = "_")
+
+ug_clust_price_names= paste("clust",ug_names,"price",sep = "_")
+ug_lhz_price_names= paste("lhz",ug_names,"price",sep = "_")
+ug_clust_thin_names= paste("clust",ug_names,"mktthin",sep = "_")
+ug_lhz_thin_names= paste("lhz",ug_names,"mktthin",sep = "_")
+
+mw_clust_price_names= paste("clust",mw_names,"price",sep = "_")
+mw_lhz_price_names= paste("lhz",mw_names,"price",sep = "_")
+mw_clust_thin_names= paste("clust",mw_names,"mktthin",sep = "_")
+mw_lhz_thin_names= paste("lhz",mw_names,"mktthin",sep = "_")
+
+for (i in 1:length(tan_clust_price_names)){
+  colnames(clust_price_tz_long[[i]])[colnames(clust_price_tz_long[[i]])=="value"] =  tan_clust_price_names[i]
+  colnames(clust_mktthin_tz_long[[i]])[colnames(clust_mktthin_tz_long[[i]])=="value"] =  tan_clust_thin_names[i]
+  colnames(lhz_price_tz_long[[i]])[colnames(lhz_price_tz_long[[i]])=="value"] =  tan_lhz_price_names[i]
+  colnames(lhz_mktthin_tz_long[[i]])[colnames(lhz_mktthin_tz_long[[i]])=="value"] =  tan_lhz_thin_names[i]
+}
+
+for (i in 1:length(ug_clust_price_names)){
+  colnames(clust_price_ug_long[[i]])[colnames(clust_price_ug_long[[i]])=="value"] =  ug_clust_price_names[i]
+  colnames(clust_mktthin_ug_long[[i]])[colnames(clust_mktthin_ug_long[[i]])=="value"] =  ug_clust_thin_names[i]
+  colnames(lhz_price_ug_long[[i]])[colnames(lhz_price_ug_long[[i]])=="value"] =  ug_lhz_price_names[i]
+  colnames(lhz_mktthin_ug_long[[i]])[colnames(lhz_mktthin_ug_long[[i]])=="value"] =  ug_lhz_thin_names[i]
+}
+
+for (i in 1:length(mw_clust_price_names)){
+  colnames(clust_price_mw_long[[i]])[colnames(clust_price_mw_long[[i]])=="value"] =  mw_clust_price_names[i]
+  colnames(clust_mktthin_mw_long[[i]])[colnames(clust_mktthin_mw_long[[i]])=="value"] =  mw_clust_thin_names[i]
+  colnames(lhz_price_mw_long[[i]])[colnames(lhz_price_mw_long[[i]])=="value"] =  mw_lhz_price_names[i]
+  colnames(lhz_mktthin_mw_long[[i]])[colnames(lhz_mktthin_mw_long[[i]])=="value"] =  mw_lhz_thin_names[i]
+}
+
+ 
+###############################################################################
+# 9. Merge all the prices  and write them into csv
+###############################################################################
+
+# merge different prices in Tanzania 
 
 
-# merge different prices 
+tz_cluster_prices = dplyr::left_join(clust_price_tz_long[[1]],clust_price_tz_long[[2]])
+tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_price_tz_long[[3]])
+tz_lhz_prices = left_join(lhz_price_tz_long[[1]],lhz_price_tz_long[[2]])
+tz_lhz_prices = left_join(tz_lhz_prices,lhz_price_tz_long[[3]])
+
+
+
+
 tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
 tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
-
-clust_price_merge = dplyr::left_join(clust_price_tz_long[[1]],clust_price_tz_long[[2]])
-clust_price_merge = dplyr::left_join(clust_price_merge,clust_price_tz_long[[3]])
-clust_price_merge = dplyr::left_join(clust_price_merge,clust_price_tz_long[[4]])
-
-clust_price_merge = clust_price_merge  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
-clust_price_merge = dplyr::left_join(clust_price_merge,tz_concordance)
-
-
-lhz_price_merge = left_join(lhz_price_tz_long[[1]],lhz_price_tz_long[[2]])
-lhz_price_merge = left_join(lhz_price_merge,lhz_price_tz_long[[3]])
-lhz_price_merge = left_join(lhz_price_merge,lhz_price_tz_long[[4]])
-
-tz_price_merge_final = dplyr::left_join(clust_price_merge,lhz_price_merge)  %>% arrange(ea_id,yearmon)
+tz_cluster_prices = tz_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+tz_cluster_prices = dplyr::left_join(tz_cluster_prices,tz_concordance)
+tz_price_merge_final = dplyr::left_join(tz_cluster_prices,tz_lhz_prices)  %>% arrange(ea_id,yearmon)
 
 write.csv(tz_price_merge_final,"data/clean/market/tz_price_merge.csv")
+
+
+ug_cluster_prices = dplyr::left_join(clust_price_ug_long[[1]],clust_price_ug_long[[2]])
+ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_price_ug_long[[3]])
+ug_lhz_prices = left_join(lhz_price_ug_long[[1]],lhz_price_ug_long[[2]])
+ug_lhz_prices = left_join(ug_lhz_prices,lhz_price_ug_long[[3]])
+
+ug_concordance <-  read.csv("data/clean/concordance/Uganda_coord_lhz.csv")
+ug_concordance =  ug_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+ug_cluster_prices = ug_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+ug_cluster_prices = dplyr::left_join(ug_cluster_prices,ug_concordance)
+ug_price_merge_final = dplyr::left_join(ug_cluster_prices,ug_lhz_prices)  %>% arrange(ea_id,yearmon)
+
+write.csv(ug_price_merge_final,"data/clean/market/ug_price_merge.csv")
+
+mw_cluster_prices = dplyr::left_join(clust_price_mw_long[[1]],clust_price_mw_long[[2]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_price_mw_long[[3]])
+mw_lhz_prices = left_join(lhz_price_mw_long[[1]],lhz_price_mw_long[[2]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_price_mw_long[[3]])
+
+mw_concordance <-  read.csv("data/clean/concordance/Malawi_coord_lhz.csv")
+mw_concordance =  mw_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+mw_cluster_prices = mw_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,mw_concordance)
+mw_price_merge_final = dplyr::left_join(mw_cluster_prices,mw_lhz_prices)  %>% arrange(ea_id,yearmon)
+
+write.csv(mw_price_merge_final,"data/clean/market/mw_price_merge.csv")
+
