@@ -14,108 +14,142 @@
 # Yujun Zhou -  04/18/18
 ###################################################################
 
-###
-rm(list = ls())
 
 library(dplyr)
+####################################################
+### Merge Malawi Data 
+####################################################
+rm(list = ls())
 
-tz_hh<-read.csv("data/clean/tan_hh.csv")
-tz_hh = tz_hh %>%  dplyr::select(-X)
+# read household data 
+mw.lsms = read.csv("data/clean/mw_lsms.csv",stringsAsFactors = FALSE)
 
-#tz_final = read.csv("D:/tz_weather_final.csv")
-#save(tz_final,"data/clean/tz_final.RData")
+# read price data 
+load("data/clean/market/mw_price_final.RData")
 
-load("data/clean/weather/tz_weather_final.rda")
+# read weather data 
+load("data/clean/weather/mw_weather_final.RData")
 
-colnames(tz_final)[which(colnames(tz_final)=="id")]= "ea_id"
+colnames(mw_price_merge_final) 
 
-tz_final = tz_final %>%  dplyr::select(-cropyear.x,-cropyear.y)
-tz_final = tz_final %>% mutate(ea_id = as.character(ea_id))
+# mw_price_merge_final
 
-tz_price = read.csv("data/clean/market/tz_price_merge.csv")
-tz_price = tz_price %>%  dplyr::select(-X,-mkt,dist_km,date)
-
-
-tz_price = tz_price  %>% dplyr::mutate(ea_id = as.character(ea_id))
-tz_hh = tz_hh  %>% dplyr::mutate(ea_id = as.character(ea_id))
-
-
-tz_master = dplyr::left_join(tz_hh,tz_price,by = c("ea_id","yearmon","FNID"))
-tz_master = dplyr::left_join(tz_master,tz_final,by = c("ea_id","FS_year","FNID"))
-
-
+library(zoo)
+mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
+# class(mw_price_merge_final$ea_id)
+mw.lsms$ea_id = as.character(mw.lsms$ea_id)
+mw.lsms$yearmon = as.yearmon(mw.lsms$yearmon)
+mw.lsms$rural =  ifelse(mw.lsms$reside=="rural",1,0)
 
 
-write.csv(tz_master,"data/clean/tz_hh_master.csv")
-
-tz_master = read.csv("data/clean/tz_hh_master.csv")
-tz_master = tz_master %>% dplyr::select(-case_id,-reside,-hh_a01,-date,-X)
-
-
-test_hh = tz_master[tz_master$FS_year==2014,]
-train_hh = tz_master[tz_master$FS_year!=2014, ]
+mw.current.price = mw_price_merge_final %>% 
+  dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
+  distinct() %>% 
+  group_by(ea_id,yearmon) %>% 
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))
 
 
-write.csv(test_hh,"data/clean/tz_test_hh.csv")
-write.csv(train_hh,"data/clean/tz_train_hh.csv")
+mw.master.hh = left_join(mw.lsms,mw.current.price, by = c("ea_id","yearmon"))
+mw.master.hh = left_join(mw.master.hh,mw.weather.final, by = c("ea_id","FS_year","FNID"))
+
+mw.master.clust = mw.master.hh %>% 
+              group_by(ea_id) %>%   
+              dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
+              dplyr::select(-FNID,-case_id,-Reason1,-Reason2,-Reason3,-reside,-TA_names,-hh_a01)
+          
+# colnames(mw.master.hh)
+write.csv(mw.master.hh, file= "data/mw_dataset_hh.csv",row.names = FALSE)
+write.csv(mw.master.clust, file= "data/mw_dataset_cluster.csv",row.names = FALSE)
 
 
+####################################################
+### Merge Tanzania Data 
+####################################################
+
+rm(list = ls())
+
+# read household data 
+tz.lsms = read.csv("data/clean/tz_lsms.csv",stringsAsFactors = FALSE)
+
+# read price data 
+load("data/clean/market/tz_price_final.RData")
+
+# read weather data 
+load("data/clean/weather/tz_weather_final.RData")
+
+colnames(tz_price_merge_final) 
+
+# tz_price_merge_final
+
+library(zoo)
+tz_price_merge_final$yearmon = as.yearmon(tz_price_merge_final$yearmon)
+# class(tz_price_merge_final$ea_id)
+tz.lsms$ea_id = as.character(tz.lsms$ea_id)
+tz.lsms$yearmon = as.yearmon(tz.lsms$yearmon)
+tz.lsms$rural =  ifelse(tz.lsms$reside=="rural",1,0)
+
+tz.current.price = tz_price_merge_final %>% 
+  dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
+  distinct() %>% 
+  group_by(ea_id,yearmon) %>% 
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))
 
 
-  
-tz_master_cluster = tz_master  %>% dplyr::group_by(FNID,ea_id,yearmon) %>% summarise_all(funs(mean))
-write.csv(tz_master_cluster,"data/clean/tz_clust_master.csv")
+tz.master.hh = left_join(tz.lsms,tz.current.price, by = c("ea_id","yearmon"))
+tz.master.hh = left_join(tz.master.hh,tz.weather.final, by = c("ea_id","FS_year","FNID"))
 
-tz_master_cluster = read.csv("data/clean/tz_clust_master.csv")
-tz_master_cluster["logFCS"] = log(tz_master_cluster["FCS"])
+tz.master.clust = tz.master.hh %>% 
+  group_by(ea_id) %>%   
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
+  dplyr::select(-FNID,-case_id,-reside,-hh_a01)
 
-unique(tz_master_cluster$FS_year)
-unique(tz_master_cluster$FS_month)
+ # colnames(tz.master.hh)
 
-# test = tz_master_cluster[tz_master_cluster$FS_year==2013,]
-# train = tz_master_cluster[tz_master_cluster$FS_year==2012 | tz_master_cluster$FS_year==2010 | tz_master_cluster$FS_year==2011, ]
-
- test = tz_master_cluster[tz_master_cluster$FS_year==2014|tz_master_cluster$FS_year==2015,]
- train = tz_master_cluster[tz_master_cluster$FS_year!=2014 & tz_master_cluster$FS_year!=2015,]
+write.csv(tz.master.hh, file= "data/tz_dataset_hh.csv",row.names = FALSE)
+write.csv(tz.master.clust, file= "data/tz_dataset_cluster.csv",row.names = FALSE)
 
 
-test = test %>% ungroup %>%  dplyr::select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
-train = train %>%  ungroup %>% dplyr::select(-FS_month,-FS_year,-ea_id,-FNID,-FCS,-yearmon, -slope,-ag_percent,-elevation,-distance_index)
+####################################################
+### Merge Uganda Data 
+####################################################
+rm(list = ls())
+
+# read household data 
+ug.lsms = read.csv("data/clean/ug_lsms.csv",stringsAsFactors = FALSE)
+
+# read price data 
+load("data/clean/market/ug_price_final.RData")
+
+# read weather data 
+load("data/clean/weather/ug_weather_lhz.RData")
+
+colnames(ug_price_merge_final) 
+
+# ug_price_merge_final
+
+library(zoo)
+ug_price_merge_final$yearmon = as.yearmon(ug_price_merge_final$yearmon)
+# class(ug_price_merge_final$ea_id)
+ug.lsms$ea_id = as.character(ug.lsms$ea_id)
+ug.lsms$yearmon = as.yearmon(ug.lsms$yearmon)
+ug.lsms$rural =  ifelse(ug.lsms$reside=="rural",1,0)
 
 
-
-test_clust = test %>% dplyr::select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
-train_clust = train %>% dplyr::select(-lhz_growingdays,-lhz_day1rain,-lhz_raincytot,-lhz_floodmax,-lhz_maize_price,-lhz_maize_mktthin,-lhz_rice_price,-lhz_rice_mktthin )
-
-test_lhz = test %>% dplyr::select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
-train_lhz = train %>% dplyr::select(-day1rain,-raincytot,-floodmax,-maize_price,-maize_mktthin,-rice_price,-rice_mktthin )
-
-
-  
-write.csv(test_clust,"data/clean/tz_test_clust.csv")
-write.csv(train_clust,"data/clean/tz_train_clust.csv")
+ug.current.price = ug_price_merge_final %>% 
+  dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
+  distinct() %>% 
+  group_by(ea_id,yearmon) %>% 
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))
 
 
+ug.master.hh = left_join(ug.lsms,ug.current.price, by = c("ea_id","yearmon"))
+ug.master.hh = left_join(ug.master.hh,ug.weather.lhz, by = c("ea_id","FS_year","FNID"))
 
-write.csv(test_lhz,"data/clean/tz_test_lhz.csv")
-write.csv(train_lhz,"data/clean/tz_train_lhz.csv")
+ug.master.clust = ug.master.hh %>% 
+  group_by(ea_id) %>%   
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
+  dplyr::select(-FNID,-case_id,-reside,-hh_a01)
 
-
-
-
-
-tz_clust = read.csv("data/clean/tz_clust.csv")
-
-unique(tz_clust$fs_year)
-test = tz_clust[tz_clust$fs_year==2014|tz_clust$fs_year==2015,]
-train = tz_clust[tz_clust$fs_year!=2014 & tz_clust$fs_year!=2015,]
-
-test= test %>% dplyr::dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
-train= train %>% dplyr::dplyr::select(-fs_month,-fs_year,-ea_id,-yearmon)
-
-
-write.csv(test,"data/clean/tz_test.csv")
-write.csv(train,"data/clean/tz_train.csv")
-
-
-
+# colnames(ug.master.hh)
+write.csv(ug.master.hh, file= "data/ug_dataset_hh.csv",row.names = FALSE)
+write.csv(ug.master.clust, file= "data/ug_dataset_cluster.csv",row.names = FALSE)

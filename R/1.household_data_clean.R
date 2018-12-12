@@ -9,6 +9,7 @@
 
 # Output: 
 # 0. cluster geovariables 
+# 1. csv file of lsms merged with lhz FNID and small variables changes 
 # 
 # Yujun Zhou -  03/20/18
 ###################################################################
@@ -16,32 +17,9 @@ library(zoo)
 library(dplyr)
 
 
-
-##################################################################
-# Goal : transform numeric month to month names
-# this somehow helps with the generating the date variable 
-###################################################################
-csv_file_list <-list.files(path = "data/clean/cleaned_dataset",pattern =  ".csv",full.names = TRUE)
-# csv_file_list
-
-pattern = "data/clean/cleaned_dataset/|.csv"
-
-# read in the csv files and set each of them as variables 
-list2env(
-  lapply(setNames(csv_file_list, make.names(gsub(pattern, "", csv_file_list))), 
-         read.csv), envir = .GlobalEnv)
-
-Malawi_aggregate$Month<- month.name[Malawi_aggregate$FS_month] 
-Tanzania_aggregate$Month<- month.name[Tanzania_aggregate$FS_month] 
-Uganda_aggregate$Month<- month.name[Uganda_aggregate$FS_month] 
-
-
-path = "data/clean/cleaned_dataset" 
-write.csv(Malawi_aggregate,paste(path,"Malawi_aggregate.csv",sep = "/"))
-write.csv(Tanzania_aggregate,paste(path,"Tanzania_aggregate.csv",sep = "/"))
-write.csv(Uganda_aggregate,paste(path,"Uganda_aggregate.csv",sep = "/"))
-
-
+#############################################
+# collect the lat and lon from the household data 
+#############################################
 ##################################################################
 # Goal : retrieve geoordinates information for each 
 # input : csv: cleaned aggreagate data for each country  
@@ -50,64 +28,257 @@ write.csv(Uganda_aggregate,paste(path,"Uganda_aggregate.csv",sep = "/"))
 # Yujun Zhou -  03/22/18
 ###################################################################
 
-Tanzania<-read.csv("data/clean/cleaned_dataset/Tanzania_aggregate.csv")
-Uganda<-read.csv("data/clean/cleaned_dataset/Uganda_aggregate.csv")
-Malawi<-read.csv("data/clean/cleaned_dataset/Malawi_aggregate.csv")
+library(dplyr)
+library(readr)
+Malawi_aggregate <- read_csv("data/clean/cleaned_dataset/Malawi_aggregate.csv")
 
-#Malawi = Malawi %>% 
-#  dplyr::filter(FS_year >2014)
+#colnames(Malawi_aggregate)
+mw.concord = Malawi_aggregate %>% dplyr::select(ea_id,lat_modified,lon_modified) %>% distinct() %>% na.omit()
 
-# subset columns
-country_coord_list<-list(Tanzania,Uganda,Malawi)
+write.csv(mw.concord,file="data/clean/concordance/Malawi_coord.csv",row.names = FALSE)
 
-# cluter id and geocoordiantes 
-country_coord_list <- lapply(country_coord_list, function(x){
-  x %>% dplyr::select(ea_id,lat_modified, lon_modified)
-})
 
-# remove the duplicates in clusters  
-country_coord_list <- lapply(country_coord_list, function(x){
-  x%>% dplyr::distinct()
-})
 
-country_name_list<- c("Tanzania_coord.csv","Uganda_coord.csv","Malawi_coord.csv")
-path = "data/clean"
+Tanzania_aggregate <- read_csv("data/clean/cleaned_dataset/Tanzania_aggregate.csv")
 
-for (i in 1:3){
-  write.csv(country_coord_list[[i]],file=paste(path,country_name_list[i],sep="/"))
-}
+# colnames(Tanzania_aggregate)
+tz.concord = Tanzania_aggregate %>% dplyr::select(ea_id,lat_modified,lon_modified) %>% distinct() %>% na.omit()
 
- Tanzania$nutri_avail[Tanzania$nutri_avail != "Severe Constraint" & Tanzania$nutri_avail != "Moderate Constraint" ]=""
- Tanzania$nutri_rentention[Tanzania$nutri_rentention != "Severe Constraint" & Tanzania$nutri_rentention != "Moderate Constraint" ]=""
+write.csv(tz.concord,file="data/clean/concordance/Tanzania_coord.csv")
 
- Tanzania$terrain_rough =  as.character(Tanzania$terrain_rough)
- Tanzania["dummy_terrain_rough"] <- ifelse(Tanzania$terrain_rough=="Mid altitude mountains" & Tanzania$terrain_rough=="Rugged lowlands" & Tanzania$terrain_rough== "High-altitude plains", 1,0)
+
+Uganda_aggregate <- read_csv("data/clean/cleaned_dataset/Uganda_aggregate.csv")
+
+# colnames(Tanzania_aggregate)
+ug.concord = Uganda_aggregate %>% dplyr::select(ea_id,lat_modified,lon_modified) %>% distinct() %>% na.omit()
+
+write.csv(ug.concord,file="data/clean/concordance/Uganda_coord.csv")
+
+
+#############################################
+# Spatially join the LHZ and get a concordance table using GIS
+#############################################
+library(dplyr)
+
+mw.cluster.lhz = read.csv("data/clean/concordance/Malawi_ea_lhz_concordance.csv",stringsAsFactors = FALSE)
+mw.cluster.lhz = mw.cluster.lhz %>% select(ea_id,FNID)
+write.csv(mw.cluster.lhz,file="data/clean/concordance/mw_cluster_lhz.csv",row.names = FALSE)
+
+tz.cluster.lhz = read.csv("data/clean/concordance/Tanzania_ea_lhz_concordance.csv",stringsAsFactors = FALSE)
+tz.cluster.lhz = tz.cluster.lhz %>% select(ea_id,FNID)
+write.csv(tz.cluster.lhz,file="data/clean/concordance/tz_cluster_lhz.csv",row.names = FALSE)
+
+ug.cluster.lhz = read.csv("data/clean/concordance/Uganda_ea_lhz_concordance.csv",stringsAsFactors = FALSE)
+ug.cluster.lhz = ug.cluster.lhz %>% select(ea_id,FNID)
+write.csv(ug.cluster.lhz,file="data/clean/concordance/ug_cluster_lhz.csv",row.names = FALSE)
+
+
+
+
+##################################################################
+# Goal : 
+# 1. transform numeric month to month names
+# 2. deal with cateogorical variables 
+###################################################################
+
+
+##################################################################################################
+#####  Clean Tanzania Data 
+##################################################################################################
+rm(list=ls())
+
+Tanzania_aggregate = read.csv("data/clean/cleaned_dataset/Tanzania_aggregate.csv",stringsAsFactors = FALSE)
+
+
+Tanzania_aggregate$Month<- month.name[Tanzania_aggregate$FS_month] 
+
+## deal with nutrition variables 
+
+Tanzania_aggregate$nutri_avail[Tanzania_aggregate$nutri_avail != "Severe Constraint" & Tanzania_aggregate$nutri_avail != "Moderate Constraint" ]=""
+Tanzania_aggregate$nutri_rentention[Tanzania_aggregate$nutri_rentention != "Severe Constraint" & Tanzania_aggregate$nutri_rentention != "Moderate Constraint" ]=""
+
+Tanzania_aggregate$terrain_rough =  as.character(Tanzania_aggregate$terrain_rough)
+Tanzania_aggregate["dummy_terrain_rough"] <- ifelse(Tanzania_aggregate$terrain_rough=="Mid altitude mountains" & Tanzania_aggregate$terrain_rough=="Rugged lowlands" & Tanzania_aggregate$terrain_rough== "High-altitude plains", 1,0)
 
 
 library(stats)
-dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Tanzania )
-Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,4]
-Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Tanzania_aggregate )
+Tanzania_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,4]
+Tanzania_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
 
-dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Tanzania )
-Tanzania["nutri_severe_constraint"] = dummy_nutri_avail[,5]
-Tanzania["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Tanzania_aggregate )
+Tanzania_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,5]
+Tanzania_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
 
-yearmon= paste(Tanzania["FS_year"][,1],Tanzania["FS_month"][,1], sep = "-")         
-Tanzania["yearmon"]= as.yearmon(yearmon,"%Y-%m")
+yearmon= paste(Tanzania_aggregate["FS_year"][,1],Tanzania_aggregate["FS_month"][,1], sep = "-")         
+Tanzania_aggregate["yearmon"]= as.yearmon(yearmon,"%Y-%m")
 
-Tanzania = Tanzania %>% select(-lat_modified,-lon_modified,-region,-ward,-survey_round,-terrain_rough, -country)  
 
-Tanzania = Tanzania %>% distinct()
- 
 
-tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
+
+
+# colnames(Tanzania_aggregate)
+tz.asset = Tanzania_aggregate[3:15]
+tz.asset[is.na(tz.asset)]=0
+tz.asset.pca <- prcomp(na.omit(tz.asset),
+                 center = TRUE,
+                 scale. = TRUE) 
+
+# summary(tz.asset.pca)
+
+tz.asset.pca.df= as.data.frame(tz.asset.pca$x)
+
+Tanzania_aggregate["asset_index"] = tz.asset.pca.df$PC1
+  
+Tanzania_aggregate = Tanzania_aggregate %>% select(-X, -lat_modified,-lon_modified,-region,-ward,-survey_round,-terrain_rough, -country,-nutri_avail,-nutri_rentention)  
+
+Tanzania_aggregate = Tanzania_aggregate %>% distinct()
+
+## merge with lhz FNID
+
+
+tz_concordance <-  read.csv("data/clean/concordance/tz_cluster_lhz.csv")
 tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
-Tanzania = Tanzania  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
-Tanzania = dplyr::left_join(Tanzania,tz_concordance)
+Tanzania_aggregate = Tanzania_aggregate  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+Tanzania_aggregate = dplyr::left_join(Tanzania_aggregate,tz_concordance)
+ 
+ 
+write.csv(Tanzania_aggregate,"data/clean/tz_lsms.csv",row.names = FALSE)
 
 
-write.csv(Tanzania,"data/clean/tan_hh.csv")
+##################################################################################################
+##### Malawi hh data cleaning 
+##################################################################################################
+rm(list=ls())
 
-write.csv(Malawi,"data/clean/mw_hh.csv")
+Malawi_aggregate = read.csv("data/clean/cleaned_dataset/Malawi_aggregate.csv",stringsAsFactors = FALSE)
+Malawi_aggregate$Month<- month.name[Malawi_aggregate$FS_month] 
+
+
+##################################################################################################
+##### deal with nutrition variables 
+##################################################################################################
+
+Malawi_aggregate$nutri_avail[Malawi_aggregate$nutri_avail != "Severe Constraint" & Malawi_aggregate$nutri_avail != "Moderate Constraint" ]=""
+Malawi_aggregate$nutri_rentention[Malawi_aggregate$nutri_rentention != "Severe Constraint" & Malawi_aggregate$nutri_rentention != "Moderate Constraint" ]=""
+
+Malawi_aggregate$terrain_rough =  as.character(Malawi_aggregate$terrain_rough)
+Malawi_aggregate["dummy_terrain_rough"] <- ifelse(Malawi_aggregate$terrain_rough=="Mid altitude mountains" & Malawi_aggregate$terrain_rough=="Rugged lowlands" & Malawi_aggregate$terrain_rough== "High-altitude plains", 1,0)
+
+
+library(stats)
+dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Malawi_aggregate )
+Malawi_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,4]
+Malawi_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+
+dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Malawi_aggregate )
+Malawi_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,5]
+Malawi_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+
+yearmon= paste(Malawi_aggregate["FS_year"][,1],Malawi_aggregate["FS_month"][,1], sep = "-")         
+Malawi_aggregate["yearmon"]= as.yearmon(yearmon,"%Y-%m")
+
+
+colnames(Malawi_aggregate)
+mw.asset = Malawi_aggregate[3:18]
+mw.asset[is.na(mw.asset)]=0
+mw.asset.pca <- prcomp(na.omit(mw.asset),
+                       center = TRUE,
+                       scale. = TRUE) 
+
+#summary(mw.asset.pca)
+
+mw.asset.pca.df= as.data.frame(mw.asset.pca$x)
+
+Malawi_aggregate["asset_index"] = mw.asset.pca.df$PC1
+
+Malawi_aggregate = Malawi_aggregate %>% select(-X, -lat_modified,-hh_wgt,-lon_modified,-region,-survey_round,-terrain_rough, -country,-nutri_avail,-nutri_rentention)  
+
+Malawi_aggregate = Malawi_aggregate %>% distinct()
+
+ 
+mw_concordance <-  read.csv("data/clean/concordance/mw_cluster_lhz.csv")
+mw_concordance =  mw_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+
+Malawi_aggregate = Malawi_aggregate  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+Malawi_aggregate = dplyr::left_join(Malawi_aggregate,mw_concordance)
+
+write.csv(Malawi_aggregate,"data/clean/mw_lsms.csv",row.names = FALSE)
+
+
+
+
+
+##################################################################################################
+##### Uganda hh data cleaning 
+##################################################################################################
+
+rm(list=ls())
+
+Uganda_aggregate = read.csv("data/clean/cleaned_dataset/Uganda_aggregate.csv",stringsAsFactors = FALSE)
+Uganda_aggregate$Month<- month.name[Uganda_aggregate$FS_month] 
+
+
+##################################################################################################
+##### deal with nutrition variables 
+##################################################################################################
+
+
+Uganda_aggregate$nutri_avail[Uganda_aggregate$nutri_avail != "Severe Constraint" & Uganda_aggregate$nutri_avail != "Moderate Constraint" ]=""
+Uganda_aggregate$nutri_avail[is.na(Uganda_aggregate$nutri_avail)]=""
+
+Uganda_aggregate$nutri_rentention[Uganda_aggregate$nutri_rentention != "Severe Constraint" & Uganda_aggregate$nutri_rentention != "Moderate Constraint" ]=""
+Uganda_aggregate$nutri_rentention[is.na(Uganda_aggregate$nutri_rentention)]=""
+
+
+Uganda_aggregate$terrain_rough =  as.character(Uganda_aggregate$terrain_rough)
+Uganda_aggregate["dummy_terrain_rough"] <- ifelse(Uganda_aggregate$terrain_rough=="Mid altitude mountains" & Uganda_aggregate$terrain_rough=="Rugged lowlands" & Uganda_aggregate$terrain_rough== "High-altitude plains", 1,0)
+
+
+library(stats)
+dummy_nutri_avail = model.matrix( ~ nutri_avail - 1, data=Uganda_aggregate )
+Uganda_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,3]
+Uganda_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+
+dummy_nutri_rentention = model.matrix( ~ nutri_rentention - 1, data=Uganda_aggregate )
+Uganda_aggregate["nutri_severe_constraint"] = dummy_nutri_avail[,3]
+Uganda_aggregate["nutri_moderate_constraint"] = dummy_nutri_avail[,2]
+
+yearmon= paste(Uganda_aggregate["FS_year"][,1],Uganda_aggregate["FS_month"][,1], sep = "-")         
+Uganda_aggregate["yearmon"]= as.yearmon(yearmon,"%Y-%m")
+
+
+colnames(Uganda_aggregate)
+ug.asset = Uganda_aggregate[4:14]
+ug.asset[is.na(ug.asset)]=0
+ug.asset.pca <- prcomp(na.omit(ug.asset),
+                       center = TRUE,
+                       scale. = TRUE) 
+
+#summary(ug.asset.pca)
+
+ug.asset.pca.df= as.data.frame(ug.asset.pca$x)
+
+Uganda_aggregate["asset_index"] = ug.asset.pca.df$PC1
+
+Uganda_aggregate = Uganda_aggregate %>% dplyr::select(-X,-X.1, -lat_modified,-lon_modified,-region,-survey_round,-terrain_rough,-nutri_avail,-nutri_rentention)  
+
+Uganda_aggregate = Uganda_aggregate %>% distinct()
+
+
+########################################################
+
+#######################################################
+
+ug_concordance <-  read.csv("data/clean/concordance/ug_cluster_lhz.csv")
+ug_concordance =  ug_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+
+Uganda_aggregate = Uganda_aggregate  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+Uganda_aggregate = dplyr::left_join(Uganda_aggregate,ug_concordance)
+
+write.csv(Uganda_aggregate,"data/clean/ug_lsms.csv",row.names = FALSE)
+
+
+
+

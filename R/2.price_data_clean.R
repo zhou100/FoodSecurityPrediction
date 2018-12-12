@@ -785,6 +785,7 @@ mw_lhz_mktthin<-list(maize_lhz_mktthin_mw,rice_lhz_mktthin_mw,nuts_lhz_mktthin_m
 source("R/functions/MktReshape.R") 
 clust_price_tz_long = lapply(tz_clust_price,MktReshape)
 clust_mktthin_tz_long = lapply(tz_clust_mktthin,MktReshape)
+
 clust_price_ug_long = lapply(ug_clust_price,MktReshape)
 clust_mktthin_ug_long = lapply(ug_clust_mktthin,MktReshape)
 
@@ -801,7 +802,7 @@ lhz_mktthin_ug_long = lapply(ug_lhz_mktthin,MktReshape)
 lhz_price_mw_long = lapply(mw_lhz_price,MktReshape)
 lhz_mktthin_mw_long = lapply(mw_lhz_mktthin,MktReshape)
 
-
+ 
  
 # change column names 
 
@@ -843,7 +844,7 @@ for (i in 1:length(mw_clust_price_names)){
 
  
 ###############################################################################
-# 9. Merge all the prices  and write them into csv
+# 9. Merge all the prices  and save the data 
 ###############################################################################
 
 # merge different prices in Tanzania 
@@ -851,13 +852,20 @@ for (i in 1:length(mw_clust_price_names)){
 
 tz_cluster_prices = dplyr::left_join(clust_price_tz_long[[1]],clust_price_tz_long[[2]])
 tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_price_tz_long[[3]])
+
+tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_mktthin_tz_long[[1]])
+tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_mktthin_tz_long[[2]])
+tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_mktthin_tz_long[[3]])
+
+
 tz_lhz_prices = left_join(lhz_price_tz_long[[1]],lhz_price_tz_long[[2]])
 tz_lhz_prices = left_join(tz_lhz_prices,lhz_price_tz_long[[3]])
+tz_lhz_prices = left_join(tz_lhz_prices,lhz_mktthin_tz_long[[1]])
+tz_lhz_prices = left_join(tz_lhz_prices,lhz_mktthin_tz_long[[2]])
+tz_lhz_prices = left_join(tz_lhz_prices,lhz_mktthin_tz_long[[3]])
 
 
-
-
-tz_concordance <-  read.csv("data/clean/concordance/Tanzania_coord_lhz.csv")
+tz_concordance <-  read.csv("data/clean/concordance/tz_cluster_lhz.csv")
 tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 tz_cluster_prices = tz_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
 tz_cluster_prices = dplyr::left_join(tz_cluster_prices,tz_concordance)
@@ -866,30 +874,66 @@ tz_price_merge_final = dplyr::left_join(tz_cluster_prices,tz_lhz_prices)  %>% ar
 save(tz_price_merge_final,file = "data/clean/market/tz_price_final.RData")
 
 
+# merge different prices in Uganda 
+
 ug_cluster_prices = dplyr::left_join(clust_price_ug_long[[1]],clust_price_ug_long[[2]])
 ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_price_ug_long[[3]])
+ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_mktthin_ug_long[[1]])
+ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_mktthin_ug_long[[2]])
+ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_mktthin_ug_long[[3]])
+
+
 ug_lhz_prices = left_join(lhz_price_ug_long[[1]],lhz_price_ug_long[[2]])
 ug_lhz_prices = left_join(ug_lhz_prices,lhz_price_ug_long[[3]])
+ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[1]])
+ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[2]])
+ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[3]])
 
-ug_concordance <-  read.csv("data/clean/concordance/Uganda_coord_lhz.csv")
+
+ug_concordance <-  read.csv("data/clean/concordance/ug_cluster_lhz.csv")
 ug_concordance =  ug_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 ug_cluster_prices = ug_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
 ug_cluster_prices = dplyr::left_join(ug_cluster_prices,ug_concordance)
 ug_price_merge_final = dplyr::left_join(ug_cluster_prices,ug_lhz_prices)  %>% arrange(ea_id,yearmon)
 
-save(ug_price_merge_final,file = "data/clean/market/ug_price_merge.RData")
+save(ug_price_merge_final,file = "data/clean/market/ug_price_final.RData")
+
+# merge different prices in Malawi 
+
 
 mw_cluster_prices = dplyr::left_join(clust_price_mw_long[[1]],clust_price_mw_long[[2]])
 mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_price_mw_long[[3]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_price_mw_long[[4]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_mktthin_mw_long[[1]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_mktthin_mw_long[[2]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_mktthin_mw_long[[3]])
+mw_cluster_prices = dplyr::left_join(mw_cluster_prices,clust_mktthin_mw_long[[4]])
+
+mw_cluster_prices$clust_maize_mktthin= ifelse(is.na(mw_cluster_prices$clust_maize_price), 1, 0)
+mw_cluster_prices$clust_rice_mktthin= ifelse(is.na(mw_cluster_prices$clust_rice_price), 1, 0)
+mw_cluster_prices$clust_nuts_mktthin= ifelse(is.na(mw_cluster_prices$clust_nuts_price), 1, 0)
+mw_cluster_prices$clust_beans_mktthin= ifelse(is.na(mw_cluster_prices$clust_beans_price), 1, 0)
+
+
 mw_lhz_prices = left_join(lhz_price_mw_long[[1]],lhz_price_mw_long[[2]])
 mw_lhz_prices = left_join(mw_lhz_prices,lhz_price_mw_long[[3]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_price_mw_long[[4]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_mktthin_mw_long[[1]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_mktthin_mw_long[[2]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_mktthin_mw_long[[3]])
+mw_lhz_prices = left_join(mw_lhz_prices,lhz_mktthin_mw_long[[4]])
 
-mw_concordance <-  read.csv("data/clean/concordance/Malawi_coord_lhz.csv")
+mw_lhz_prices$lhz_maize_mktthin= ifelse(is.na(mw_lhz_prices$lhz_maize_price), 1, 0)
+mw_lhz_prices$lhz_rice_mktthin= ifelse(is.na(mw_lhz_prices$lhz_rice_price), 1, 0)
+mw_lhz_prices$lhz_nuts_mktthin= ifelse(is.na(mw_lhz_prices$lhz_nuts_price), 1, 0)
+mw_lhz_prices$lhz_beans_mktthin= ifelse(is.na(mw_lhz_prices$lhz_beans_price), 1, 0)
+
+
+mw_concordance <-  read.csv("data/clean/concordance/mw_cluster_lhz.csv")
 mw_concordance =  mw_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 mw_cluster_prices = mw_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
 mw_cluster_prices = dplyr::left_join(mw_cluster_prices,mw_concordance)
 mw_price_merge_final = dplyr::left_join(mw_cluster_prices,mw_lhz_prices)  %>% arrange(ea_id,yearmon)
 
-save(mw_price_merge_final,file = "data/clean/market/mw_price_merge.RData")
-
+save(mw_price_merge_final,file = "data/clean/market/mw_price_final.RData")
 
