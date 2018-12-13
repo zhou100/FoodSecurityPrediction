@@ -121,7 +121,7 @@ ug.lsms = read.csv("data/clean/ug_lsms.csv",stringsAsFactors = FALSE)
 load("data/clean/market/ug_price_final.RData")
 
 # read weather data 
-load("data/clean/weather/ug_weather_lhz.RData")
+load("data/clean/weather/ug_weather_final.RData")
 
 colnames(ug_price_merge_final) 
 
@@ -134,7 +134,6 @@ ug.lsms$ea_id = as.character(ug.lsms$ea_id)
 ug.lsms$yearmon = as.yearmon(ug.lsms$yearmon)
 ug.lsms$rural =  ifelse(ug.lsms$reside=="rural",1,0)
 
-
 ug.current.price = ug_price_merge_final %>% 
   dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
   distinct() %>% 
@@ -143,7 +142,7 @@ ug.current.price = ug_price_merge_final %>%
 
 
 ug.master.hh = left_join(ug.lsms,ug.current.price, by = c("ea_id","yearmon"))
-ug.master.hh = left_join(ug.master.hh,ug.weather.lhz, by = c("ea_id","FS_year","FNID"))
+ug.master.hh = left_join(ug.master.hh,ug.weather.final, by = c("ea_id","FS_year","FNID"))
 
 ug.master.clust = ug.master.hh %>% 
   group_by(ea_id) %>%   
@@ -151,5 +150,6 @@ ug.master.clust = ug.master.hh %>%
   dplyr::select(-FNID,-case_id,-reside,-hh_a01)
 
 # colnames(ug.master.hh)
+
 write.csv(ug.master.hh, file= "data/ug_dataset_hh.csv",row.names = FALSE)
 write.csv(ug.master.clust, file= "data/ug_dataset_cluster.csv",row.names = FALSE)

@@ -74,23 +74,22 @@ colnames(precip_lhz_mw)[2:61] = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 ##################################################################################
 # load the cluster weather variables 
 ##################################################################################
-load("data/raw/rain/precip_clust_tz.rda")
-load("data/raw/rain/CHIRPS_ug_buffer.rda")
+load("data/raw/rain/tz_rain_0818.rda")
+load("data/raw/rain/ug_rain_0818.rda")
 load("data/raw/rain/CHIRPS_malawi_cluster.rda")
 
+precip_clust_ug = extracted.prec
+precip_clust_tz = tz.prec
 
-colnames(precip_clust_ug)
+# colnames(precip_clust_ug)
 
 precip_clust_mw[["Date"]] = as.Date(precip_clust_mw$Date,"%m/%d/%Y")
 #colnames(precip_clust_mw)
 precip_clust_mw = precip_clust_mw %>% dplyr::select(-X)
 
-precip_clust_ug[["Date"]] = as.Date(precip_clust_ug$Date,"%m/%d/%Y")
-precip_clust_ug = precip_clust_ug %>% dplyr::select(-X)
 
-#colnames(precip_clust_tz)[2]
-precip_clust_tz[["Date"]] = as.Date(precip_clust_tz$Date,"%m/%d/%Y")
-class(precip_clust_tz$Date)
+colnames(precip_clust_tz)[colnames(precip_clust_tz)=="date"]= "Date"
+colnames(precip_clust_ug)[colnames(precip_clust_ug)=="date"] = "Date"
 
 rain.TZMW.list = list(precip_lhz_tz,precip_lhz_mw,precip_clust_tz,precip_clust_mw)
 rain.UG.list = list(precip_lhz_ug,precip_clust_ug)
@@ -893,7 +892,7 @@ mw.weather.final = full_join(mw.weather.final,floodmax_clust_mw,by=c("FS_year","
 mw.weather.final = full_join(mw.weather.final,floodmax_lhz_mw,by=c("FS_year","FNID"))
 
 
-mw.weather.final = mw.weather.final %>% arrange(FS_year) %>% filter(!is.na(ea_id)) %>% filter(!is.na(cropyear)) %>% select(-VID.y) 
+mw.weather.final = mw.weather.final %>% dplyr::arrange(FS_year) %>% dplyr::filter(!is.na(ea_id)) %>% dplyr::filter(!is.na(cropyear)) %>% dplyr::select(-VID.y) 
 
 colnames(mw.weather.final)[colnames(mw.weather.final)=="VID.x"]="VID"
 
