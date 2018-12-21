@@ -52,10 +52,11 @@ mw.current.price = mw_price_merge_final %>%
 mw.master.hh = left_join(mw.lsms,mw.current.price, by = c("ea_id","yearmon"))
 mw.master.hh = left_join(mw.master.hh,mw.weather.final, by = c("ea_id","FS_year","FNID"))
 
+
 mw.master.clust = mw.master.hh %>% 
-              group_by(ea_id) %>%   
+              group_by(ea_id,FS_year) %>%   
               dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
-              dplyr::select(-FNID,-case_id,-Reason1,-Reason2,-Reason3,-reside,-TA_names,-hh_a01)
+              dplyr::select(-FNID,-case_id,-Reason1,-Reason2,-Reason3,-reside,-TA_names,-hh_a01,-head_gender,-head_edlevel)
           
 # colnames(mw.master.hh)
 write.csv(mw.master.hh, file= "data/mw_dataset_hh.csv",row.names = FALSE)
