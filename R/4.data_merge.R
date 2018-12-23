@@ -16,6 +16,9 @@
 
 
 require(tidyverse)
+library(zoo)
+library(imputeTS)
+
 ####################################################
 ### Merge Malawi Data 
 ####################################################
@@ -61,7 +64,6 @@ colnames(mw_price_merge_final)
 
 # mw_price_merge_final
 
-library(zoo)
 mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
 # class(mw_price_merge_final$ea_id)
 
@@ -113,13 +115,27 @@ mw.master.hh = mw.master.hh %>% dplyr::filter(!is.na(VID) & !is.na(date))
 
 colSums(is.na(mw.master.hh))
 
+lapply(mw.master.hh, class)
+
+
+
+
+
+
+
+
+mw.master.hh = mw.master.hh %>% select (-case_id,-ea_id,-TA_names,-VID,-cropyear,-year,-Month,-yearmon,-date)
+
+
 mw.master.clust = mw.master.hh %>% 
-              group_by(ea_id,FS_year,FNID) %>%   
-              dplyr::select(-FNID,-case_id,-TA_names,-head_gender,-head_edlevel,-year,-Month,-cropyear,-VID) %>%
-              dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
-          
+  group_by(ea_id,FS_year,FNID) %>%   
+  dplyr::select(-FNID,-head_gender,-head_edlevel) %>%
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
 colSums(is.na(mw.master.clust))
+
+lapply(mw.master.clust, class)
+
 
 
 # colnames(mw.master.hh)
@@ -238,9 +254,12 @@ tz.master.hh = left_join(tz.master.hh,tz.weather.final, by = c("ea_id","FS_year"
 tz.master.hh = tz.master.hh %>% dplyr::filter(!is.na(date))
 
 
+sapply(tz.master.hh,class)
+
+tz.master.hh = tz.master.hh %>% dplyr::select(-hh_a01,-year,-cropyear,-case_id,-Month,-date)
+
 tz.master.clust = tz.master.hh %>% 
   group_by(ea_id,FS_year,FNID) %>%   
-  dplyr::select(-FNID,-case_id,-hh_a01,-Month,-year,-cropyear) %>% 
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
  # colnames(tz.master.hh)
@@ -367,10 +386,13 @@ ug.master.hh = left_join(ug.master.hh,ug.weather.final, by = c("ea_id","FS_year"
 ug.master.hh = ug.master.hh %>% dplyr::filter(!is.na(cropyear))
 
 
+lapply(ug.master.hh,class)
+
+ug.master.hh = ug.master.hh %>%   dplyr::select(-case_id,-reside,-hh_a01,-hh_a02,-Month,-year,-cropyear,-date)
+
+
 ug.master.clust = ug.master.hh %>% 
   group_by(ea_id,FS_year,FNID) %>%   
-  dplyr::select(-case_id,-reside,-hh_a01,-hh_a02,-Month,-year,-cropyear) %>%
-
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) 
 
 
