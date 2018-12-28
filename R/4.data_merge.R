@@ -251,7 +251,9 @@ colSums(is.na(tz.master.hh))
 
 tz.master.hh = left_join(tz.master.hh,tz.weather.final, by = c("ea_id","FS_year","FNID"))
 
-tz.master.hh = tz.master.hh %>% dplyr::filter(!is.na(date))
+tz.master.hh = tz.master.hh %>% dplyr::filter(!is.na(date) & !is.na(cropyear))
+
+colSums(is.na(tz.master.hh))
 
 
 sapply(tz.master.hh,class)
@@ -266,6 +268,10 @@ tz.master.clust = tz.master.hh %>%
 
 write.csv(tz.master.hh, file= "data/tz_dataset_hh.csv",row.names = FALSE)
 write.csv(tz.master.clust, file= "data/tz_dataset_cluster.csv",row.names = FALSE)
+
+
+
+colSums(is.na(tz.master.clust))
 
 
 ####################################################
@@ -402,3 +408,6 @@ ug.master.clust = ug.master.hh %>%
 
 write.csv(ug.master.hh, file= "data/ug_dataset_hh.csv",row.names = FALSE)
 write.csv(ug.master.clust, file= "data/ug_dataset_cluster.csv",row.names = FALSE)
+
+
+ 
