@@ -159,8 +159,8 @@ tz.lsms$rural =  ifelse(tz.lsms$reside=="rural",1,0)
 
 # remove columns that can not be used in the prediction anlaysis 
 tz.lsms = tz.lsms %>% 
-  select(-slope,-reside,-Motorcyclet,-Motorcycle) %>%
-  filter(!is.na(FS_year) & !is.na(FCS) & !is.na(rCSI)) 
+  dplyr::select(-slope,-reside,-Motorcyclet,-Motorcycle) %>%
+  dplyr::filter(!is.na(FS_year) & !is.na(FCS) & !is.na(rCSI) & FCS!=0 & HDDS!=0) 
 
 # check for missing values 
 colSums(is.na(tz.lsms))
@@ -256,7 +256,7 @@ tz.master.hh = tz.master.hh %>% dplyr::filter(!is.na(date) & !is.na(cropyear))
 colSums(is.na(tz.master.hh))
 
 
-sapply(tz.master.hh,class)
+#sapply(tz.master.hh,class)
 
 tz.master.hh = tz.master.hh %>% dplyr::select(-hh_a01,-year,-cropyear,-case_id,-Month,-date)
 
