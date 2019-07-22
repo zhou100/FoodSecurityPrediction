@@ -78,6 +78,8 @@ HDDS = mw10.food.category.days %>%
   group_by(case_id,ea_id) %>%
   summarise(HDDS = sum(HDDS,na.rm = TRUE))
 
+HDDS = HDDS %>% filter(HDDS!=0)
+
 mw10.merged = left_join(mw10.merged,HDDS, by=c("ea_id","case_id"))
 #________________________________________________________________________
 
@@ -119,9 +121,9 @@ mw10.region<- read_dta(file = paste(path,"Household_Batch1of5_DTA/HH_MOD_A_FILT.
 mw10.region.rural = mw10.region %>% 
   select(case_id,ea_id,reside,hh_wgt,hh_a01,hh_a02b) %>%
   mutate (region = case_when(
-    hh_a01 %% 100 == 1 ~ "Northern",
-    hh_a01 %% 100 == 2 ~ "Central",
-    hh_a01 %% 100 == 3 ~ "Southern"
+    hh_a01 %/% 100 == 1 ~ "Northern",
+    hh_a01 %/% 100 == 2 ~ "Central",
+    hh_a01 %/% 100 == 3 ~ "Southern"
   )) %>% 
   mutate( region_north = if_else(region=="Northern",1,0)) %>%
   mutate( region_central = if_else(region=="Central",1,0)) %>%
@@ -159,11 +161,12 @@ mw10.geo.clean = mw10.geo %>%
   mutate(dummy_terrain_rough = if_else(srtm_eaf_5_15=="Mid altitude mountains" 
                                        & srtm_eaf_5_15=="Rugged lowlands" & 
                                          srtm_eaf_5_15== "High-altitude plains", 1,0 ))   %>%
-  mutate(slope = afmnslp_pct)  %>% 
+  mutate(dummy_terrain_rough = if_else(is.na(dummy_terrain_rough),0,dummy_terrain_rough)) %>%
+  # mutate(slope = afmnslp_pct)  %>% 
   
   select(case_id,ea_id,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
-         dummy_terrain_rough,slope
+         dummy_terrain_rough
          )
 
 
@@ -180,10 +183,10 @@ mw.hhhead = mw10.basic %>%
   mutate(FS_month = as.numeric(intmonth) ) %>%
   mutate(head_gender = as.numeric(head_gender)) %>% 
   mutate(female_head = if_else(head_gender==2, 1, 0) )  %>%
-  mutate(head_edu  = as.numeric(head_edlevel)) %>% 
-  mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
+  # mutate(head_edu  = as.numeric(head_edlevel)) %>% 
+  # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
   mutate(FS_year = as.numeric(intyear)) %>%
-  select(case_id,ea_id,FS_month,FS_year,head_age, female_head, head_educated, hhsize)
+  select(case_id,ea_id,FS_month,FS_year,head_age, female_head, hhsize)
  
 # mw10.basic$head_edlevel
 #1   Male 2 Female
@@ -242,6 +245,9 @@ mw10.asset.cell.floor = mw10.asset %>%
   ## cellphone ###
   mutate (number_celphones = as.numeric(hh_f34)) %>% 
   mutate (cell_phone = if_else(number_celphones>0,1,0)) %>% 
+  mutate(floor_dirt_sand_dung  = if_else(is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>%
+  mutate(cell_phone  = if_else(is.na(cell_phone),0,cell_phone) ) %>%
+  mutate(number_celphones  = if_else(is.na(number_celphones),0,number_celphones) ) %>%
   select(case_id,ea_id,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
@@ -331,6 +337,8 @@ mw10.merged = left_join(mw10.merged,mw10.asset.index, by=c("case_id"))
 
 min(mw10.merged$HDDS)
 
+mw10.merged = mw10.merged %>% mutate( HHID = case_id) %>% select(-case_id)
+
 write.csv(mw10.merged,"data/clean/household/mw10_hh.csv",row.names = FALSE)
 
 
@@ -341,7 +349,7 @@ write.csv(mw10.merged,"data/clean/household/mw10_hh.csv",row.names = FALSE)
 path = "data/raw/lsms/Malawi_2013/MWI_2013_IHPS_v01_M_STATA/"
 
 mw13.food <- read_dta(file = paste(path,"Household/HH_MOD_G2.dta",sep = "" ) )
-head(mw13.food)
+#head(mw13.food)
 
 # mw13.food$hh_g08a
 
@@ -413,6 +421,8 @@ HDDS = mw13.food.category.days %>%
   group_by(y2_hhid) %>%
   summarise(HDDS = sum(HDDS,na.rm = TRUE))
 
+HDDS = HDDS %>% filter(HDDS!=0)
+
 mw13.merged = left_join(mw13.merged,HDDS, by=c("y2_hhid"))
 #________________________________________________________________________
 
@@ -441,6 +451,7 @@ rCSI = mw13.rcsi %>%
   mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
   mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
+  filter(!is.na(rCSI)) %>% 
   select(y2_hhid,rCSI)
 
 mw13.merged = left_join(mw13.merged,rCSI, by=c("y2_hhid"))
@@ -457,6 +468,7 @@ mw13.region<- read_dta(file = paste(path,"Household/HH_MOD_A_FILT.dta",sep = "" 
 mw13.region.rural = mw13.region %>% 
   mutate( region = as.numeric(region)) %>%
   mutate(FS_year  = as.numeric(hh_a23a_3) )%>%
+  mutate(FS_year = if_else(is.na(FS_year),2013,FS_year) ) %>%
   mutate(FS_month  = as.numeric(hh_a23a_2)) %>%
   mutate( region_north = if_else(region==1,1,0)) %>%
   mutate( region_central = if_else(region==2,1,0)) %>%
@@ -520,9 +532,11 @@ mw.hhhead = mw13.basic %>%
   mutate(head_gender = as.numeric(hh_b03)) %>% 
   mutate(head_age = as.numeric(hh_b05a)) %>% 
   mutate(female_head = if_else(hh_b03==2, 1, 0) )  %>%
-  mutate(head_edu  = as.numeric(hh_b22_3)) %>% 
-  mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
-  select(y2_hhid,head_age, female_head, head_educated)
+  mutate(female_head = if_else(is.na(female_head), 0, female_head) )  %>%
+  filter(!is.na(head_age)) %>% 
+  # mutate(head_edu  = as.numeric(hh_b22_3)) %>% 
+  # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
+  select(y2_hhid,head_age, female_head)
 
 # mw13.basic$head_edlevel
 #1   Male 2 Female
@@ -581,6 +595,9 @@ mw13.asset.cell.floor = mw13.asset %>%
   ## cellphone ###
   mutate (number_celphones = as.numeric(hh_f34)) %>% 
   mutate (cell_phone = if_else(number_celphones>0,1,0)) %>% 
+  mutate( cell_phone= if_else( is.na(cell_phone),0,cell_phone) ) %>%
+  mutate( number_celphones= if_else( is.na(number_celphones),0,number_celphones) ) %>%
+  mutate( floor_dirt_sand_dung= if_else( is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>%
   select(y2_hhid,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
@@ -670,6 +687,9 @@ mw13.merged = left_join(mw13.merged,mw13.asset.index, by=c("y2_hhid"))
 
 min(mw13.merged$HDDS)
 
+mw13.merged = mw13.merged %>% mutate( HHID = y2_hhid) %>% select(-y2_hhid)
+
+
 write.csv(mw13.merged,"data/clean/household/mw13_hh.csv",row.names = FALSE)
 
 
@@ -734,6 +754,8 @@ HDDS = mw16.food %>%
   mutate( HDDS = hdds_cereals + hdds_c + hdds_d + hdds_e + hdds_f + hdds_g  ) %>%
   select(y3_hhid,HDDS )
 #Exclude SUGAR and SPICES
+
+HDDS = HDDS %>% filter(HDDS!=0)
 
 mw16.merged = left_join(mw16.merged,HDDS, by=c("y3_hhid"))
 #________________________________________________________________________
@@ -844,11 +866,11 @@ mw16.hh.head = mw16.basic %>%
   #  keep only household head
   mutate(hh_b04 = as.numeric(hh_b04)) %>% 
   filter(hh_b04 ==1) %>%
-  mutate(head_age = as.numeric(hh_b05a)) %>% 
+  mutate(head_age = 2013 - as.numeric(hh_b06b)) %>% 
   mutate(female_head = if_else(hh_b03==2, 1, 0) )  %>%
-  mutate(head_edu  = as.numeric(hh_b21)) %>% 
-  mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
-  select(y3_hhid,head_age, female_head, head_educated)
+  # mutate(head_edu  = as.numeric(hh_b21)) %>% 
+  # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
+  select(y3_hhid,head_age, female_head)
 
 # mw16.basic$head_edlevel
 #1   Male 2 Female
@@ -996,6 +1018,9 @@ mw16.merged = left_join(mw16.merged,mw16.asset.index, by=c("y3_hhid"))
 
 min(mw16.merged$HDDS)
 
+mw16.merged = mw16.merged %>% mutate( HHID = y3_hhid) %>% select(-y3_hhid)
+
+
 write.csv(mw16.merged,"data/clean/household/mw16_hh.csv",row.names = FALSE)
 
 # Tanzania  
@@ -1072,6 +1097,8 @@ HDDS = tz10.food.category.days %>%
   group_by(y2_hhid) %>%
   summarise(HDDS = sum(HDDS,na.rm = TRUE))
 
+HDDS = HDDS %>% filter(HDDS!=0)
+
 tz10.merged = left_join(tz10.merged,HDDS, by=c("y2_hhid"))
 #________________________________________________________________________
 
@@ -1101,7 +1128,8 @@ tz10.rcsi <- read_dta(file = paste(path,"HH_SEC_I1.dta",sep = "" ) )
 rCSI = tz10.rcsi %>%
   mutate(rCSI = 1*hh_i02_1 + 1*hh_i02_2 + 1*hh_i02_3 + 2*hh_i02_4 +2*hh_i02_5 + 2*hh_i02_6 +4*hh_i02_7 +4*hh_i02_8 ) %>%
   mutate(rCSI = if_else(hh_i01==2 , 0 ,rCSI) ) %>%
-  mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
+  mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>%  
+  filter(!is.na(rCSI )) %>%  
   select(y2_hhid,rCSI)
 
 
@@ -1124,8 +1152,8 @@ region_dummy  = as.data.frame(model.matrix(~region)[,-1])
   
 # region 1 "Northern" 2 "Central" 3 "Southern"
 tz10.region.rural = tz10.region %>% 
-  mutate(FS_year  = as.numeric(hh_a18_3) )%>%
-  mutate(FS_month  = as.numeric(hh_a18_2)) %>%
+  mutate(FS_year  = as.numeric(hh_a18_year) )%>%
+  mutate(FS_month  = as.numeric(hh_a18_month)) %>%
   #  1 urban 2 rural
   mutate( rural = as.numeric(y2_rural)
   ) %>%
@@ -1154,6 +1182,7 @@ tz10.geo.other.clean = tz10.geo.other %>%
   mutate(dummy_terrain_rough = if_else(srtm_eaf_5_15==13 
                                        & srtm_eaf_5_15==5 & 
                                          srtm_eaf_5_15== 3, 1,0 ))   %>%
+  mutate (dummy_terrain_rough = if_else(is.na(dummy_terrain_rough),0,dummy_terrain_rough)) %>% 
   mutate(hh_soil_con01 = as.numeric(hh_soil_con01)) %>%
   mutate(hh_soil_con02 = as.numeric(hh_soil_con02)) %>%
   mutate(nutri_avail = if_else(hh_soil_con01 != 3 & hh_soil_con01 != 2 & hh_soil_con01!=4 ,0,hh_soil_con01) )  %>%
@@ -1162,14 +1191,14 @@ tz10.geo.other.clean = tz10.geo.other %>%
   mutate(nutri_rentention = if_else(hh_soil_con02 != 3 & hh_soil_con02 != 2 & hh_soil_con02!=4 ,0,hh_soil_con02)) %>%
   mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
   mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
-  mutate(slope = afmnslp_pct) %>%
+  # mutate(slope = afmnslp_pct) %>%
   mutate(dist_road = as.numeric(hh_geo01) ) %>%
   mutate(dist_popcenter =  as.numeric(hh_geo02)) %>%
   mutate(dist_headquater =  as.numeric(hh_geo05) ) %>%
   mutate(percent_ag =  as.numeric(hh_envi15) ) %>%
   select(y2_hhid, dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
-         dummy_terrain_rough,slope)
+         dummy_terrain_rough) %>% na.omit()
 
 tz10.merged = left_join(tz10.merged,tz10.geo.other.clean, by=c("y2_hhid"))
 
@@ -1294,7 +1323,8 @@ tz10.housing.clean =   tz10.housing %>%
 
 tz10.merged = left_join(tz10.merged,tz10.housing.clean, by=c("y2_hhid"))
 
-
+tz10.merged = tz10.merged %>% mutate( HHID = y2_hhid) %>% select(-y2_hhid)
+  
 write.csv(tz10.merged,"data/clean/household/tz10_hh.csv",row.names = FALSE)
 
 
@@ -1382,6 +1412,8 @@ HDDS = tz12.food.category.days %>%
   mutate( HDDS = if_else( days>=1 ,1,0 )  ) %>%
   group_by(y3_hhid) %>%
   summarise(HDDS = sum(HDDS,na.rm = TRUE))
+
+HDDS = HDDS %>% filter(HDDS!=0)
 
 tz12.merged = left_join(tz12.merged,HDDS, by=c("y3_hhid"))
 #________________________________________________________________________
@@ -1476,14 +1508,14 @@ tz12.geo.clean = tz12.geo %>%
   mutate(nutri_rentention = if_else(soil06 != 3 & soil06 != 2 & soil06!=4 ,0,soil06)) %>%
   mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
   mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
-  mutate(slope = soil02) %>%
+  # mutate(slope = soil02) %>%
   mutate(dist_road = as.numeric(dist01) ) %>%
   mutate(dist_popcenter =  as.numeric(dist02)) %>%
   mutate(dist_headquater =  as.numeric(dist04) ) %>%
   mutate(percent_ag =  as.numeric(land02) ) %>%
-  select(y3_hhid, dist_road,dist_popcenter,percent_ag,
+  select(y3_hhid, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
-         dummy_terrain_rough,slope)
+         dummy_terrain_rough)
 
 tz12.merged = left_join(tz12.merged,tz12.geo.clean, by=c("y3_hhid"))
 
@@ -1608,7 +1640,10 @@ tz12.housing.clean =   tz12.housing %>%
 
 tz12.merged = left_join(tz12.merged,tz12.housing.clean, by=c("y3_hhid"))
 
-
+tz12.merged = tz12.merged %>% 
+  mutate(HHID = y3_hhid) %>% 
+  select( - y3_hhid)
+  
 write.csv(tz12.merged,"data/clean/household/tz12_hh.csv",row.names = FALSE)
 
 ########################################################
@@ -1616,7 +1651,7 @@ write.csv(tz12.merged,"data/clean/household/tz12_hh.csv",row.names = FALSE)
 ########################################################
 path = "data/raw/lsms/Tanzania_2014/TZA_2014_NPS-R4-v01_M_STATA8/"
 
-tz14.food <- read_dta(file = paste(path,"HH_SEC_J3.dta",sep = "" ) )
+tz14.food <- read_dta(file = paste(path,"hh_sec_j3.dta",sep = "" ) )
 
 #   value                                  label
 # 1 A. CEREALS, GRAINS AND CEREAL PRODUCTS
@@ -1633,11 +1668,12 @@ tz14.food <- read_dta(file = paste(path,"HH_SEC_J3.dta",sep = "" ) )
 
 tz14.food.category.days = tz14.food %>%
   mutate( itemcode = as.numeric(itemcode)) %>% 
-  mutate( hh_j09_3 = if_else(hh_j09_3>7,7,hh_j09_3)) %>%
+  filter(!is.na(itemcode)) %>%
+  mutate( hh_j08_3 = if_else(hh_j08_3>7,7,hh_j08_3)) %>%
   # Combining Cereals and roots (Category A and Category B)
   mutate(itemcode =  if_else(itemcode==2,1,itemcode) ) %>%
-  group_by(y3_hhid,itemcode) %>%
-  summarise(days = max(hh_j09_3))
+  group_by(y4_hhid,itemcode) %>%
+  summarise(days = max(hh_j08_3))
 
 
 #  generate a numeric version of the item_code to use the collapse functtion
@@ -1670,6 +1706,7 @@ FWeight.mapping= read.table(text = "
                             10 0", header = TRUE)
 
 
+
 # calculate FCS 
 FCS = tz14.food.category.days %>%
   mutate(
@@ -1677,7 +1714,7 @@ FCS = tz14.food.category.days %>%
     FWeight = with(FWeight.mapping,FWeight[itemcode %in% category])
   ) %>%
   mutate( FCS = days * FWeight ) %>% 
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( FCS  = sum (FCS,na.rm = TRUE) )
 
 FCS = FCS %>% filter(FCS!=0)
@@ -1693,10 +1730,13 @@ HDDS = tz14.food.category.days %>%
   #Exclude SUGAR and SPICES
   filter(itemcode!=9 & itemcode!=10) %>%
   mutate( HDDS = if_else( days>=1 ,1,0 )  ) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise(HDDS = sum(HDDS,na.rm = TRUE))
 
-tz14.merged = left_join(tz14.merged,HDDS, by=c("y3_hhid"))
+HDDS = HDDS %>% filter(HDDS!=0)
+
+
+tz14.merged = left_join(tz14.merged,HDDS, by=c("y4_hhid"))
 #________________________________________________________________________
 
 # Q3. REDUCED COPING STRATEGIES INDEX (rCSI)
@@ -1717,24 +1757,24 @@ tz14.merged = left_join(tz14.merged,HDDS, by=c("y3_hhid"))
 #household had to: Borrow food, or rely on help from a friend or ///
 #relative?" (WGT2)
 
-tz14.rcsi <- read_dta(file = paste(path,"HH_SEC_H.dta",sep = "" ) )
+tz14.rcsi <- read_dta(file = paste(path,"hh_sec_h.dta",sep = "" ) )
 
 # tz14.rcsi$hh_i01
 
 ##Constructing rCSI
 rCSI = tz14.rcsi %>%
   mutate(rCSI = 1*hh_h02_1 + 1*hh_h02_2 + 1*hh_h02_3 + 2*hh_h02_4 +2*hh_h02_5 + 2*hh_h02_6 +4*hh_h02_7 +4*hh_h02_8 ) %>%
-  mutate(rCSI = if_else(hh_h02_1==2 , 0 ,rCSI) ) %>%
+  mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(y3_hhid,rCSI)
+  select(y4_hhid,rCSI)
 
 
-tz14.merged = left_join(tz14.merged,rCSI, by=c("y3_hhid"))
+tz14.merged = left_join(tz14.merged,rCSI, by=c("y4_hhid"))
 
 #_______________________________________________________________________________
 #MERGE in DIST, geolocation and time 
 #_______________________________________________________________________________
-tz14.region<- read_dta(file = paste(path,"HH_SEC_A.dta",sep = "" ) )
+tz14.region<- read_dta(file = paste(path,"hh_sec_a.dta",sep = "" ) )
 
 # Merge in year and round 
 
@@ -1744,65 +1784,37 @@ unique(tz14.region$hh_a01_1)
 region = factor(tz14.region$hh_a01_1) 
 region_dummy  = as.data.frame(model.matrix(~region)[,-1])
 
-tz_region_mapping = tz14.region %>% 
-  group_by(hh_a01_1,hh_a01_2) %>%
-  count()  
-
-write.csv(tz_region_mapping,"data/clean/household/tz_region_map.csv",row.names = FALSE)
-
 # region 1 "Northern" 2 "Central" 3 "Southern"
 tz14.region.rural = tz14.region %>% 
   mutate(FS_year  = as.numeric(hh_a18_3) )%>%
   mutate(FS_month  = as.numeric(hh_a18_2)) %>%
-  #  1 urban 2 rural
-  mutate( rural = as.numeric(y3_rural)
+  #  2 urban 1 rural
+  mutate( clustertype = as.numeric(clustertype)
   ) %>%
-  select(y3_hhid,rural,FS_month,FS_year,clusterid)
+  mutate(rural = if_else(clustertype==1,1,0))   %>%
+  select(y4_hhid,rural,FS_month,FS_year,clusterid)
 
 tz14.region.rural = bind_cols(tz14.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
 # 
 # sum(is.na(mw13.basic.region$region_num))
 
-tz14.merged = left_join(tz14.merged,tz14.region.rural, by=c("y3_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.region.rural, by=c("y4_hhid"))
 
 
 # Merge in geolocation 
 
-tz14.geo <- read_dta(file = paste(path,"HouseholdGeovars_Y3.dta",sep = "" ) )
+tz14.geo <- read_dta(file = paste(path,"npsy4.ea.offset.dta",sep = "" ) )
 
 
 tz14.geo.clean = tz14.geo %>%
-  mutate(lat_modified = lat_dd_mod) %>% 
-  mutate(lon_modified = lon_dd_mod) %>% 
-  mutate(elevation = as.numeric(soil01) ) %>% 
-  
-  mutate(dummy_terrain_rough = if_else(soil04==13 &
-                                         soil04==14 & 
-                                         soil04==5 & 
-                                         soil04== 3, 1,0 ))   %>%
-  mutate(soil05 = as.numeric(soil05)) %>%
-  mutate(soil06 = as.numeric(soil06)) %>%
-  mutate(nutri_avail = if_else(soil05 != 3 & soil05 != 2 & soil05!=4 ,0,soil05) )  %>%
-  mutate(nutri_severe_constraint=if_else(nutri_avail==3|nutri_avail==4,1,0) ) %>%
-  mutate(nutri_moderate_constraint=if_else(nutri_avail==2,1,0) ) %>% 
-  mutate(nutri_rentention = if_else(soil06 != 3 & soil06 != 2 & soil06!=4 ,0,soil06)) %>%
-  mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
-  mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
-  mutate(slope = soil02) %>%
-  mutate(dist_road = as.numeric(dist01) ) %>%
-  mutate(dist_popcenter =  as.numeric(dist02)) %>%
-  mutate(dist_headquater =  as.numeric(dist04) ) %>%
-  mutate(percent_ag =  as.numeric(land02) ) %>%
-  select(y3_hhid, dist_road,dist_popcenter,percent_ag,
-         nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
-         dummy_terrain_rough,slope)
+  select(-wardtype,-clustertype)
 
-tz14.merged = left_join(tz14.merged,tz14.geo.clean, by=c("y3_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.geo.clean, by=c("clusterid"))
 
 
 # Merge in household gender, education level and age 
-tz14.basic <- read_dta(file = paste(path,"HH_SEC_B.dta",sep = "" ) )
+tz14.basic <- read_dta(file = paste(path,"hh_sec_b.dta",sep = "" ) )
 
 tz14.hhhead = tz14.basic %>%
   #  keep only household head
@@ -1810,9 +1822,9 @@ tz14.hhhead = tz14.basic %>%
   mutate(hh_b02 = as.numeric(hh_b02)) %>% 
   mutate(head_age = as.numeric(hh_b04)) %>% 
   mutate(female_head = if_else(hh_b02==2, 1, 0) )  %>%
-  select(y3_hhid,head_age, female_head)
+  select(y4_hhid,head_age, female_head)
 
-tz14.merged = left_join(tz14.merged,tz14.hhhead, by=c("y3_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.hhhead, by=c("y4_hhid"))
 
 # _______________________________________________________________________________
 
@@ -1820,7 +1832,7 @@ tz14.merged = left_join(tz14.merged,tz14.hhhead, by=c("y3_hhid"))
 #_______________________________________________________________________________
 
 # Merge in cell phone 
-tz14.asset <- read_dta(file = paste(path,"HH_SEC_M.dta",sep = "" ) )
+tz14.asset <- read_dta(file = paste(path,"hh_sec_m.dta",sep = "" ) )
 
 tz14.asset.cell.floor = tz14.asset %>%
   filter( itemcode  ==401 | itemcode  ==403 | itemcode  ==404 | 
@@ -1828,62 +1840,62 @@ tz14.asset.cell.floor = tz14.asset %>%
 
 tz14.cellphone  = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_cell = sum (hh_m01[itemcode  ==403],na.rm = TRUE) ) %>%
   mutate( Cellphone = if_else(num_cell>0,1,0) ) %>%
-  select(y3_hhid,Cellphone,num_cell)
+  select(y4_hhid,Cellphone,num_cell)
 
 fridge = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_frige = sum (hh_m01[itemcode  ==404],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y3_hhid,Refrigerator)
+  select(y4_hhid,Refrigerator)
 
 radio = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_radio = sum (hh_m01[itemcode  ==401],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y3_hhid,Radio)
+  select(y4_hhid,Radio)
 
 tv = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_tv = sum (hh_m01[itemcode  ==406],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y3_hhid,Television) 
+  select(y4_hhid,Television) 
 
 bike = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_bike = sum (hh_m01[itemcode  ==427],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y3_hhid,Bicycle) 
+  select(y4_hhid,Bicycle) 
 
 moto = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_moto = sum (hh_m01[itemcode  ==426],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y3_hhid,Motorcycle) 
+  select(y4_hhid,Motorcycle) 
 
 car = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
-  group_by(y3_hhid) %>%
+  group_by(y4_hhid) %>%
   summarise( num_car = sum (hh_m01[itemcode  ==425],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car>0,1,0) ) %>%
-  select(y3_hhid,Car)  
+  select(y4_hhid,Car)  
 
-tz14.asset.clean = left_join(fridge,radio, by="y3_hhid")
-tz14.asset.clean = left_join(tz14.asset.clean,tv, by="y3_hhid")
-tz14.asset.clean = left_join(tz14.asset.clean,bike, by="y3_hhid")
-tz14.asset.clean = left_join(tz14.asset.clean,moto, by="y3_hhid")
-tz14.asset.clean = left_join(tz14.asset.clean,car, by="y3_hhid")
+tz14.asset.clean = left_join(fridge,radio, by="y4_hhid")
+tz14.asset.clean = left_join(tz14.asset.clean,tv, by="y4_hhid")
+tz14.asset.clean = left_join(tz14.asset.clean,bike, by="y4_hhid")
+tz14.asset.clean = left_join(tz14.asset.clean,moto, by="y4_hhid")
+tz14.asset.clean = left_join(tz14.asset.clean,car, by="y4_hhid")
 
 
-y3_hhid = tz14.asset.clean %>% select(y3_hhid)
-tz14.asset.pca =   tz14.asset.clean %>% select(-y3_hhid)
+y4_hhid = tz14.asset.clean %>% select(y4_hhid)
+tz14.asset.pca =   tz14.asset.clean %>% select(-y4_hhid)
 #  generate asset index from the dummies 
 
 
@@ -1893,16 +1905,16 @@ asset.pca <- prcomp(tz14.asset.pca,
 asset_index = as.data.frame(asset.pca$x)["PC1"]
 colnames(asset_index) = "asset_index"
 
-tz14.asset.index = bind_cols(y3_hhid,asset_index)
-#summary(asset.pca)
+tz14.asset.index = bind_cols(y4_hhid,asset_index)
+# summary(asset.pca)
 
 
-tz14.merged = left_join(tz14.merged,tz14.asset.index, by=c("y3_hhid"))
-tz14.merged = left_join(tz14.merged,tz14.cellphone, by=c("y3_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.asset.index, by=c("y4_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.cellphone, by=c("y4_hhid"))
 
 
 # merge in housing
-tz14.housing <- read_dta(file = paste(path,"HH_SEC_I.dta",sep = "" ) )
+tz14.housing <- read_dta(file = paste(path,"hh_sec_i.dta",sep = "" ) )
 
 # tz14.housing$hh_j06
 tz14.housing.clean =   tz14.housing %>%
@@ -1916,13 +1928,1124 @@ tz14.housing.clean =   tz14.housing %>%
   ## roof ###
   mutate( roof_not_natural = if_else( hh_i09 != 1 & hh_i09!=2  ,1,0)) %>%
   mutate( roof_iron = if_else( hh_i09 == 4 ,1,0)) %>%
-  select(y3_hhid,floor_dirt_sand_dung,
+  select(y4_hhid,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
-tz14.merged = left_join(tz14.merged,tz14.housing.clean, by=c("y3_hhid"))
+colSums(is.na(tz14.merged))
 
+tz14.merged = left_join(tz14.merged,tz14.housing.clean, by=c("y4_hhid"))
+
+tz14.merged = tz14.merged %>% mutate(HHID = y4_hhid) %>% select(-y4_hhid)
 
 write.csv(tz14.merged,"data/clean/household/tz14_hh.csv",row.names = FALSE)
+
+########################################################
+# Uganda 2009
+########################################################
+path = "data/raw/lsms/Uganda_2009/UGA_2009_UNPS_v01_M_STATA/"
+
+ug09.food <- read_dta(file = paste(path,"GSEC15b.dta",sep = "" ))
+
+# missing food category info
+# value                  label
+# 100       Matooke(cluster)
+# 101           Matooke(big)
+# 102        Matooke(medium)
+# 103         Matooke(small)
+# 104          Matooke(heap)
+# 105 Sweet Potatoes (Fresh)
+# 106   Sweet Potatoes (Dry)
+# 107        Cassava (Fresh)
+# 108   Cassava (Dry/ Flour)
+# 109         Irish Potatoes
+# 110                   Rice
+# 111         Maize (grains)
+# 112           Maize (cobs)
+# 113          Maize (flour)
+# 114                  Bread
+# 115                 Millet
+# 116                Sorghum
+# 117                   Beef
+# 118                   Pork
+# 119              Goat Meat
+# 120             Other Meat
+# 121                Chicken
+# 122             Fresh Fish
+# 123       Dry/ Smoked fish
+# 124                   Eggs
+# 125             Fresh Milk
+# 126   Infant Formula Foods
+# 127            Cooking oil
+# 128                   Ghee
+# 129 Margarine, Butter, etc
+# 130         Passion Fruits
+# 131          Sweet Bananas
+# 132                 Mangos
+# 133                Oranges
+# 134           Other Fruits
+# 135                 Onions
+# 136               Tomatoes
+# 137               Cabbages
+# 138                   Dodo
+# 139       Other vegetables
+# 140           Beans fresh)
+# 141            Beans (dry)
+# 142 Ground nuts (in shell)
+# 143  Ground nuts (shelled)
+# 144  Ground nuts (pounded)
+# 145                   Peas
+# 146                Sim sim
+# 147                  Sugar
+# 148                 Coffee
+# 149                    Tea
+# 150                   Salt
+# 151                   Soda
+# 152                   Beer
+# 153 Other Alcoholic drinks
+# 154           Other drinks
+# 155             Cigarettes
+# 156          Other Tobacco
+# 157                   Food
+# 158                   Soda
+# 159                   Beer
+# 160            Other juice
+# 161            Other foods
+# 170        Matooke(others)
+
+
+
+#   value                                  label
+# 1 A. CEREALS, GRAINS AND CEREAL PRODUCTS
+# 2        B. ROOTS, TUBERS, AND PLANTAINS
+# 3                     C. NUTS AND PULSES
+# 4                          D. VEGETABLES
+# 5      E. MEAT, FISH AND ANIMAL PRODUCTS
+# 6                              F. FRUITS
+# 7                  G. MILK/MILK PRODUCTS
+# 8                            H. FATS/OIL
+# 9          I. SUGAR/SUGAR PRODUCTS/HONEY
+# 10                   J. SPICES/CONDIMENTS
+
+# AB ~ c(1,110,112,113,114,115,116,138,101,102,105,107,108,109)
+# C ~ c(3,140,141,142,143,144)
+# D ~ c(4,135,136,137,139)
+# E ~ c(5,117,118,119,122,123,124,121,120)
+# F ~ c(6,130,132,133) 
+# G ~ c(7,125) 
+# H ~ c(8,127,129,150) 
+# I ~ c(9,147) 
+# J ~ c(11,148,149,151,152,153,155,156,158,170,160,161)
+
+
+ug09.food.category.days = ug09.food %>%
+  mutate( food_category = case_when(
+    itmcd %in% c(1,110,112,113,114,115,116,138,101,102,105,107,108,109) ~  "AB",
+    itmcd %in% c(3,140,141,142,143,144) ~  "C",
+    itmcd %in% c(4,135,136,137,139) ~  "D",
+    itmcd %in% c(5,117,118,119,122,123,124,121,120) ~  "E",
+    itmcd %in% c(6,130,132,133) ~  "F",
+    itmcd %in% c(7,125) ~  "G",
+    itmcd %in% c(8,127,129,150) ~  "H",
+    itmcd %in% c(9,147)  ~  "I",
+    itmcd %in% c(11,148,149,151,152,153,155,156,158,170,160,161) ~ "J"
+  )) %>%  
+  mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
+  mutate(HHID = hh ) %>% 
+  group_by(HHID,food_category) %>%
+  filter(!is.na(food_category)) %>%
+  summarise(days = max(h15bq3b,na.rm = TRUE))
+
+
+#  generate a numeric version of the item_code to use the collapse functtion
+# create a mapping for weights
+################################################################################
+#NOTES ON THE WEIGHTS OF THE DIFFERENT FOOD CATEGORIES
+# A Cereals, Grains and Cereal Products: Weight = 2
+# B Root, Tubers and Plantains: Weight = 2
+# C Nuts and Pulses: Weight = 3
+# D Vegetables: Weight = 1
+# E Meat, Fish and Animal Products: Weight = 4
+# F Fruits => weight = 1
+# G Milk/Milk Products: Weight = 4
+# H Fats/Oil => Weight = 0.5
+# I Sugar/Sugar Products/Honey: Weight = 0.5
+# J Spices/Condiments: Weight = 0
+################################################################################
+
+## Specifying Weights Different Food Categories
+FWeight.mapping= read.table(text = "
+                            category FWeight 
+                            AB 2
+                            C 3
+                            D 1
+                            F 1
+                            E 4
+                            G 4
+                            H 0.5
+                            I 0.5
+                            J 0", header = TRUE)
+
+FWeight.mapping$category = as.character(FWeight.mapping$category )
+
+# calculate FCS 
+FCS = ug09.food.category.days %>%
+  mutate(
+    # find the weight from 
+    FWeight = case_when(
+      food_category %in% "AB" ~  2,
+      food_category %in% "C" ~  3,
+      food_category %in% "D" ~  1,
+      food_category %in% "E" ~  4,
+      food_category %in% "F" ~  1,
+      food_category %in% "G" ~  4,
+      food_category %in% "H" ~  0.5,
+      food_category %in% "I" ~  0.5,
+      food_category %in% "J" ~  0
+    ) ) %>%
+  mutate( FCS = days * FWeight ) %>% 
+  group_by(HHID) %>%
+  summarise( FCS  = sum (FCS,na.rm = TRUE) ) %>%
+  filter(FCS!=0)
+
+
+ug09.merged = FCS
+################################################################################
+#A diet diversity score is a household-measure of food security that captures ///
+#something about the quality of a diet. It is calculated by counting the number///
+#of foods or food groups from which a household acquired food over the survey ///
+#reference period (24 hours). 
+################################################################################
+HDDS = ug09.food.category.days %>% 
+  #Exclude SUGAR and SPICES
+  filter(food_category!="I" & food_category!="J") %>%
+  mutate( HDDS = if_else( days>=1 ,1,0 )  ) %>%
+  group_by(HHID) %>%
+  summarise(HDDS = sum(HDDS,na.rm = TRUE)) 
+
+HDDS = HDDS %>% filter(HDDS!=0)
+
+ug09.merged = left_join(ug09.merged,HDDS, by=c("HHID"))
+
+
+#_______________________________________________________________________________
+#MERGE in DIST, geolocation and time 
+#_______________________________________________________________________________
+ug09.region<- read_dta(file = paste(path,"GSEC1.dta",sep = "" ) )
+
+# Merge in year and round 
+
+ug09.region$region[ "label"]
+# value                   label
+# 0                 Kampala
+# 1 Central without Kampala
+# 2                 Eastern
+# 3                Northern
+# 4                 Western
+
+# one-hot encoding 
+region = factor(ug09.region$region) 
+region_dummy  = as.data.frame(model.matrix(~region)[,-1])
+
+ug09.region$urban
+
+ug09.region.rural = ug09.region %>% 
+  mutate(FS_year  = as.numeric(h1bq2c) )%>%
+  mutate(FS_month  = as.numeric(h1bq2b)) %>%
+  #  1 urban 0 rural
+  mutate( rural = 1- as.numeric(urban)
+  ) %>%
+  mutate (ea_id = comm) %>%
+  select(HHID,rural,FS_month,FS_year,ea_id)
+
+ug09.region.rural = bind_cols(ug09.region.rural,region_dummy)
+# mw13.region$reside["Labels"]
+# 
+# sum(is.na(mw13.basic.region$region_num))
+
+# length(unique(ug09.region.rural$HHID))
+
+ug09.merged$HHID = as.character(ug09.merged$HHID)
+# length(unique(ug09.merged$HHID))
+
+ug09.merged = left_join(ug09.merged,ug09.region.rural, by=c("HHID"))
+
+
+# Merge in geolocation 
+
+ug09.geo <- read_dta(file = paste(path,"UNPS_Geovars_0910.dta",sep = "" ) )
+
+
+ug09.geo.clean = ug09.geo %>%
+  mutate(lat_modified = lat_mod) %>% 
+  mutate(lon_modified = lon_mod) %>% 
+  mutate(elevation = as.numeric(srtm_uga) ) %>% 
+  
+  mutate(dummy_terrain_rough = if_else(srtm_uga_5_15==13 &
+                                         srtm_uga_5_15==14 & 
+                                         srtm_uga_5_15==5 & 
+                                         srtm_uga_5_15== 3, 1,0 ))   %>%
+  mutate(sq1 = as.numeric(sq1)) %>%
+  mutate(sq2 = as.numeric(sq2)) %>%
+  mutate(nutri_avail = if_else(sq1 != 3 & sq1 != 2 & sq1!=4 ,0,sq1) )  %>%
+  mutate(nutri_severe_constraint=if_else(nutri_avail==3|nutri_avail==4,1,0) ) %>%
+  mutate(nutri_moderate_constraint=if_else(nutri_avail==2,1,0) ) %>% 
+  mutate(nutri_rentention = if_else(sq2 != 3 & sq2 != 2 & sq2!=4 ,0,sq2)) %>%
+  mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
+  mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
+  # mutate(slope = afmnslp_pct) %>%
+  mutate(dist_road = as.numeric(dist_road) ) %>%
+  mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
+  mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
+  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+         nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
+         dummy_terrain_rough)
+
+ug09.merged = left_join(ug09.merged,ug09.geo.clean, by=c("HHID"))
+
+
+# Merge in household gender, education level and age 
+ug09.basic <- read_dta(file = paste(path,"GSEC2.dta",sep = "" ) )
+
+ug09.HHIDhead = ug09.basic %>%
+  #  keep only household head
+  filter(h2q4 ==1) %>%
+  mutate(h2q4 = as.numeric(h2q4)) %>% 
+  mutate(head_age = as.numeric(h2q8)) %>% 
+  mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
+  select(HHID,head_age, female_head)
+
+ug09.merged = left_join(ug09.merged,ug09.HHIDhead, by=c("HHID"))
+
+# _______________________________________________________________________________
+
+#MERGE in cellphone, roof/floor and other household assets
+#_______________________________________________________________________________
+
+# Merge in cell phone 
+ug09.asset <- read_dta(file = paste(path,"GSEC14.dta",sep = "" ) )
+
+ug09.asset.cell.floor = ug09.asset %>%
+  filter( h14q2  == 6 | h14q2  == 7 | h14q2  ==10 | 
+            h14q2  ==11 |h14q2  ==12 |h14q2  ==16 )
+
+# Labels:
+#   value                                             label
+
+# 6                                         Televsion
+# 7                                   Radio/ Cassette
+# 10                                           Bicycle
+# 11                                       Motor cycle
+# 12                                     Motor vehicle
+# 16                                      Mobile phone
+
+ug09.cellphone  = ug09.asset.cell.floor %>%
+  filter(h14q2 == 16) %>%
+  mutate( Cellphone = if_else(h14q3==1,1,0) ) %>%
+  mutate(Cellphone = if_else(is.na(Cellphone),0,Cellphone) ) %>% 
+  mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
+  mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
+  select(HHID,Cellphone,num_cell)
+
+radio = ug09.asset.cell.floor %>%
+  filter(h14q2 == 7 ) %>%
+  mutate( Radio = if_else(h14q3==1,1,0) ) %>%
+   select(HHID,Radio)
+
+tv = ug09.asset.cell.floor %>%
+  filter(h14q2 == 6 ) %>%
+  mutate( Television = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Television)
+
+bike = ug09.asset.cell.floor %>%
+  filter(h14q2 == 10 ) %>%
+  mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Bicycle)
+
+moto = ug09.asset.cell.floor %>%
+  filter(h14q2 == 11 ) %>%
+  mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Motorcycle)
+
+car = ug09.asset.cell.floor %>%
+  filter(h14q2 == 12 ) %>%
+  mutate( Car = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Car)
+
+ug09.asset.clean = radio
+ug09.asset.clean = left_join(ug09.asset.clean,tv, by="HHID")
+ug09.asset.clean = left_join(ug09.asset.clean,bike, by="HHID")
+ug09.asset.clean = left_join(ug09.asset.clean,moto, by="HHID")
+ug09.asset.clean = left_join(ug09.asset.clean,car, by="HHID")
+
+
+HHID = ug09.asset.clean %>% select(HHID)
+ug09.asset.pca =   ug09.asset.clean %>% select(-HHID)
+#  generate asset index from the dummies 
+
+
+asset.pca <- prcomp(ug09.asset.pca,
+                    center = TRUE,
+                    scale. = TRUE) 
+asset_index = as.data.frame(asset.pca$x)["PC1"]
+colnames(asset_index) = "asset_index"
+
+ug09.asset.index = bind_cols(HHID,asset_index)
+#summary(asset.pca)
+
+
+ug09.merged = left_join(ug09.merged,ug09.asset.index, by=c("HHID"))
+ug09.merged = left_join(ug09.merged,ug09.cellphone, by=c("HHID"))
+
+
+# merge in housing
+ug09.housing <- read_dta(file = paste(path,"GSEC9.dta",sep = "" ) )
+
+# ug09.housing$HHID_j06
+ug09.housing.clean =   ug09.housing %>%
+  ## floor ###
+  mutate( floor_dirt_sand_dung = case_when(
+    h9q06 == 1 ~ 1,
+    h9q06 == 2 ~ 1,
+    h9q06 == 3 ~ 0,
+    h9q06 == 4 ~ 0,
+    h9q06 == 5 ~ 0,
+    h9q06 == 6 ~ 0,
+    h9q06 == 7 ~ 0,
+    h9q06 == 96 ~ 0)) %>%
+  mutate (floor_dirt_sand_dung = if_else(is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung)) %>%
+  ## roof ###
+  mutate( roof_not_natural = if_else( h9q04 != 1 & h9q04!=2  ,1,0)) %>%
+  mutate( roof_iron = if_else( h9q04 == 4 ,1,0)) %>%
+  mutate (roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural)) %>%
+  mutate (roof_iron = if_else(is.na(roof_iron),0,roof_iron)) %>%
+  select(HHID,floor_dirt_sand_dung,
+         roof_not_natural,roof_iron)
+
+ug09.merged = left_join(ug09.merged,ug09.housing.clean, by=c("HHID"))
+
+
+write.csv(ug09.merged,"data/clean/household/ug09_hh.csv",row.names = FALSE)
+
+
+########################################################
+# Uganda 2010
+########################################################
+path = "data/raw/lsms/Uganda_2010/UGA_2010_UNPS_v01_M_STATA/"
+
+ug10.food <- read_dta(file = paste(path,"GSEC15b.dta",sep = "" ))
+
+# missing food category info
+# value                  label
+# 100       Matooke(cluster)
+# 101           Matooke(big)
+# 102        Matooke(medium)
+# 103         Matooke(small)
+# 104          Matooke(heap)
+# 105 Sweet Potatoes (Fresh)
+# 106   Sweet Potatoes (Dry)
+# 107        Cassava (Fresh)
+# 108   Cassava (Dry/ Flour)
+# 109         Irish Potatoes
+# 110                   Rice
+# 111         Maize (grains)
+# 112           Maize (cobs)
+# 113          Maize (flour)
+# 114                  Bread
+# 115                 Millet
+# 116                Sorghum
+# 117                   Beef
+# 118                   Pork
+# 119              Goat Meat
+# 120             Other Meat
+# 121                Chicken
+# 122             Fresh Fish
+# 123       Dry/ Smoked fish
+# 124                   Eggs
+# 125             Fresh Milk
+# 126   Infant Formula Foods
+# 127            Cooking oil
+# 128                   Ghee
+# 129 Margarine, Butter, etc
+# 130         Passion Fruits
+# 131          Sweet Bananas
+# 132                 Mangos
+# 133                Oranges
+# 134           Other Fruits
+# 135                 Onions
+# 136               Tomatoes
+# 137               Cabbages
+# 138                   Dodo
+# 139       Other vegetables
+# 140           Beans fresh)
+# 141            Beans (dry)
+# 142 Ground nuts (in shell)
+# 143  Ground nuts (shelled)
+# 144  Ground nuts (pounded)
+# 145                   Peas
+# 146                Sim sim
+# 147                  Sugar
+# 148                 Coffee
+# 149                    Tea
+# 150                   Salt
+# 151                   Soda
+# 152                   Beer
+# 153 Other Alcoholic drinks
+# 154           Other drinks
+# 155             Cigarettes
+# 156          Other Tobacco
+# 157                   Food
+# 158                   Soda
+# 159                   Beer
+# 160            Other juice
+# 161            Other foods
+# 170        Matooke(others)
+
+
+
+#   value                                  label
+# 1 A. CEREALS, GRAINS AND CEREAL PRODUCTS
+# 2        B. ROOTS, TUBERS, AND PLANTAINS
+# 3                     C. NUTS AND PULSES
+# 4                          D. VEGETABLES
+# 5      E. MEAT, FISH AND ANIMAL PRODUCTS
+# 6                              F. FRUITS
+# 7                  G. MILK/MILK PRODUCTS
+# 8                            H. FATS/OIL
+# 9          I. SUGAR/SUGAR PRODUCTS/HONEY
+# 10                   J. SPICES/CONDIMENTS
+
+# AB ~ c(1,110,112,113,114,115,116,138,101,102,105,107,108,109)
+# C ~ c(3,140,141,142,143,144)
+# D ~ c(4,135,136,137,139)
+# E ~ c(5,117,118,119,122,123,124,121,120)
+# F ~ c(6,130,132,133) 
+# G ~ c(7,125) 
+# H ~ c(8,127,129,150) 
+# I ~ c(9,147) 
+# J ~ c(11,148,149,151,152,153,155,156,158,170,160,161)
+
+
+ug10.food.category.days = ug10.food %>%
+  mutate( food_category = case_when(
+    itmcd %in% c(1,110,112,113,114,115,116,138,101,102,105,107,108,109) ~  "AB",
+    itmcd %in% c(3,140,141,142,143,144) ~  "C",
+    itmcd %in% c(4,135,136,137,139) ~  "D",
+    itmcd %in% c(5,117,118,119,122,123,124,121,120) ~  "E",
+    itmcd %in% c(6,130,132,133) ~  "F",
+    itmcd %in% c(7,125) ~  "G",
+    itmcd %in% c(8,127,129,150) ~  "H",
+    itmcd %in% c(9,147)  ~  "I",
+    itmcd %in% c(11,148,149,151,152,153,155,156,158,170,160,161) ~ "J"
+  )) %>%  
+  mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
+  mutate(HHID = hh ) %>% 
+  group_by(HHID,food_category) %>%
+  filter(!is.na(food_category)) %>%
+  summarise(days = max(h15bq3b,na.rm = TRUE))
+
+
+#  generate a numeric version of the item_code to use the collapse functtion
+# create a mapping for weights
+################################################################################
+#NOTES ON THE WEIGHTS OF THE DIFFERENT FOOD CATEGORIES
+# A Cereals, Grains and Cereal Products: Weight = 2
+# B Root, Tubers and Plantains: Weight = 2
+# C Nuts and Pulses: Weight = 3
+# D Vegetables: Weight = 1
+# E Meat, Fish and Animal Products: Weight = 4
+# F Fruits => weight = 1
+# G Milk/Milk Products: Weight = 4
+# H Fats/Oil => Weight = 0.5
+# I Sugar/Sugar Products/Honey: Weight = 0.5
+# J Spices/Condiments: Weight = 0
+################################################################################
+
+## Specifying Weights Different Food Categories
+FWeight.mapping= read.table(text = "
+                            category FWeight 
+                            AB 2
+                            C 3
+                            D 1
+                            F 1
+                            E 4
+                            G 4
+                            H 0.5
+                            I 0.5
+                            J 0", header = TRUE)
+
+# calculate FCS 
+FCS = ug10.food.category.days %>%
+  mutate(
+    # find the weight from 
+    FWeight = case_when(
+      food_category %in% "AB" ~  2,
+      food_category %in% "C" ~  3,
+      food_category %in% "D" ~  1,
+      food_category %in% "E" ~  4,
+      food_category %in% "F" ~  1,
+      food_category %in% "G" ~  4,
+      food_category %in% "H" ~  0.5,
+      food_category %in% "I" ~  0.5,
+      food_category %in% "J" ~  0
+    ) ) %>%
+  mutate( FCS = days * FWeight ) %>% 
+  group_by(HHID) %>%
+  summarise( FCS  = sum (FCS,na.rm = TRUE) ) %>%
+  filter(FCS!=0)
+
+
+ug10.merged = FCS
+################################################################################
+#A diet diversity score is a household-measure of food security that captures ///
+#something about the quality of a diet. It is calculated by counting the number///
+#of foods or food groups from which a household acquired food over the survey ///
+#reference period (24 hours). 
+################################################################################
+HDDS = ug10.food.category.days %>% 
+  #Exclude SUGAR and SPICES
+  filter(food_category!="I" & food_category!="J") %>%
+  mutate( HDDS = if_else( days>=1 ,1,0 )  ) %>%
+  group_by(HHID) %>%
+  summarise(HDDS = sum(HDDS,na.rm = TRUE)) 
+
+HDDS = HDDS %>% filter(HDDS!=0)
+
+ug10.merged = left_join(ug10.merged,HDDS, by=c("HHID"))
+
+
+#_______________________________________________________________________________
+#MERGE in DIST, geolocation and time 
+#_______________________________________________________________________________
+ug10.region<- read_dta(file = paste(path,"GSEC1.dta",sep = "" ) )
+
+# Merge in year and round 
+
+ug10.region$region[ "label"]
+# value                   label
+# 0                 Kampala
+# 1 Central without Kampala
+# 2                 Eastern
+# 3                Northern
+# 4                 Western
+
+# one-hot encoding 
+region = factor(ug10.region$region) 
+region_dummy  = as.data.frame(model.matrix(~region)[,-1])
+
+ug10.region$urban
+
+ug10.region.rural = ug10.region %>% 
+  mutate(FS_year  = as.numeric(year) )%>%
+  mutate(FS_month  = as.numeric(month)) %>%
+  #  1 urban 0 rural
+  mutate( rural = 1- as.numeric(urban)
+  ) %>%
+  mutate (ea_id = comm) %>%
+  select(HHID,rural,FS_month,FS_year,ea_id)
+
+ug10.region.rural = bind_cols(ug10.region.rural,region_dummy)
+# mw13.region$reside["Labels"]
+# 
+# sum(is.na(mw13.basic.region$region_num))
+
+# length(unique(ug10.region.rural$HHID))
+
+ug10.merged$HHID = as.character(ug10.merged$HHID)
+# length(unique(ug10.merged$HHID))
+
+ug10.merged = left_join(ug10.merged,ug10.region.rural, by=c("HHID"))
+
+ug10.merged = ug10.merged %>% na.omit()
+# Merge in geolocation 
+
+ug10.geo <- read_dta(file = paste(path,"UNPS_Geovars_1011.dta",sep = "" ) )
+
+
+ug10.geo.clean = ug10.geo %>%
+  mutate(lat_modified = lat_mod) %>% 
+  mutate(lon_modified = lon_mod) %>% 
+  mutate(elevation = as.numeric(srtm_uga) ) %>% 
+  mutate(dummy_terrain_rough = if_else(srtm_uga_5_15==13 &
+                                         srtm_uga_5_15==14 & 
+                                         srtm_uga_5_15==5 & 
+                                         srtm_uga_5_15== 3, 1,0 ))   %>%
+  mutate(sq1 = as.numeric(sq1)) %>%
+  mutate(sq2 = as.numeric(sq2)) %>%
+  mutate(nutri_avail = if_else(sq1 != 3 & sq1 != 2 & sq1!=4 ,0,sq1) )  %>%
+  mutate(nutri_severe_constraint=if_else(nutri_avail==3|nutri_avail==4,1,0) ) %>%
+  mutate(nutri_moderate_constraint=if_else(nutri_avail==2,1,0) ) %>% 
+  mutate(nutri_rentention = if_else(sq2 != 3 & sq2 != 2 & sq2!=4 ,0,sq2)) %>%
+  mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
+  mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
+  # mutate(slope = afmnslp_pct) %>%
+  mutate(dist_road = as.numeric(dist_road) ) %>%
+  mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
+  mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
+  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+         nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
+         dummy_terrain_rough)
+
+ug10.merged = left_join(ug10.merged,ug10.geo.clean, by=c("HHID"))
+
+
+# Merge in household gender, education level and age 
+ug10.basic <- read_dta(file = paste(path,"GSEC2.dta",sep = "" ) )
+
+ug10.HHIDhead = ug10.basic %>%
+  #  keep only household head
+  filter(h2q4 ==1) %>%
+  mutate(h2q4 = as.numeric(h2q4)) %>% 
+  mutate(head_age = as.numeric(h2q8)) %>% 
+  mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
+  select(HHID,head_age, female_head)
+
+ug10.merged = left_join(ug10.merged,ug10.HHIDhead, by=c("HHID"))
+
+# _______________________________________________________________________________
+
+#MERGE in cellphone, roof/floor and other household assets
+#_______________________________________________________________________________
+
+# Merge in cell phone 
+ug10.asset <- read_dta(file = paste(path,"GSEC14.dta",sep = "" ) )
+
+ug10.asset.cell.floor = ug10.asset %>%
+  filter( h14q2  == 6 | h14q2  == 7 | h14q2  ==10 | 
+            h14q2  ==11 |h14q2  ==12 |h14q2  ==16 )
+
+# Labels:
+#   value                                             label
+
+# 6                                         Televsion
+# 7                                   Radio/ Cassette
+# 10                                           Bicycle
+# 11                                       Motor cycle
+# 12                                     Motor vehicle
+# 16                                      Mobile phone
+
+ug10.cellphone  = ug10.asset.cell.floor %>%
+  filter(h14q2 == 16) %>%
+  mutate( Cellphone = if_else(h14q3==1,1,0) ) %>%
+  mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
+  mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
+  select(HHID,Cellphone,num_cell)
+
+radio = ug10.asset.cell.floor %>%
+  filter(h14q2 == 7 ) %>%
+  mutate( Radio = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Radio)
+
+tv = ug10.asset.cell.floor %>%
+  filter(h14q2 == 6 ) %>%
+  mutate( Television = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Television)
+
+bike = ug10.asset.cell.floor %>%
+  filter(h14q2 == 10 ) %>%
+  mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Bicycle)
+
+moto = ug10.asset.cell.floor %>%
+  filter(h14q2 == 11 ) %>%
+  mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Motorcycle)
+
+car = ug10.asset.cell.floor %>%
+  filter(h14q2 == 12 ) %>%
+  mutate( Car = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Car)
+
+ug10.asset.clean = radio
+ug10.asset.clean = left_join(ug10.asset.clean,tv, by="HHID")
+ug10.asset.clean = left_join(ug10.asset.clean,bike, by="HHID")
+ug10.asset.clean = left_join(ug10.asset.clean,moto, by="HHID")
+ug10.asset.clean = left_join(ug10.asset.clean,car, by="HHID")
+
+
+ug10.asset.clean = ug10.asset.clean %>%
+  mutate(Radio = ifelse(is.na(Radio), 0, Radio) )%>%
+  mutate(Television = ifelse(is.na(Television), 0, Television)) %>%         
+  mutate(Bicycle = ifelse(is.na(Bicycle), 0, Bicycle)) %>%
+  mutate(Motorcycle = ifelse(is.na(Motorcycle), 0, Motorcycle)) %>%
+  mutate(Car = ifelse(is.na(Car), 0, Car))
+
+HHID = ug10.asset.clean %>% select(HHID)
+ug10.asset.pca =   ug10.asset.clean %>% select(-HHID)
+#  generate asset index from the dummies 
+
+
+asset.pca <- prcomp(ug10.asset.pca,
+                    center = TRUE,
+                    scale. = TRUE) 
+asset_index = as.data.frame(asset.pca$x)["PC1"]
+colnames(asset_index) = "asset_index"
+
+ug10.asset.index = bind_cols(HHID,asset_index)
+#summary(asset.pca)
+
+
+ug10.merged = left_join(ug10.merged,ug10.asset.index, by=c("HHID"))
+ug10.merged = left_join(ug10.merged,ug10.cellphone, by=c("HHID"))
+
+
+# merge in housing
+ug10.housing <- read_dta(file = paste(path,"GSEC9A.dta",sep = "" ) )
+
+# ug10.housing$HHID_j06
+ug10.housing.clean =   ug10.housing %>%
+  ## floor ###
+  mutate( floor_dirt_sand_dung = case_when(
+    h9q6 == 1 ~ 1,
+    h9q6 == 2 ~ 1,
+    h9q6 == 3 ~ 0,
+    h9q6 == 4 ~ 0,
+    h9q6 == 5 ~ 0,
+    h9q6 == 6 ~ 0,
+    h9q6 == 7 ~ 0,
+    h9q6 == 96 ~ 0)) %>%
+  mutate(floor_dirt_sand_dung = if_else(is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>% 
+  ## roof ###
+  mutate( roof_not_natural = if_else( h9q4 != 1 & h9q4!=2  ,1,0)) %>%
+  mutate( roof_iron = if_else( h9q4 == 4 ,1,0)) %>%
+  mutate(roof_iron = if_else(is.na(roof_iron),0,roof_iron) ) %>% 
+  mutate(roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural) ) %>% 
+  mutate (roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural)) %>%
+  mutate (roof_iron = if_else(is.na(roof_iron),0,roof_iron)) %>%
+  select(HHID,floor_dirt_sand_dung,
+         roof_not_natural,roof_iron)
+
+ug10.merged = left_join(ug10.merged,ug10.housing.clean, by=c("HHID"))
+
+
+write.csv(ug10.merged,"data/clean/household/ug10_hh.csv",row.names = FALSE)
+
+
+########################################################
+# Uganda 2011
+########################################################
+path = "data/raw/lsms/Uganda_2011/UGA_2011_UNPS_v01_M_STATA/"
+
+ug11.food <- read_dta(file = paste(path,"GSEC15b.dta",sep = "" ))
+
+
+#   value                                  label
+# 1 A. CEREALS, GRAINS AND CEREAL PRODUCTS
+# 2        B. ROOTS, TUBERS, AND PLANTAINS
+# 3                     C. NUTS AND PULSES
+# 4                          D. VEGETABLES
+# 5      E. MEAT, FISH AND ANIMAL PRODUCTS
+# 6                              F. FRUITS
+# 7                  G. MILK/MILK PRODUCTS
+# 8                            H. FATS/OIL
+# 9          I. SUGAR/SUGAR PRODUCTS/HONEY
+# 10                   J. SPICES/CONDIMENTS
+
+# AB ~ c(1,110,112,113,114,115,116,138,101,102,105,107,108,109)
+# C ~ c(3,140,141,142,143,144)
+# D ~ c(4,135,136,137,139)
+# E ~ c(5,117,118,119,122,123,124,121,120)
+# F ~ c(6,130,132,133) 
+# G ~ c(7,125) 
+# H ~ c(8,127,129,150) 
+# I ~ c(9,147) 
+# J ~ c(11,148,149,151,152,153,155,156,158,170,160,161)
+
+
+ug11.food.category.days = ug11.food %>%
+  mutate( food_category = case_when(
+    itmcd %in% c(110,112,113,114,115,116,138,101,102,105,107,108,109) ~  "AB",
+    itmcd %in% c(140,141,142,143,144) ~  "C",
+    itmcd %in% c(135,136,137,139,162,163,164,165,167,168) ~  "D",
+    itmcd %in% c(117,118,119,122,123,124,121,120) ~  "E",
+    itmcd %in% c(130,132,133,170,171,169,166) ~  "F",
+    itmcd %in% c(125) ~  "G",
+    itmcd %in% c(127,129,150) ~  "H",
+    itmcd %in% c(147)  ~  "I",
+    itmcd %in% c(148,149,151,152,153,155,156,158,157,159,160,161) ~ "J"
+  )) %>%  
+  mutate(h15bq3b = as.numeric(h15bq3b) ) %>%
+  
+  mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
+  group_by(HHID,food_category) %>%
+  filter(!is.na(food_category)) %>%
+  summarise(days = max(h15bq3b,na.rm = TRUE))
+
+
+#  generate a numeric version of the item_code to use the collapse functtion
+# create a mapping for weights
+################################################################################
+#NOTES ON THE WEIGHTS OF THE DIFFERENT FOOD CATEGORIES
+# A Cereals, Grains and Cereal Products: Weight = 2
+# B Root, Tubers and Plantains: Weight = 2
+# C Nuts and Pulses: Weight = 3
+# D Vegetables: Weight = 1
+# E Meat, Fish and Animal Products: Weight = 4
+# F Fruits => weight = 1
+# G Milk/Milk Products: Weight = 4
+# H Fats/Oil => Weight = 0.5
+# I Sugar/Sugar Products/Honey: Weight = 0.5
+# J Spices/Condiments: Weight = 0
+################################################################################
+
+## Specifying Weights Different Food Categories
+FWeight.mapping= read.table(text = "
+                            category FWeight 
+                            AB 2
+                            C 3
+                            D 1
+                            F 1
+                            E 4
+                            G 4
+                            H 0.5
+                            I 0.5
+                            J 0", header = TRUE)
+
+# calculate FCS 
+FCS = ug11.food.category.days %>%
+  mutate(
+    # find the weight from 
+    FWeight = case_when(
+      food_category %in% "AB" ~  2,
+      food_category %in% "C" ~  3,
+      food_category %in% "D" ~  1,
+      food_category %in% "E" ~  4,
+      food_category %in% "F" ~  1,
+      food_category %in% "G" ~  4,
+      food_category %in% "H" ~  0.5,
+      food_category %in% "I" ~  0.5,
+      food_category %in% "J" ~  0
+    ) ) %>%
+  mutate( FCS = days * FWeight ) %>% 
+  group_by(HHID) %>%
+  summarise( FCS  = sum (FCS,na.rm = TRUE) ) %>%
+  filter(FCS!=0)
+
+
+ug11.merged = FCS
+################################################################################
+#A diet diversity score is a household-measure of food security that captures ///
+#something about the quality of a diet. It is calculated by counting the number///
+#of foods or food groups from which a household acquired food over the survey ///
+#reference period (24 hours). 
+################################################################################
+HDDS = ug11.food.category.days %>% 
+  #Exclude SUGAR and SPICES
+  filter(food_category!="I" & food_category!="J") %>%
+  mutate( HDDS = if_else( days>=1 ,1,0 )  ) %>%
+  group_by(HHID) %>%
+  summarise(HDDS = sum(HDDS,na.rm = TRUE)) 
+
+HDDS = HDDS %>% filter(HDDS!=0)
+
+ug11.merged = left_join(ug11.merged,HDDS, by=c("HHID"))
+
+
+#_______________________________________________________________________________
+#MERGE in DIST, geolocation and time 
+#_______________________________________________________________________________
+ug11.region<- read_dta(file = paste(path,"GSEC1.dta",sep = "" ) )
+
+# Merge in year and round 
+
+ug11.region$region[ "label"]
+# value                   label
+# 0                 Kampala
+# 1 Central without Kampala
+# 2                 Eastern
+# 3                Northern
+# 4                 Western
+
+# one-hot encoding 
+region = factor(ug11.region$region) 
+region_dummy  = as.data.frame(model.matrix(~region)[,-1])
+
+ug11.region$urban
+
+ug11.region.rural = ug11.region %>% 
+  mutate(FS_year  = as.numeric(year) )%>%
+  mutate(FS_month  = as.numeric(month)) %>%
+  #  1 urban 0 rural
+  mutate( rural = 1- as.numeric(urban)
+  ) %>%
+  mutate (ea_id = comm) %>%
+  select(HHID,rural,FS_month,FS_year,ea_id)
+
+ug11.region.rural = bind_cols(ug11.region.rural,region_dummy)
+# mw13.region$reside["Labels"]
+# 
+# sum(is.na(mw13.basic.region$region_num))
+
+# length(unique(ug11.region.rural$HHID))
+
+ug11.merged$HHID = as.character(ug11.merged$HHID)
+# length(unique(ug11.merged$HHID))
+
+ug11.merged = left_join(ug11.merged,ug11.region.rural, by=c("HHID"))
+
+ug11.merged = ug11.merged %>% na.omit()
+# Merge in geolocation 
+
+ug11.geo <- read_dta(file = paste(path,"UNPS_Geovars_1112.dta",sep = "" ) )
+
+colSums(is.na(ug11.geo))
+
+ug11.geo.clean = ug11.geo %>%
+  mutate(lat_modified = lat_mod) %>% 
+  mutate(lon_modified = lon_mod) %>% 
+  mutate(elevation = as.numeric(srtm_uga) ) %>% 
+  mutate(dummy_terrain_rough = if_else(srtm_uga_5_15==13 &
+                                         srtm_uga_5_15==14 & 
+                                         srtm_uga_5_15==5 & 
+                                         srtm_uga_5_15== 3, 1,0 ))   %>%
+  mutate(sq1 = as.numeric(sq1)) %>%
+  mutate(sq2 = as.numeric(sq2)) %>%
+  mutate(nutri_avail = if_else(sq1 != 3 & sq1 != 2 & sq1!=4 ,0,sq1) )  %>%
+  mutate(nutri_severe_constraint=if_else(nutri_avail==3|nutri_avail==4,1,0) ) %>%
+  mutate(nutri_moderate_constraint=if_else(nutri_avail==2,1,0) ) %>% 
+  mutate(nutri_rentention = if_else(sq2 != 3 & sq2 != 2 & sq2!=4 ,0,sq2)) %>%
+  mutate(nutri_reten_severe_constraint=if_else(nutri_rentention==3|nutri_rentention==4,1,0) ) %>%
+  mutate(nutri_reten_moderate_constraint=if_else(nutri_rentention==2,1,0) ) %>% 
+  # mutate(slope = afmnslp_pct) %>%
+  mutate(dist_road = as.numeric(dist_road) ) %>%
+  mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
+  mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
+  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+         nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
+         dummy_terrain_rough)
+
+ug11.merged = left_join(ug11.merged,ug11.geo.clean, by=c("HHID"))
+
+
+# Merge in household gender, education level and age 
+ug11.basic <- read_dta(file = paste(path,"GSEC2.dta",sep = "" ) )
+
+ug11.HHIDhead = ug11.basic %>%
+  #  keep only household head
+  filter(h2q4 ==1) %>%
+  mutate(h2q4 = as.numeric(h2q4)) %>% 
+  mutate(head_age = as.numeric(h2q8)) %>% 
+  mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
+  select(HHID,head_age, female_head)
+
+ug11.merged = left_join(ug11.merged,ug11.HHIDhead, by=c("HHID"))
+
+# _______________________________________________________________________________
+
+#MERGE in cellphone, roof/floor and other household assets
+#_______________________________________________________________________________
+
+# Merge in cell phone 
+ug11.asset <- read_dta(file = paste(path,"GSEC14.dta",sep = "" ) )
+
+ug11.asset.cell.floor = ug11.asset %>%
+  filter( h14q2  == 6 | h14q2  == 7 | h14q2  ==10 | 
+            h14q2  ==11 |h14q2  ==12 |h14q2  ==16 )
+
+# Labels:
+#   value                                             label
+
+# 6                                         Televsion
+# 7                                   Radio/ Cassette
+# 10                                           Bicycle
+# 11                                       Motor cycle
+# 12                                     Motor vehicle
+# 16                                      Mobile phone
+
+ug11.cellphone  = ug11.asset.cell.floor %>%
+  filter(h14q2 == 16) %>%
+  mutate( Cellphone = if_else(h14q3==1,1,0) ) %>%
+  mutate(Cellphone = if_else(is.na(Cellphone),0,Cellphone) ) %>% 
+  mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
+  mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
+  select(HHID,Cellphone,num_cell)
+
+radio = ug11.asset.cell.floor %>%
+  filter(h14q2 == 7 ) %>%
+  mutate( Radio = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Radio)
+
+tv = ug11.asset.cell.floor %>%
+  filter(h14q2 == 6 ) %>%
+  mutate( Television = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Television)
+
+bike = ug11.asset.cell.floor %>%
+  filter(h14q2 == 10 ) %>%
+  mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Bicycle)
+
+moto = ug11.asset.cell.floor %>%
+  filter(h14q2 == 11 ) %>%
+  mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Motorcycle)
+
+car = ug11.asset.cell.floor %>%
+  filter(h14q2 == 12 ) %>%
+  mutate( Car = if_else(h14q3==1,1,0) ) %>%
+  select(HHID,Car)
+
+ug11.asset.clean = radio
+ug11.asset.clean = left_join(ug11.asset.clean,tv, by="HHID")
+ug11.asset.clean = left_join(ug11.asset.clean,bike, by="HHID")
+ug11.asset.clean = left_join(ug11.asset.clean,moto, by="HHID")
+ug11.asset.clean = left_join(ug11.asset.clean,car, by="HHID")
+
+
+ug11.asset.clean = ug11.asset.clean %>%
+  mutate(Radio = ifelse(is.na(Radio), 0, Radio) )%>%
+  mutate(Television = ifelse(is.na(Television), 0, Television)) %>%         
+  mutate(Bicycle = ifelse(is.na(Bicycle), 0, Bicycle)) %>%
+  mutate(Motorcycle = ifelse(is.na(Motorcycle), 0, Motorcycle)) %>%
+  mutate(Car = ifelse(is.na(Car), 0, Car))
+
+HHID = ug11.asset.clean %>% select(HHID)
+ug11.asset.pca =   ug11.asset.clean %>% select(-HHID)
+#  generate asset index from the dummies 
+
+
+asset.pca <- prcomp(ug11.asset.pca,
+                    center = TRUE,
+                    scale. = TRUE) 
+asset_index = as.data.frame(asset.pca$x)["PC1"]
+colnames(asset_index) = "asset_index"
+
+ug11.asset.index = bind_cols(HHID,asset_index)
+#summary(asset.pca)
+
+
+ug11.merged = left_join(ug11.merged,ug11.asset.index, by=c("HHID"))
+ug11.merged = left_join(ug11.merged,ug11.cellphone, by=c("HHID"))
+
+
+# merge in housing
+ug11.housing <- read_dta(file = paste(path,"GSEC9A.dta",sep = "" ) )
+
+# ug11.housing$HHID_j06
+ug11.housing.clean =   ug11.housing %>%
+  ## floor ###
+  mutate( floor_dirt_sand_dung = case_when(
+    h9q6 == 1 ~ 1,
+    h9q6 == 2 ~ 1,
+    h9q6 == 3 ~ 0,
+    h9q6 == 4 ~ 0,
+    h9q6 == 5 ~ 0,
+    h9q6 == 6 ~ 0,
+    h9q6 == 7 ~ 0,
+    h9q6 == 96 ~ 0)) %>%
+  mutate(floor_dirt_sand_dung = if_else(is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>% 
+  ## roof ###
+  mutate( roof_not_natural = if_else( h9q4 != 1 & h9q4!=2  ,1,0)) %>%
+  mutate( roof_iron = if_else( h9q4 == 4 ,1,0)) %>%
+  mutate(roof_iron = if_else(is.na(roof_iron),0,roof_iron) ) %>% 
+  mutate(roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural) ) %>% 
+  
+  select(HHID,floor_dirt_sand_dung,
+         roof_not_natural,roof_iron)
+
+ug11.merged = left_join(ug11.merged,ug11.housing.clean, by=c("HHID"))
+
+
+write.csv(ug11.merged,"data/clean/household/ug11_hh.csv",row.names = FALSE)
 
 
 
