@@ -251,6 +251,10 @@ tz.master.clust = tz.master.hh %>%
 
  # colnames(tz.master.hh)
 
+tz.master.clust = tz.master.clust %>% 
+  ungroup() %>%
+  select(-ea_id,-FNID,-lat_modified,-lon_modified,-yearmon)
+
 write.csv(tz.master.hh, file= "data/clean/dataset/tz_dataset_hh.csv",row.names = FALSE)
 write.csv(tz.master.clust, file= "data/clean/dataset/tz_dataset_cluster.csv",row.names = FALSE)
 
@@ -343,7 +347,9 @@ ug.master.clust = ug.master.hh %>%
   group_by(ea_id,FS_year,FNID) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) 
 
-
+ug.master.clust = ug.master.clust %>%
+  ungroup() %>%
+  select(-ea_id,-HHID,-lat_modified,-lon_modified)
 #colSums(is.na(ug.master.clust))
 
 # colnames(ug.master.hh)
