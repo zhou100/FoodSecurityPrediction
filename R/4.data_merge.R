@@ -93,24 +93,37 @@ mw.master.hh = mw.master.hh %>% dplyr::filter(!is.na(VID) & !is.na(date))
 
 colSums(is.na(mw.master.hh))
 
+
 # lapply(mw.master.hh, class)
 
 
 mw.hh.data = mw.master.hh %>% select (-HHID,-ea_id,-VID,-cropyear,-year,-yearmon,-date)
+mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
 
 
 mw.master.clust = mw.master.hh %>% 
+  filter(FCS!=-Inf ) %>% 
   dplyr::select(-HHID,-year,-cropyear,-VID) %>%
   group_by(ea_id,FS_year,FNID) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
 colSums(is.na(mw.master.clust))
 
-lapply(mw.master.clust, class)
+
+mw.hh.data = mw.hh.data %>% 
+  select(-lat_modified,-lon_modified,-FNID)
+# lapply(mw.master.clust, class)
+
+# mw.master.clust$FCS[1415:1419]
+
+mw.master.clust = mw.master.clust %>% 
+  ungroup() %>%
+  select(-yearmon, -ea_id,-lat_modified,-lon_modified,-date)
+
+ 
 
 
 
-# colnames(mw.master.hh)
 write.csv(mw.hh.data, file= "data/clean/dataset/mw_dataset_hh.csv",row.names = FALSE)
 write.csv(mw.master.clust, file= "data/clean/dataset/mw_dataset_cluster.csv",row.names = FALSE)
 
