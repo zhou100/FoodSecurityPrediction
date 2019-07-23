@@ -258,7 +258,13 @@ tz.master.clust = tz.master.clust %>%
 write.csv(tz.master.hh, file= "data/clean/dataset/tz_dataset_hh.csv",row.names = FALSE)
 write.csv(tz.master.clust, file= "data/clean/dataset/tz_dataset_cluster.csv",row.names = FALSE)
 
+tz_dataset_cluster[!is.finite(tz_dataset_cluster)] <- NA
 
+tz_dataset_cluster <- read.csv("data/clean/dataset/tz_dataset_cluster.csv")
+
+
+sum(is.infinite(tz_dataset_cluster$FCS ))
+sum(is.infinite(tz_dataset_cluster$HDDS))
 
 ####################################################
 ### Merge Uganda Data 
@@ -358,9 +364,101 @@ write.csv(ug.master.hh, file= "data/clean/dataset/ug_dataset_hh.csv",row.names =
 write.csv(ug.master.clust, file= "data/clean/dataset/ug_dataset_cluster.csv",row.names = FALSE)
 
 
- 
+# Merge into one dataset 
 
 
+
+rm(list = ls())
+
+require(tidyverse)
+library(zoo)
+
+
+mw.clust = read.csv("data/clean/dataset/mw_dataset_cluster.csv",stringsAsFactors = FALSE)
+
+tz.clust = read.csv("data/clean/dataset/tz_dataset_cluster.csv",stringsAsFactors = FALSE)
+
+ug.clust = read.csv("data/clean/dataset/ug_dataset_cluster.csv",stringsAsFactors = FALSE)
+
+
+
+mw.clust = mw.clust %>% 
+  mutate(Cellphone = cell_phone) %>% 
+  mutate(num_cell = number_celphones) %>% 
+  select(- starts_with("region"),
+         -FNID,-hhsize,-dist_admarc,-hhsize,- cell_phone,- number_celphones,
+         -clust_maize_price,-clust_rice_price,-clust_nuts_price,
+         -clust_beans_price,-clust_rice_mktthin,-clust_nuts_mktthin,-clust_beans_mktthin,
+         -lhz_maize_price,-lhz_rice_price,-lhz_nuts_price,-lhz_beans_price,
+         -lhz_rice_mktthin,-lhz_nuts_mktthin,-lhz_beans_mktthin,-heatdays  
+         
+         )
+
+tz.clust = tz.clust %>% 
+  select(- starts_with("region"),
+         -clust_maize_price,-clust_rice_price,
+         -clust_rice_mktthin,
+         -lhz_maize_price,-lhz_rice_price,
+         -lhz_rice_mktthin,-heatdays,
+         -clust_bean_mktthin, -lhz_bean_mktthin 
+  )
+
+
+ug.clust = ug.clust %>% 
+  select(- starts_with("region"),
+         -clust_cassava_price,-clust_bean_mktthin,-clust_cassava_mktthin,
+         -lhz_cassava_price,-lhz_bean_mktthin,-lhz_cassava_mktthin,
+         -FNID
+  )
+
+
+colnames(mw.clust)[!(colnames(mw.clust) %in% colnames(ug.clust))]
+colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(ug.clust))]
+
+colnames(ug.clust)[!(colnames(ug.clust) %in% colnames(mw.clust))]
+colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(mw.clust))]
+
+
+ug.clust = ug.clust %>% filter(FCS!=-Inf)
+
+# removing the testing set
+
+# mw15/16
+
+mw.test = mw.clust %>%
+          filter(FS_year == 2015|FS_year == 2016)
+
+# tz14/15
+tz.test = tz.clust %>%
+  filter(FS_year == 2015|FS_year == 2014)
+
+
+# ug12
+ug.test = ug.clust %>%
+  filter(FS_year == 2012)
+
+mw.train = mw.clust %>%
+  filter(FS_year <2016 )
+
+tz.train = tz.clust %>%
+  filter(FS_year <2014 )
+
+ug.train = ug.clust %>%
+  filter(FS_year <2012 )
+
+one_dataset= bind_rows(mw.train,tz.train)
+
+one_dataset= bind_rows(one_dataset,ug.train)
+
+rural_dataset = one_dataset %>% filter(rural==1)
+
+write.csv(rural_dataset,"data/clean/segmentation/rural_dataset.csv" , row.names = FALSE )
+write.csv(one_dataset,"data/clean/segmentation/one_dataset.csv" , row.names = FALSE )
+
+
+write.csv(ug.test,"data/clean/segmentation/ug_test.csv" , row.names = FALSE )
+write.csv(tz.test,"data/clean/segmentation/tz_test.csv" , row.names = FALSE )
+write.csv(mw.test,"data/clean/segmentation/mw_test.csv" , row.names = FALSE )
 
 # 
 # # fill in missing values by the ones in the same year/month and same cluster 
