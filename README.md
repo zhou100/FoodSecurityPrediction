@@ -1,12 +1,5 @@
-# FS_metrics
+## Predicting Food Security with Machine Learning 
 
- Goal : Understanding the different aspects of food security and how the existing measures capatures these aspects differently. 
+**Abstract**: Hunger is on the rise throughout Africa, with famine threatening millions across several countries. Identifying food insecurity crises rapidly and accurately can enable humanitarian responses to mitigate casualties from hunger and save lives. We develop a predictive model based on readily available, spatially granular data on prices, geography, and demographics. Using machine learning techniques, we are able to improve the accuracy of predicting those villages that face a potential threat of hunger. As with any rare event, one challenge with predicting food insecurity is the low rate of severe food insecurity in the baseline data.  We use several different approaches to address this imbalance to allow us to capture a higher fraction of these rare events.  We apply our procedure to three sub-Saharan African countries: Malawi, Tanzania, and Uganda to predict food security in out-of-sample villages. We correctly identify 69-88 percent of the food insecure clusters, which is 10 - 90 percent higher than the baseline model using a logistic regression.  We further explore which data splits perform best under the spatial-temporal correlations between observations in the panel dataset to reduce overfitting in actual implementation. …Our result shows that a data-driven model with the help of machine learning methods can significantly improve its performance on capturing the food insecure households despite the imbalance in the data. Our paper demonstrates that this approach could be used in a scalable, automatically updated prediction model that could enhance the current famine early warning systems.
  
- Input : Household level survey data collected by world bank LSMS in  subsaharan Africa.
- 
- Output: graphs, analysis, maps related to Food Security  measures 
- 
- Product: potential index for a mix of the three measures 
- 
- 
- 
+**Keywords**: food insecurity, machine learning, early warning, Sub-Saharan Africa, famine
