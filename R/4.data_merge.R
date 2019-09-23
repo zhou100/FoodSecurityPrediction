@@ -75,7 +75,7 @@ mw.current.price.impute = mw.current.price.impute %>% dplyr::select(-yearmon_lag
 # Join hh and prices
 mw.master.hh = left_join(mw.lsms,mw.current.price.impute, by = c("ea_id","yearmon"))
 
-
+# mw.master.hh= mw.lsms
 # read weather data 
 load("data/clean/weather/mw_weather_final.RData")
 
@@ -98,12 +98,15 @@ colSums(is.na(mw.master.hh))
 
 
 mw.hh.data = mw.master.hh %>% select (-HHID,-ea_id,-VID,-cropyear,-year,-yearmon,-date)
+
+mw.hh.data = mw.master.hh %>% select (-VID,-cropyear,-yearmon)
+
 mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
 
 
 mw.master.clust = mw.master.hh %>% 
   filter(FCS!=-Inf ) %>% 
-  dplyr::select(-HHID,-year,-cropyear,-VID) %>%
+  dplyr::select(-HHID,-cropyear,-VID) %>%
   group_by(ea_id,FS_year,FNID) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
@@ -121,7 +124,8 @@ mw.master.clust = mw.master.clust %>%
   select(-yearmon, -ea_id,-lat_modified,-lon_modified,-date)
 
  
-
+# 
+# write.csv(mw.master.clust, file= "data/clean/dataset/mw_cluster_noprice.csv",row.names = FALSE)
 
 
 write.csv(mw.hh.data, file= "data/clean/dataset/mw_dataset_hh.csv",row.names = FALSE)
