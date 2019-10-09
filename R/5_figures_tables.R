@@ -2,8 +2,7 @@
 library(tidyverse)
 
 library(readxl)
-result_tables <- read_excel("output/graphs/result_tables.xlsx", 
-                              +     sheet = "Sheet1")
+result_tables_fig1 <- read_excel("output/graphs/result_tables.xlsx", sheet = "Figure1")
 
 
 # adjust factor level
@@ -20,9 +19,13 @@ result_tables <- read_excel("output/graphs/result_tables.xlsx",
 
 # figure1_accuracy
 
-figure1_acc<-ggplot(data = result_tables, aes(x = Country, y = Accuracy,colour = Model , shape = Measure )) 
-figure1_acc<-figure1_acc + geom_point(size=7)
-figure1_acc<-figure1_acc + labs( x = "Country", y = "Accuracy")
+result_tables_fig1 = result_tables_fig1 %>%
+  mutate(CM =  paste(Country, Measure, sep = '-') )
+
+
+figure1_acc<-ggplot(data = result_tables_fig1, aes(x = CM, y = Accuracy,colour = Model)) 
+figure1_acc<-figure1_acc + geom_point(size=4)
+figure1_acc<-figure1_acc + labs( x = "", y = "Accuracy")
 
 figure1_acc <- figure1_acc+ theme_classic()    
 figure1_acc <- figure1_acc +  theme(plot.title = element_text(size = 12, face = "bold"),legend.title=element_text(size=20), legend.text=element_text(size=18),axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
@@ -31,15 +34,15 @@ figure1_acc <- figure1_acc +  theme(plot.title = element_text(size = 12, face = 
 
 figure1_acc
 
-ggsave("figure1_acc.png", plot = figure1_acc,device = "png",path = "output/graphs/",
+ggsave("figure1_acc.png", plot = figure1_acc,device = "png",path = "output/graphs/figure1_3category",
        dpi = 1000, limitsize = TRUE)
 
 
 # Recall
 
-figure1_rec<-ggplot(data = result_tables, aes(x = Country, y = Recall,colour = Model , shape = Measure )) 
-figure1_rec<-figure1_rec + geom_point(size=7)
-figure1_rec<-figure1_rec + labs( x = "Country", y = "Recall")
+figure1_rec<-ggplot(data = result_tables_fig1, aes(x = CM, y = Recall,colour = Model   )) 
+figure1_rec<-figure1_rec + geom_point(size=4)
+figure1_rec<-figure1_rec + labs( x = "", y = "Recall")
 
 figure1_rec <- figure1_rec+ theme_classic()    
 figure1_rec <- figure1_rec +  theme(plot.title = element_text(size = 12, face = "bold"),legend.title=element_text(size=20), legend.text=element_text(size=18),axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
@@ -48,15 +51,15 @@ figure1_rec <- figure1_rec +  theme(plot.title = element_text(size = 12, face = 
 
 figure1_rec
 
-ggsave("figure1_rec.png", plot = figure1_rec,device = "png",path = "output/graphs/",
+ggsave("figure1_rec.png", plot = figure1_rec,device = "png",path = "output/graphs/figure1_3category",
        dpi = 1000, limitsize = TRUE)
 
 
 # F-1_score
 
-figure1_f1<-ggplot(data = result_tables, aes(x = Country, y = `F-1_score`,colour = Model , shape = Measure )) 
-figure1_f1<-figure1_f1 + geom_point(size=7)
-figure1_f1<-figure1_f1 + labs( x = "Country", y = "F-1 score")
+figure1_f1<-ggplot(data = result_tables_fig1, aes(x = CM, y = `F-1_score`,colour = Model )) 
+figure1_f1<-figure1_f1 + geom_point(size=4)
+figure1_f1<-figure1_f1 + labs( x = "", y = "F-1 score")
 
 figure1_f1 <- figure1_f1+ theme_classic()    
 figure1_f1 <- figure1_f1 +  theme(plot.title = element_text(size = 12, face = "bold"),legend.title=element_text(size=20), legend.text=element_text(size=18),axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
