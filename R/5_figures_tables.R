@@ -2,7 +2,7 @@
 library(tidyverse)
 
 library(readxl)
-result_tables_fig1 <- read_excel("output/graphs/result_tables.xlsx", sheet = "Figure1")
+result_tables_fig1 <- read_excel("output/graphs/result_tables_CV.xlsx", sheet = "Figure1")
 
 
 # adjust factor level
@@ -55,6 +55,18 @@ ggsave("figure1_rec.png", plot = figure1_rec,device = "png",path = "output/graph
        dpi = 1000, limitsize = TRUE)
 
 
+figure1_precision<-ggplot(data = result_tables_fig1, aes(x = CM, y = Precision,colour = Model   )) 
+figure1_precision<-figure1_precision + geom_point(size=4)
+figure1_precision<-figure1_precision + labs( x = "", y = "Precision")
+
+figure1_precision <- figure1_precision+ theme_classic()    
+figure1_precision <- figure1_precision +  theme(plot.title = element_text(size = 12, face = "bold"),legend.title=element_text(size=20), legend.text=element_text(size=18),axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
+                                                axis.title=element_text(size=17,face="bold") ) 
+
+
+figure1_precision
+
+
 # F-1_score
 
 figure1_f1<-ggplot(data = result_tables_fig1, aes(x = CM, y = `F-1_score`,colour = Model )) 
@@ -79,7 +91,7 @@ ggsave("figure1_f1.png", plot = figure1_f1,device = "png",path = "output/graphs/
 library(tidyverse)
 
 library(readxl)
-result_tables <- read_excel("output/graphs/result_tables.xlsx",sheet = "Figure2")
+result_tables <- read_excel("output/graphs/result_tables_CV.xlsx",sheet = "Figure2")
 
 
 # figure3_accuracy
@@ -115,6 +127,17 @@ figure3_rec
 ggsave("figure3_rec.png", plot = figure3_rec,device = "png",path = "output/graphs/figure3_3category",
        dpi = 1000, limitsize = TRUE)
 
+# Precision
+figure3_precision<-ggplot(data = result_tables, aes(x = `C-M`, y = Precision,colour = Model , shape = sampling)) 
+figure3_precision<-figure3_precision + geom_point(size=4)
+figure3_precision<-figure3_precision + labs( x = "", y = "Precision")
+
+figure3_precision <- figure3_precision+ theme_classic()    
+figure3_precision <- figure3_precision +  theme(plot.title = element_text(size = 12, face = "bold"),legend.title=element_text(size=20), legend.text=element_text(size=18),axis.text.x=element_text(size=15),axis.text.y=element_text(size=15),
+                                                axis.title=element_text(size=17,face="bold") ) 
+
+
+figure3_precision
 
 # F-1_score
 
