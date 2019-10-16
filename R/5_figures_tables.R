@@ -4,6 +4,7 @@ library(tidyverse)
 library(readxl)
 result_tables_fig1 <- read_excel("output/graphs/result_tables_CV.xlsx", sheet = "Figure1")
 
+# result_tables_fig1 <- read_excel("output/graphs/result_tables_CV_mild.xlsx", sheet = "Sheet1")
 
 # adjust factor level
 # ord_measure <- c("HDDS","rCSI","logFCS")
