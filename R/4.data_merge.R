@@ -135,7 +135,7 @@ mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
 mw.master.clust = mw.master.hh %>% 
   filter(FCS!=-Inf ) %>% 
   dplyr::select(-HHID,-cropyear,-VID) %>%
-  group_by(ea_id,FS_year,FNID) %>%   
+  group_by(ea_id,FS_year) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
 colSums(is.na(mw.master.clust))
@@ -149,7 +149,7 @@ mw.hh.data = mw.hh.data %>%
 
 mw.master.clust = mw.master.clust %>% 
   ungroup() %>%
-  dplyr::select(-yearmon,-date)
+  dplyr::select(-yearmon,-date,-FNID)
 
  
 # 
@@ -308,14 +308,14 @@ colSums(is.na(tz.master.hh))
 
 
 tz.master.clust = tz.master.hh %>% 
-  group_by(ea_id,FS_year,FNID) %>%   
+  group_by(ea_id,FS_year) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
  # colnames(tz.master.hh)
 
 tz.master.clust = tz.master.clust %>% 
   ungroup() %>%
-  select(-yearmon)
+  select(-yearmon,-FNID)
 
 write.csv(tz.master.hh, file= "data/clean/dataset/tz_dataset_hh.csv",row.names = FALSE)
 write.csv(tz.master.clust, file= "data/clean/dataset/tz_dataset_cluster.csv",row.names = FALSE)
@@ -435,12 +435,12 @@ ug.master.hh = ug.master.hh %>%   dplyr::select( -yearmon,-year,-cropyear,-date)
 
 
 ug.master.clust = ug.master.hh %>% 
-  group_by(ea_id,FS_year,FNID) %>%   
+  group_by(ea_id,FS_year) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) 
 
 ug.master.clust = ug.master.clust %>%
   ungroup() %>%
-  select(-HHID)
+  select(-HHID,-FNID)
 #colSums(is.na(ug.master.clust))
 
 # colnames(ug.master.hh)
