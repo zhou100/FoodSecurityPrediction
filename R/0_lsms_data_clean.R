@@ -316,24 +316,24 @@ mw10.asset.clean = left_join(mw10.asset.clean,bike, by="case_id")
 mw10.asset.clean = left_join(mw10.asset.clean,moto, by="case_id")
 mw10.asset.clean = left_join(mw10.asset.clean,car, by="case_id")
 
-
-case_id = mw10.asset.clean %>% select(case_id)
-mw10.asset.pca =   mw10.asset.clean %>% select(-case_id)
-#  generate asset index from the dummies 
-
-
-asset.pca <- prcomp(mw10.asset.pca,
-                 center = TRUE,
-                 scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-mw10.asset.index = bind_cols(case_id,asset_index)
+# 
+# case_id = mw10.asset.clean %>% select(case_id)
+# mw10.asset.pca =   mw10.asset.clean %>% select(-case_id)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(mw10.asset.pca,
+#                  center = TRUE,
+#                  scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# mw10.asset.index = bind_cols(case_id,asset_index)
 #summary(asset.pca)
 
 
 
-mw10.merged = left_join(mw10.merged,mw10.asset.index, by=c("case_id"))
+mw10.merged = left_join(mw10.merged,mw10.asset.clean, by=c("case_id"))
 
 min(mw10.merged$HDDS)
 
@@ -667,23 +667,23 @@ mw13.asset.clean = left_join(mw13.asset.clean,moto, by="y2_hhid")
 mw13.asset.clean = left_join(mw13.asset.clean,car, by="y2_hhid")
 
 
-y2_hhid = mw13.asset.clean %>% select(y2_hhid)
-mw13.asset.pca =   mw13.asset.clean %>% select(-y2_hhid)
-#  generate asset index from the dummies 
+# y2_hhid = mw13.asset.clean %>% select(y2_hhid)
+# mw13.asset.pca =   mw13.asset.clean %>% select(-y2_hhid)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(mw13.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# mw13.asset.index = bind_cols(y2_hhid,asset_index)
+# #summary(asset.pca)
 
 
-asset.pca <- prcomp(mw13.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
 
-mw13.asset.index = bind_cols(y2_hhid,asset_index)
-#summary(asset.pca)
-
-
-
-mw13.merged = left_join(mw13.merged,mw13.asset.index, by=c("y2_hhid"))
+mw13.merged = left_join(mw13.merged,mw13.asset.clean, by=c("y2_hhid"))
 
 min(mw13.merged$HDDS)
 
@@ -997,24 +997,24 @@ mw16.asset.clean = left_join(mw16.asset.clean,bike, by="y3_hhid")
 mw16.asset.clean = left_join(mw16.asset.clean,moto, by="y3_hhid")
 mw16.asset.clean = left_join(mw16.asset.clean,car, by="y3_hhid")
 
-
-y3_hhid = mw16.asset.clean %>% select(y3_hhid)
-mw16.asset.pca =   mw16.asset.clean %>% select(-y3_hhid)
-#  generate asset index from the dummies 
-
-
-asset.pca <- prcomp(mw16.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-mw16.asset.index = bind_cols(y3_hhid,asset_index)
+# 
+# y3_hhid = mw16.asset.clean %>% select(y3_hhid)
+# mw16.asset.pca =   mw16.asset.clean %>% select(-y3_hhid)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(mw16.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# mw16.asset.index = bind_cols(y3_hhid,asset_index)
 #summary(asset.pca)
 
 
 
-mw16.merged = left_join(mw16.merged,mw16.asset.index, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.asset.clean, by=c("y3_hhid"))
 
 min(mw16.merged$HDDS)
 
@@ -1287,19 +1287,19 @@ tz10.asset.clean = left_join(tz10.asset.clean,car, by="y2_hhid")
 y2_hhid = tz10.asset.clean %>% select(y2_hhid)
 tz10.asset.pca =   tz10.asset.clean %>% select(-y2_hhid)
 #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(tz10.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# tz10.asset.index = bind_cols(y2_hhid,asset_index)
+# #summary(asset.pca)
 
 
-asset.pca <- prcomp(tz10.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-tz10.asset.index = bind_cols(y2_hhid,asset_index)
-#summary(asset.pca)
-
-
-tz10.merged = left_join(tz10.merged,tz10.asset.index, by=c("y2_hhid"))
+tz10.merged = left_join(tz10.merged,tz10.asset.clean, by=c("y2_hhid"))
 tz10.merged = left_join(tz10.merged,tz10.cellphone, by=c("y2_hhid"))
 
 
@@ -1600,23 +1600,23 @@ tz12.asset.clean = left_join(tz12.asset.clean,bike, by="y3_hhid")
 tz12.asset.clean = left_join(tz12.asset.clean,moto, by="y3_hhid")
 tz12.asset.clean = left_join(tz12.asset.clean,car, by="y3_hhid")
 
+# 
+# y3_hhid = tz12.asset.clean %>% select(y3_hhid)
+# tz12.asset.pca =   tz12.asset.clean %>% select(-y3_hhid)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(tz12.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# tz12.asset.index = bind_cols(y3_hhid,asset_index)
+# #summary(asset.pca)
 
-y3_hhid = tz12.asset.clean %>% select(y3_hhid)
-tz12.asset.pca =   tz12.asset.clean %>% select(-y3_hhid)
-#  generate asset index from the dummies 
 
-
-asset.pca <- prcomp(tz12.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-tz12.asset.index = bind_cols(y3_hhid,asset_index)
-#summary(asset.pca)
-
-
-tz12.merged = left_join(tz12.merged,tz12.asset.index, by=c("y3_hhid"))
+tz12.merged = left_join(tz12.merged,tz12.asset.clean, by=c("y3_hhid"))
 tz12.merged = left_join(tz12.merged,tz12.cellphone, by=c("y3_hhid"))
 
 
@@ -1893,23 +1893,23 @@ tz14.asset.clean = left_join(tz14.asset.clean,bike, by="y4_hhid")
 tz14.asset.clean = left_join(tz14.asset.clean,moto, by="y4_hhid")
 tz14.asset.clean = left_join(tz14.asset.clean,car, by="y4_hhid")
 
+# 
+# y4_hhid = tz14.asset.clean %>% select(y4_hhid)
+# tz14.asset.pca =   tz14.asset.clean %>% select(-y4_hhid)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(tz14.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# tz14.asset.index = bind_cols(y4_hhid,asset_index)
+# # summary(asset.pca)
 
-y4_hhid = tz14.asset.clean %>% select(y4_hhid)
-tz14.asset.pca =   tz14.asset.clean %>% select(-y4_hhid)
-#  generate asset index from the dummies 
 
-
-asset.pca <- prcomp(tz14.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-tz14.asset.index = bind_cols(y4_hhid,asset_index)
-# summary(asset.pca)
-
-
-tz14.merged = left_join(tz14.merged,tz14.asset.index, by=c("y4_hhid"))
+tz14.merged = left_join(tz14.merged,tz14.asset.clean, by=c("y4_hhid"))
 tz14.merged = left_join(tz14.merged,tz14.cellphone, by=c("y4_hhid"))
 
 
@@ -2276,24 +2276,24 @@ ug09.asset.clean = left_join(ug09.asset.clean,tv, by="HHID")
 ug09.asset.clean = left_join(ug09.asset.clean,bike, by="HHID")
 ug09.asset.clean = left_join(ug09.asset.clean,moto, by="HHID")
 ug09.asset.clean = left_join(ug09.asset.clean,car, by="HHID")
+# 
+# 
+# HHID = ug09.asset.clean %>% select(HHID)
+# ug09.asset.pca =   ug09.asset.clean %>% select(-HHID)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(ug09.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# ug09.asset.index = bind_cols(HHID,asset_index)
+# #summary(asset.pca)
 
 
-HHID = ug09.asset.clean %>% select(HHID)
-ug09.asset.pca =   ug09.asset.clean %>% select(-HHID)
-#  generate asset index from the dummies 
-
-
-asset.pca <- prcomp(ug09.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-ug09.asset.index = bind_cols(HHID,asset_index)
-#summary(asset.pca)
-
-
-ug09.merged = left_join(ug09.merged,ug09.asset.index, by=c("HHID"))
+ug09.merged = left_join(ug09.merged,ug09.asset.clean, by=c("HHID"))
 ug09.merged = left_join(ug09.merged,ug09.cellphone, by=c("HHID"))
 
 
@@ -2669,22 +2669,22 @@ ug10.asset.clean = ug10.asset.clean %>%
   mutate(Motorcycle = ifelse(is.na(Motorcycle), 0, Motorcycle)) %>%
   mutate(Car = ifelse(is.na(Car), 0, Car))
 
-HHID = ug10.asset.clean %>% select(HHID)
-ug10.asset.pca =   ug10.asset.clean %>% select(-HHID)
-#  generate asset index from the dummies 
-
-
-asset.pca <- prcomp(ug10.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-ug10.asset.index = bind_cols(HHID,asset_index)
+# HHID = ug10.asset.clean %>% select(HHID)
+# ug10.asset.pca =   ug10.asset.clean %>% select(-HHID)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(ug10.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# ug10.asset.index = bind_cols(HHID,asset_index)
 #summary(asset.pca)
 
 
-ug10.merged = left_join(ug10.merged,ug10.asset.index, by=c("HHID"))
+ug10.merged = left_join(ug10.merged,ug10.asset.clean, by=c("HHID"))
 ug10.merged = left_join(ug10.merged,ug10.cellphone, by=c("HHID"))
 
 
@@ -2998,22 +2998,22 @@ ug11.asset.clean = ug11.asset.clean %>%
   mutate(Motorcycle = ifelse(is.na(Motorcycle), 0, Motorcycle)) %>%
   mutate(Car = ifelse(is.na(Car), 0, Car))
 
-HHID = ug11.asset.clean %>% select(HHID)
-ug11.asset.pca =   ug11.asset.clean %>% select(-HHID)
-#  generate asset index from the dummies 
-
-
-asset.pca <- prcomp(ug11.asset.pca,
-                    center = TRUE,
-                    scale. = TRUE) 
-asset_index = as.data.frame(asset.pca$x)["PC1"]
-colnames(asset_index) = "asset_index"
-
-ug11.asset.index = bind_cols(HHID,asset_index)
+# HHID = ug11.asset.clean %>% select(HHID)
+# ug11.asset.pca =   ug11.asset.clean %>% select(-HHID)
+# #  generate asset index from the dummies 
+# 
+# 
+# asset.pca <- prcomp(ug11.asset.pca,
+#                     center = TRUE,
+#                     scale. = TRUE) 
+# asset_index = as.data.frame(asset.pca$x)["PC1"]
+# colnames(asset_index) = "asset_index"
+# 
+# ug11.asset.index = bind_cols(HHID,asset_index)
 #summary(asset.pca)
 
 
-ug11.merged = left_join(ug11.merged,ug11.asset.index, by=c("HHID"))
+ug11.merged = left_join(ug11.merged,ug11.asset.clean, by=c("HHID"))
 ug11.merged = left_join(ug11.merged,ug11.cellphone, by=c("HHID"))
 
 

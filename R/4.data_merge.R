@@ -42,9 +42,11 @@ colnames(mw_price_merge_final)
 
 # mw_price_merge_final
 
+
 mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
 # class(mw_price_merge_final$ea_id)
 
+# weekly price data to monthly 
 mw.current.price = mw_price_merge_final %>% 
   dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
   distinct() %>% 
@@ -58,6 +60,7 @@ mw.current.price.impute = mw.current.price %>%
                           mutate(year=format(date,"%Y")) %>% 
                           group_by(ea_id,year) 
 
+# interpolate missing using recent months prices  
 
 for ( index in  4:ncol(mw.current.price.impute)-1) {
   col.name.temp = colnames(mw.current.price.impute)[index]
@@ -65,15 +68,40 @@ for ( index in  4:ncol(mw.current.price.impute)-1) {
 }
 
 # create a one month lag for each price 
-mw.current.price.impute["yearmon_lag1"]= mw.current.price.impute$yearmon + 0.1
+mw.lag1.price = mw.current.price.impute 
+mw.lag1.price["yearmon_lag1"]= mw.lag1.price$yearmon + 0.1
+mw.lag1.price["yearmon"] = mw.lag1.price["yearmon_lag1"]
+mw.lag1.price = mw.lag1.price %>% ungroup() %>% dplyr::select(-yearmon_lag1,-date,-year)
+names(mw.lag1.price)[3:ncol(mw.lag1.price)] = paste("lag1",names(mw.lag1.price)[3:ncol(mw.lag1.price)],sep="_")
 
-mw.current.price.impute["yearmon"] = mw.current.price.impute["yearmon_lag1"]
+# 3 months lag 
+mw.lag3.price = mw.current.price.impute 
+mw.lag3.price["yearmon_lag3"]= mw.lag3.price$yearmon + 0.25
+mw.lag3.price["yearmon"] = mw.lag3.price["yearmon_lag3"]
+mw.lag3.price = mw.lag3.price %>% ungroup() %>% dplyr::select(-yearmon_lag3,-date,-year)
+names(mw.lag3.price)[3:ncol(mw.lag3.price)] = paste("lag3",names(mw.lag3.price)[3:ncol(mw.lag3.price)],sep="_")
 
-mw.current.price.impute = mw.current.price.impute %>% dplyr::select(-yearmon_lag1)
+
+# 6 months lag 
+mw.lag6.price = mw.current.price.impute 
+mw.lag6.price["yearmon_lag6"]= mw.lag6.price$yearmon + 0.5
+mw.lag6.price["yearmon"] = mw.lag6.price["yearmon_lag6"]
+mw.lag6.price = mw.lag6.price %>% ungroup() %>% dplyr::select(-yearmon_lag6,-date,-year)
+names(mw.lag6.price)[3:ncol(mw.lag6.price)] = paste("lag6",names(mw.lag6.price)[3:ncol(mw.lag6.price)],sep="_")
+
+# 12 months lag
+mw.lag12.price = mw.current.price.impute 
+mw.lag12.price["yearmon_lag12"]= mw.lag12.price$yearmon + 1
+mw.lag12.price["yearmon"] = mw.lag12.price["yearmon_lag12"]
+mw.lag12.price = mw.lag12.price %>% ungroup() %>% dplyr::select(-yearmon_lag12,-date,-year)
+names(mw.lag12.price)[3:ncol(mw.lag12.price)] = paste("lag12",names(mw.lag12.price)[3:ncol(mw.lag12.price)],sep="_")
 
 
 # Join hh and prices
-mw.master.hh = left_join(mw.lsms,mw.current.price.impute, by = c("ea_id","yearmon"))
+mw.master.hh = left_join(mw.lsms,mw.lag1.price, by = c("ea_id","yearmon"))
+mw.master.hh = left_join(mw.master.hh,mw.lag3.price, by = c("ea_id","yearmon"))
+mw.master.hh = left_join(mw.master.hh, mw.lag6.price, by = c("ea_id","yearmon"))
+mw.master.hh = left_join(mw.master.hh,mw.lag12.price, by = c("ea_id","yearmon"))
 
 # mw.master.hh= mw.lsms
 # read weather data 
@@ -97,9 +125,9 @@ colSums(is.na(mw.master.hh))
 # lapply(mw.master.hh, class)
 
 
-mw.hh.data = mw.master.hh %>% select (-HHID,-ea_id,-VID,-cropyear,-year,-yearmon,-date)
+mw.hh.data = mw.master.hh %>% dplyr::select (-HHID,-ea_id,-VID,-cropyear,-year,-yearmon,-date)
 
-mw.hh.data = mw.master.hh %>% select (-VID,-cropyear,-yearmon)
+mw.hh.data = mw.master.hh %>% dplyr::select (-VID,-cropyear,-yearmon)
 
 mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
 
@@ -114,14 +142,14 @@ colSums(is.na(mw.master.clust))
 
 
 mw.hh.data = mw.hh.data %>% 
-  select(-lat_modified,-lon_modified,-FNID)
+  dplyr::select(-lat_modified,-lon_modified,-FNID)
 # lapply(mw.master.clust, class)
 
 # mw.master.clust$FCS[1415:1419]
 
 mw.master.clust = mw.master.clust %>% 
   ungroup() %>%
-  select(-yearmon,-date)
+  dplyr::select(-yearmon,-date)
 
  
 # 
@@ -195,11 +223,42 @@ colSums(is.na(tz.current.price.impute))
 
 
 # create a one month lag for each price 
-tz.current.price.impute["yearmon_lag1"]= tz.current.price.impute$yearmon + 0.1
+tz.lag1.price = tz.current.price.impute 
+tz.lag1.price["yearmon_lag1"]= tz.lag1.price$yearmon + 0.1
+tz.lag1.price["yearmon"] = tz.lag1.price["yearmon_lag1"]
+tz.lag1.price = tz.lag1.price %>% ungroup() %>% dplyr::select(-yearmon_lag1,-date,-year)
+names(tz.lag1.price)[3:ncol(tz.lag1.price)] = paste("lag1",names(tz.lag1.price)[3:ncol(tz.lag1.price)],sep="_")
 
-tz.current.price.impute["yearmon"] = tz.current.price.impute["yearmon_lag1"]
+# 3 months lag 
+tz.lag3.price = tz.current.price.impute 
+tz.lag3.price["yearmon_lag3"]= tz.lag3.price$yearmon + 0.25
+tz.lag3.price["yearmon"] = tz.lag3.price["yearmon_lag3"]
+tz.lag3.price = tz.lag3.price %>% ungroup() %>% dplyr::select(-yearmon_lag3,-date,-year)
+names(tz.lag3.price)[3:ncol(tz.lag3.price)] = paste("lag3",names(tz.lag3.price)[3:ncol(tz.lag3.price)],sep="_")
 
-tz.current.price.impute = tz.current.price.impute %>% dplyr::select(-yearmon_lag1)
+
+# 6 months lag 
+tz.lag6.price = tz.current.price.impute 
+tz.lag6.price["yearmon_lag6"]= tz.lag6.price$yearmon + 0.5
+tz.lag6.price["yearmon"] = tz.lag6.price["yearmon_lag6"]
+tz.lag6.price = tz.lag6.price %>% ungroup() %>% dplyr::select(-yearmon_lag6,-date,-year)
+names(tz.lag6.price)[3:ncol(tz.lag6.price)] = paste("lag6",names(tz.lag6.price)[3:ncol(tz.lag6.price)],sep="_")
+
+# 12 months lag
+tz.lag12.price = tz.current.price.impute 
+tz.lag12.price["yearmon_lag12"]= tz.lag12.price$yearmon + 1
+tz.lag12.price["yearmon"] = tz.lag12.price["yearmon_lag12"]
+tz.lag12.price = tz.lag12.price %>% ungroup() %>% dplyr::select(-yearmon_lag12,-date,-year)
+names(tz.lag12.price)[3:ncol(tz.lag12.price)] = paste("lag12",names(tz.lag12.price)[3:ncol(tz.lag12.price)],sep="_")
+
+
+
+# Join hh and prices
+tz.master.hh = left_join(tz.lsms,tz.lag1.price, by = c("ea_id","yearmon"))
+tz.master.hh = left_join(tz.master.hh,tz.lag3.price, by = c("ea_id","yearmon"))
+tz.master.hh = left_join(tz.master.hh, tz.lag6.price, by = c("ea_id","yearmon"))
+tz.master.hh = left_join(tz.master.hh,tz.lag12.price, by = c("ea_id","yearmon"))
+
 
 # read weather data 
 load("data/clean/weather/tz_weather_final.RData")
@@ -219,7 +278,6 @@ tz.weather.final["floodmax"][is.na(tz.weather.final["floodmax"])] = 0
 library(zoo)
    
 
-tz.master.hh = left_join(tz.lsms,tz.current.price.impute, by = c("ea_id","yearmon"))
 
 colSums(is.na(tz.master.hh))
 
@@ -243,7 +301,7 @@ colSums(is.na(tz.master.fill))
 #sapply(tz.master.hh,class)
 
 tz.master.hh = tz.master.fill %>% 
-  dplyr::select( -year,-cropyear,-date,-HHID) %>%
+  dplyr::select(-"cropyear",-"HHID") %>%
   na.omit()
 
 colSums(is.na(tz.master.hh))
@@ -262,13 +320,6 @@ tz.master.clust = tz.master.clust %>%
 write.csv(tz.master.hh, file= "data/clean/dataset/tz_dataset_hh.csv",row.names = FALSE)
 write.csv(tz.master.clust, file= "data/clean/dataset/tz_dataset_cluster.csv",row.names = FALSE)
 
-tz_dataset_cluster[!is.finite(tz_dataset_cluster)] <- NA
-
-tz_dataset_cluster <- read.csv("data/clean/dataset/tz_dataset_cluster.csv")
-
-
-sum(is.infinite(tz_dataset_cluster$FCS ))
-sum(is.infinite(tz_dataset_cluster$HDDS))
 
 ####################################################
 ### Merge Uganda Data 
@@ -314,15 +365,45 @@ ug.current.price = ug_price_merge_final %>%
  
  
  
- # create a one month lag for each price 
- ug.current.price.impute["yearmon_lag1"]= ug.current.price.impute$yearmon + 0.1
+ # create a one month lag for each price # create a one month lag for each price 
+ ug.lag1.price = ug.current.price.impute 
+ ug.lag1.price["yearmon_lag1"]= ug.lag1.price$yearmon + 0.1
+ ug.lag1.price["yearmon"] = ug.lag1.price["yearmon_lag1"]
+ ug.lag1.price = ug.lag1.price %>% ungroup() %>% dplyr::select(-yearmon_lag1,-date,-year)
+ names(ug.lag1.price)[3:ncol(ug.lag1.price)] = paste("lag1",names(ug.lag1.price)[3:ncol(ug.lag1.price)],sep="_")
  
- ug.current.price.impute["yearmon"] = ug.current.price.impute["yearmon_lag1"]
+ # 3 months lag 
+ ug.lag3.price = ug.current.price.impute 
+ ug.lag3.price["yearmon_lag3"]= ug.lag3.price$yearmon + 0.25
+ ug.lag3.price["yearmon"] = ug.lag3.price["yearmon_lag3"]
+ ug.lag3.price = ug.lag3.price %>% ungroup() %>% dplyr::select(-yearmon_lag3,-date,-year)
+ names(ug.lag3.price)[3:ncol(ug.lag3.price)] = paste("lag3",names(ug.lag3.price)[3:ncol(ug.lag3.price)],sep="_")
  
- ug.current.price.impute = ug.current.price.impute %>% dplyr::select(-yearmon_lag1)
+ 
+ # 6 months lag 
+ ug.lag6.price = ug.current.price.impute 
+ ug.lag6.price["yearmon_lag6"]= ug.lag6.price$yearmon + 0.5
+ ug.lag6.price["yearmon"] = ug.lag6.price["yearmon_lag6"]
+ ug.lag6.price = ug.lag6.price %>% ungroup() %>% dplyr::select(-yearmon_lag6,-date,-year)
+ names(ug.lag6.price)[3:ncol(ug.lag6.price)] = paste("lag6",names(ug.lag6.price)[3:ncol(ug.lag6.price)],sep="_")
+ 
+ # 12 months lag
+ ug.lag12.price = ug.current.price.impute 
+ ug.lag12.price["yearmon_lag12"]= ug.lag12.price$yearmon + 1
+ ug.lag12.price["yearmon"] = ug.lag12.price["yearmon_lag12"]
+ ug.lag12.price = ug.lag12.price %>% ungroup() %>% dplyr::select(-yearmon_lag12,-date,-year)
+ names(ug.lag12.price)[3:ncol(ug.lag12.price)] = paste("lag12",names(ug.lag12.price)[3:ncol(ug.lag12.price)],sep="_")
  
  
- colSums(is.na(ug.current.price.impute))
+ 
+ # Join hh and prices
+ ug.master.hh = left_join(ug.lsms,ug.lag1.price, by = c("ea_id","yearmon"))
+ ug.master.hh = left_join(ug.master.hh,ug.lag3.price, by = c("ea_id","yearmon"))
+ ug.master.hh = left_join(ug.master.hh, ug.lag6.price, by = c("ea_id","yearmon"))
+ ug.master.hh = left_join(ug.master.hh,ug.lag12.price, by = c("ea_id","yearmon"))
+ 
+ 
+ colSums(is.na( ug.master.hh))
  
 
 # read weather data 
@@ -367,125 +448,125 @@ ug.master.clust = ug.master.clust %>%
 write.csv(ug.master.hh, file= "data/clean/dataset/ug_dataset_hh.csv",row.names = FALSE)
 write.csv(ug.master.clust, file= "data/clean/dataset/ug_dataset_cluster.csv",row.names = FALSE)
 
-
-# Merge into one dataset 
-
-
-
-rm(list = ls())
-
-require(tidyverse)
-library(zoo)
-
-
-mw.clust = read.csv("data/clean/dataset/mw_dataset_cluster.csv",stringsAsFactors = FALSE)
-
-tz.clust = read.csv("data/clean/dataset/tz_dataset_cluster.csv",stringsAsFactors = FALSE)
-
-ug.clust = read.csv("data/clean/dataset/ug_dataset_cluster.csv",stringsAsFactors = FALSE)
-
-
-
-mw.clust = mw.clust %>% 
-  mutate(Cellphone = cell_phone) %>% 
-  mutate(num_cell = number_celphones) %>% 
-  select(- starts_with("region"),
-         -FNID,-hhsize,-dist_admarc,-hhsize,- cell_phone,- number_celphones,
-         -clust_maize_price,-clust_rice_price,-clust_nuts_price,
-         -clust_beans_price,-clust_rice_mktthin,-clust_nuts_mktthin,-clust_beans_mktthin,
-         -lhz_maize_price,-lhz_rice_price,-lhz_nuts_price,-lhz_beans_price,
-         -lhz_rice_mktthin,-lhz_nuts_mktthin,-lhz_beans_mktthin,-heatdays  
-         
-         )
-
-tz.clust = tz.clust %>% 
-  select(- starts_with("region"),
-         -clust_maize_price,-clust_rice_price,
-         -clust_rice_mktthin,
-         -lhz_maize_price,-lhz_rice_price,
-         -lhz_rice_mktthin,-heatdays,
-         -clust_bean_mktthin, -lhz_bean_mktthin 
-  )
-
-
-ug.clust = ug.clust %>% 
-  select(- starts_with("region"),
-         -clust_cassava_price,-clust_bean_mktthin,-clust_cassava_mktthin,
-         -lhz_cassava_price,-lhz_bean_mktthin,-lhz_cassava_mktthin,
-         -FNID
-  )
-
-
-colnames(mw.clust)[!(colnames(mw.clust) %in% colnames(ug.clust))]
-colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(ug.clust))]
-
-colnames(ug.clust)[!(colnames(ug.clust) %in% colnames(mw.clust))]
-colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(mw.clust))]
-
-
-ug.clust = ug.clust %>% filter(FCS!=-Inf)
-
-# removing the testing set
-
-# mw15/16
-
-mw.test = mw.clust %>%
-          filter(FS_year == 2015|FS_year == 2016)
-
-# tz14/15
-tz.test = tz.clust %>%
-  filter(FS_year == 2015|FS_year == 2014)
-
-
-# ug12
-ug.test = ug.clust %>%
-  filter(FS_year == 2012)
-
-mw.train = mw.clust %>%
-  filter(FS_year <2016 )
-
-tz.train = tz.clust %>%
-  filter(FS_year <2014 )
-
-ug.train = ug.clust %>%
-  filter(FS_year <2012 )
-
-one_dataset= bind_rows(mw.train,tz.train)
-
-one_dataset= bind_rows(one_dataset,ug.train)
-
-rural_dataset = one_dataset %>% filter(rural==1)
-
-write.csv(rural_dataset,"data/clean/segmentation/rural_dataset.csv" , row.names = FALSE )
-write.csv(one_dataset,"data/clean/segmentation/one_dataset.csv" , row.names = FALSE )
-
-
-write.csv(ug.test,"data/clean/segmentation/ug_test.csv" , row.names = FALSE )
-write.csv(tz.test,"data/clean/segmentation/tz_test.csv" , row.names = FALSE )
-write.csv(mw.test,"data/clean/segmentation/mw_test.csv" , row.names = FALSE )
-
 # 
-# # fill in missing values by the ones in the same year/month and same cluster 
-# ug.lsms.fill = ug.lsms %>% 
-#   group_by(ea_id,FS_year) %>% 
-#   mutate(dist_road= ifelse(is.na(dist_road), mean(dist_road, na.rm=TRUE), dist_road)) %>% 
-#   mutate(dist_popcenter= ifelse(is.na(dist_popcenter), mean(dist_popcenter, na.rm=TRUE), dist_popcenter)) %>% 
-#   mutate(dist_market= ifelse(is.na(dist_market), mean(dist_market, na.rm=TRUE), dist_market)) %>% 
-#   mutate(dist_admctr= ifelse(is.na(dist_admctr), mean(dist_admctr, na.rm=TRUE), dist_admctr)) %>% 
-#   mutate(ag_percent= ifelse(is.na(ag_percent), mean(ag_percent, na.rm=TRUE), ag_percent)) %>% 
-#   mutate(floor_cement= ifelse(is.na(floor_cement), mean(floor_cement, na.rm=TRUE), floor_cement)) %>% 
-#   mutate(floor_dirt_sand_dung= ifelse(is.na(floor_dirt_sand_dung), mean(floor_dirt_sand_dung, na.rm=TRUE), floor_dirt_sand_dung)) %>% 
-#   mutate(roof_iron= ifelse(is.na(roof_iron), mean(roof_iron, na.rm=TRUE), roof_iron)) %>% 
-#   mutate(roof_natural= ifelse(is.na(roof_natural), mean(roof_natural, na.rm=TRUE), roof_natural)) %>% 
-#   mutate(roof_other= ifelse(is.na(roof_other), mean(roof_other, na.rm=TRUE), roof_other)) %>% 
-#   mutate(Radio= ifelse(is.na(Radio), mean(Radio, na.rm=TRUE), Radio)) %>% 
-#   mutate(Television= ifelse(is.na(Television), mean(Television, na.rm=TRUE), Television)) %>% 
-#   mutate(Bicycle= ifelse(is.na(Bicycle), mean(Bicycle, na.rm=TRUE), Bicycle)) %>% 
-#   mutate(Motorcycle= ifelse(is.na(Motorcycle), mean(Motorcycle, na.rm=TRUE), Motorcycle)) %>% 
-#   mutate(Car= ifelse(is.na(Car), mean(Car, na.rm=TRUE), Car)) %>% 
-#   mutate(cellphone= ifelse(is.na(cellphone), mean(cellphone, na.rm=TRUE), cellphone)) %>% 
-#   mutate(number_celphones= ifelse(is.na(number_celphones), mean(number_celphones, na.rm=TRUE), number_celphones)) %>% 
-#   mutate(dummy_terrain_rough= ifelse(is.na(dummy_terrain_rough), mean(dummy_terrain_rough, na.rm=TRUE), dummy_terrain_rough)) %>% 
-#   mutate(slope= ifelse(is.na(slope), mean(slope, na.rm=TRUE), slope)) %>% 
-#   mutate(elevation= ifelse(is.na(elevation), mean(elevation, na.rm=TRUE), elevation)) 
-
+# # Merge into one dataset 
+# 
+# 
+# 
+# rm(list = ls())
+# 
+# require(tidyverse)
+# library(zoo)
+# 
+# 
+# mw.clust = read.csv("data/clean/dataset/mw_dataset_cluster.csv",stringsAsFactors = FALSE)
+# 
+# tz.clust = read.csv("data/clean/dataset/tz_dataset_cluster.csv",stringsAsFactors = FALSE)
+# 
+# ug.clust = read.csv("data/clean/dataset/ug_dataset_cluster.csv",stringsAsFactors = FALSE)
+# 
+# 
+# 
+# mw.clust = mw.clust %>% 
+#   mutate(Cellphone = cell_phone) %>% 
+#   mutate(num_cell = number_celphones) %>% 
+#   select(- starts_with("region"),
+#          -FNID,-hhsize,-dist_admarc,-hhsize,- cell_phone,- number_celphones,
+#          -clust_maize_price,-clust_rice_price,-clust_nuts_price,
+#          -clust_beans_price,-clust_rice_mktthin,-clust_nuts_mktthin,-clust_beans_mktthin,
+#          -lhz_maize_price,-lhz_rice_price,-lhz_nuts_price,-lhz_beans_price,
+#          -lhz_rice_mktthin,-lhz_nuts_mktthin,-lhz_beans_mktthin,-heatdays  
+#          
+#          )
+# 
+# tz.clust = tz.clust %>% 
+#   select(- starts_with("region"),
+#          -clust_maize_price,-clust_rice_price,
+#          -clust_rice_mktthin,
+#          -lhz_maize_price,-lhz_rice_price,
+#          -lhz_rice_mktthin,-heatdays,
+#          -clust_bean_mktthin, -lhz_bean_mktthin 
+#   )
+# 
+# 
+# ug.clust = ug.clust %>% 
+#   select(- starts_with("region"),
+#          -clust_cassava_price,-clust_bean_mktthin,-clust_cassava_mktthin,
+#          -lhz_cassava_price,-lhz_bean_mktthin,-lhz_cassava_mktthin,
+#          -FNID
+#   )
+# 
+# 
+# colnames(mw.clust)[!(colnames(mw.clust) %in% colnames(ug.clust))]
+# colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(ug.clust))]
+# 
+# colnames(ug.clust)[!(colnames(ug.clust) %in% colnames(mw.clust))]
+# colnames(tz.clust)[!(colnames(tz.clust) %in% colnames(mw.clust))]
+# 
+# 
+# ug.clust = ug.clust %>% filter(FCS!=-Inf)
+# 
+# # removing the testing set
+# 
+# # mw15/16
+# 
+# mw.test = mw.clust %>%
+#           filter(FS_year == 2015|FS_year == 2016)
+# 
+# # tz14/15
+# tz.test = tz.clust %>%
+#   filter(FS_year == 2015|FS_year == 2014)
+# 
+# 
+# # ug12
+# ug.test = ug.clust %>%
+#   filter(FS_year == 2012)
+# 
+# mw.train = mw.clust %>%
+#   filter(FS_year <2016 )
+# 
+# tz.train = tz.clust %>%
+#   filter(FS_year <2014 )
+# 
+# ug.train = ug.clust %>%
+#   filter(FS_year <2012 )
+# 
+# one_dataset= bind_rows(mw.train,tz.train)
+# 
+# one_dataset= bind_rows(one_dataset,ug.train)
+# 
+# rural_dataset = one_dataset %>% filter(rural==1)
+# 
+# write.csv(rural_dataset,"data/clean/segmentation/rural_dataset.csv" , row.names = FALSE )
+# write.csv(one_dataset,"data/clean/segmentation/one_dataset.csv" , row.names = FALSE )
+# 
+# 
+# write.csv(ug.test,"data/clean/segmentation/ug_test.csv" , row.names = FALSE )
+# write.csv(tz.test,"data/clean/segmentation/tz_test.csv" , row.names = FALSE )
+# write.csv(mw.test,"data/clean/segmentation/mw_test.csv" , row.names = FALSE )
+# 
+# # 
+# # # fill in missing values by the ones in the same year/month and same cluster 
+# # ug.lsms.fill = ug.lsms %>% 
+# #   group_by(ea_id,FS_year) %>% 
+# #   mutate(dist_road= ifelse(is.na(dist_road), mean(dist_road, na.rm=TRUE), dist_road)) %>% 
+# #   mutate(dist_popcenter= ifelse(is.na(dist_popcenter), mean(dist_popcenter, na.rm=TRUE), dist_popcenter)) %>% 
+# #   mutate(dist_market= ifelse(is.na(dist_market), mean(dist_market, na.rm=TRUE), dist_market)) %>% 
+# #   mutate(dist_admctr= ifelse(is.na(dist_admctr), mean(dist_admctr, na.rm=TRUE), dist_admctr)) %>% 
+# #   mutate(ag_percent= ifelse(is.na(ag_percent), mean(ag_percent, na.rm=TRUE), ag_percent)) %>% 
+# #   mutate(floor_cement= ifelse(is.na(floor_cement), mean(floor_cement, na.rm=TRUE), floor_cement)) %>% 
+# #   mutate(floor_dirt_sand_dung= ifelse(is.na(floor_dirt_sand_dung), mean(floor_dirt_sand_dung, na.rm=TRUE), floor_dirt_sand_dung)) %>% 
+# #   mutate(roof_iron= ifelse(is.na(roof_iron), mean(roof_iron, na.rm=TRUE), roof_iron)) %>% 
+# #   mutate(roof_natural= ifelse(is.na(roof_natural), mean(roof_natural, na.rm=TRUE), roof_natural)) %>% 
+# #   mutate(roof_other= ifelse(is.na(roof_other), mean(roof_other, na.rm=TRUE), roof_other)) %>% 
+# #   mutate(Radio= ifelse(is.na(Radio), mean(Radio, na.rm=TRUE), Radio)) %>% 
+# #   mutate(Television= ifelse(is.na(Television), mean(Television, na.rm=TRUE), Television)) %>% 
+# #   mutate(Bicycle= ifelse(is.na(Bicycle), mean(Bicycle, na.rm=TRUE), Bicycle)) %>% 
+# #   mutate(Motorcycle= ifelse(is.na(Motorcycle), mean(Motorcycle, na.rm=TRUE), Motorcycle)) %>% 
+# #   mutate(Car= ifelse(is.na(Car), mean(Car, na.rm=TRUE), Car)) %>% 
+# #   mutate(cellphone= ifelse(is.na(cellphone), mean(cellphone, na.rm=TRUE), cellphone)) %>% 
+# #   mutate(number_celphones= ifelse(is.na(number_celphones), mean(number_celphones, na.rm=TRUE), number_celphones)) %>% 
+# #   mutate(dummy_terrain_rough= ifelse(is.na(dummy_terrain_rough), mean(dummy_terrain_rough, na.rm=TRUE), dummy_terrain_rough)) %>% 
+# #   mutate(slope= ifelse(is.na(slope), mean(slope, na.rm=TRUE), slope)) %>% 
+# #   mutate(elevation= ifelse(is.na(elevation), mean(elevation, na.rm=TRUE), elevation)) 
+# 
