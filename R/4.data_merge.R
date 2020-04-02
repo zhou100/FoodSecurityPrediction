@@ -55,6 +55,19 @@ mw.current.price = mw_price_merge_final %>%
 
 library(imputeTS)
 
+## Missing Nov 2016 price data, impute by the average of Dec and Oct 2016 prices 
+
+mw.nov2016.price = mw.current.price %>% 
+  dplyr::filter(yearmon== "Dec 2016"|yearmon== "Oct 2016") %>%
+  dplyr::group_by(ea_id) %>% 
+  dplyr::select(-yearmon,-date) %>%
+  dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
+  dplyr::mutate(yearmon="Nov 2016")
+
+mw.nov2016.price$yearmon = as.yearmon(mw.nov2016.price$yearmon)
+mw.nov2016.price$date = as.Date(mw.nov2016.price$yearmon)
+
+mw.current.price = dplyr::union(mw.current.price,mw.nov2016.price)
 
 mw.current.price.impute = mw.current.price %>% 
                           mutate(year=format(date,"%Y")) %>% 
@@ -66,6 +79,8 @@ for ( index in  4:ncol(mw.current.price.impute)-1) {
   col.name.temp = colnames(mw.current.price.impute)[index]
   mw.current.price.impute[col.name.temp] = na.interpolation(unlist(mw.current.price[col.name.temp]),option = "stine")
 }
+
+
 
 # create a one month lag for each price 
 mw.lag1.price = mw.current.price.impute 
