@@ -2049,11 +2049,13 @@ ug09.food.category.days = ug09.food %>%
     itmcd %in% c(9,147)  ~  "I",
     itmcd %in% c(11,148,149,151,152,153,155,156,158,170,160,161) ~ "J"
   )) %>%  
+  mutate(h15bq3b = if_else(is.na(h15bq3b),0,h15bq3b) ) %>%
   mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
   mutate(HHID = hh ) %>% 
   group_by(HHID,food_category) %>%
   filter(!is.na(food_category)) %>%
   summarise(days = max(h15bq3b,na.rm = TRUE))
+
 
 
 #  generate a numeric version of the item_code to use the collapse functtion
@@ -2437,6 +2439,7 @@ ug10.food.category.days = ug10.food %>%
     itmcd %in% c(9,147)  ~  "I",
     itmcd %in% c(11,148,149,151,152,153,155,156,158,170,160,161) ~ "J"
   )) %>%  
+  mutate(h15bq3b = if_else(is.na(h15bq3b),0,h15bq3b) ) %>%
   mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
   mutate(HHID = hh ) %>% 
   group_by(HHID,food_category) %>%
@@ -2764,7 +2767,7 @@ ug11.food.category.days = ug11.food %>%
     itmcd %in% c(148,149,151,152,153,155,156,158,157,159,160,161) ~ "J"
   )) %>%  
   mutate(h15bq3b = as.numeric(h15bq3b) ) %>%
-  
+  mutate(h15bq3b = if_else(is.na(h15bq3b),0,h15bq3b) ) %>%
   mutate(days = if_else(h15bq3b>7,7,h15bq3b) ) %>%
   group_by(HHID,food_category) %>%
   filter(!is.na(food_category)) %>%
