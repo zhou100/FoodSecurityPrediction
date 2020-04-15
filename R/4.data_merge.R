@@ -156,8 +156,8 @@ mw.master.clust = mw.master.hh %>%
 colSums(is.na(mw.master.clust))
 
 
-mw.hh.data = mw.hh.data %>% 
-  dplyr::select(-lat_modified,-lon_modified,-FNID)
+#mw.hh.data = mw.hh.data %>% 
+#  dplyr::select(-lat_modified,-lon_modified,-FNID)
 # lapply(mw.master.clust, class)
 
 # mw.master.clust$FCS[1415:1419]
