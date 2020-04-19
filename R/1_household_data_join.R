@@ -10,6 +10,8 @@ mw10_lsms = mw10_lsms %>% select(-case_id) %>% mutate(HHID = as.character(HHID))
 
 mw13_lsms = read_csv("data/clean/household/mw13_hh.csv")
 
+mw13_lsms = mw13_lsms %>% dplyr::select(ea_id,FS_year) %>% unique()
+
 mw13_lsms = mw13_lsms %>% 
   filter(!is.na(female_head)) %>%
   filter(!is.na(rCSI)) 
@@ -24,6 +26,21 @@ mw_lsms  = bind_rows( mw_lsms,mw16_lsms )
 write.csv(mw_lsms,"data/clean/household/mw_hh_aggregate.csv",row.names = FALSE)
 
 
+# export coordinates  
+
+# note that there are more lat lons than ea_ids due to random errors, but the outcomes should be averaged at the ea level
+
+
+
+# duplicated_lat_lons = mw_coordinates %>% group_by(ea_id,FS_year) %>% summarize(n=n()) %>% arrange(desc(n)) %>% dplyr::filter(n>1) %>% dplyr::select(ea_id)
+# duplicated_lat_lons
+# 
+# duplicated_ea_lat_lons= mw_coordinates %>% filter(ea_id %in% duplicated_lat_lons$ea_id) %>% arrange(ea_id,FS_year)
+
+mw_coordinates = mw_lsms %>% dplyr::select(ea_id,FS_year,lat_modified,lon_modified) %>% unique()
+write.csv(mw_coordinates,"data/clean/concordance/mw_coordiantes.csv",row.names = FALSE)
+
+ 
 # Tanzania  
 
 tz10_lsms = read_csv("data/clean/household/tz10_hh.csv")
@@ -42,9 +59,17 @@ colSums(is.na(tz_lsms))
 
 table(tz_lsms[is.na(tz_lsms$dist_popcenter),]$FS_year)
 
-tz_lsms = tz_lsms %>% select(-region22,-region23,-region24,-region25)
+tz_lsms = tz_lsms %>% dplyr::select(-region22,-region23,-region24,-region25) %>% mutate(ea_id = clusterid) %>% dplyr::select(-clusterid)
 
 write.csv(tz_lsms,"data/clean/household/tz_hh_aggregate.csv",row.names = FALSE)
+
+
+tz_coordinates = tz_lsms %>% dplyr::select(ea_id,FS_year,lat_modified,lon_modified) %>% unique()
+
+dim(tz_coordinates)
+
+
+write.csv(tz_coordinates,"data/clean/concordance/tz_coordiantes.csv",row.names = FALSE)
 
 # Uganda  
 
@@ -68,5 +93,27 @@ ug_lsms  = bind_rows( ug_lsms,ug11_lsms )
 
  
 write.csv(ug_lsms,"data/clean/household/ug_hh_aggregate.csv",row.names = FALSE)
+
+
+ug_coordinates = ug_lsms %>% dplyr::select(ea_id,FS_year,lat_modified,lon_modified) %>% unique()
+dim(ug_coordinates)
+
+dim(ug_lsms %>% dplyr::select(ea_id,FS_year)%>% unique())
+
+write.csv(ug_coordinates,"data/clean/concordance/ug_coordiantes.csv",row.names = FALSE)
+
+
+
+ug_coordinates$country = "ug"
+tz_coordinates$country = "tz"
+mw_coordinates$country = "mw"
+
+union = mw_coordinates %>% dplyr::union(tz_coordinates) %>% dplyr::union(ug_coordinates)
+
+write.csv(union,"data/clean/concordance/union_cluster.csv",row.names = FALSE)
+
+
+
+
 
 

@@ -63,6 +63,8 @@ FCS = FCS %>% filter(FCS!=0)
 
 
 mw10.merged = FCS
+
+length(unique(mw10.merged$ea_id))
 ################################################################################
   #A diet diversity score is a household-measure of food security that captures ///
   #something about the quality of a diet. It is calculated by counting the number///
@@ -81,6 +83,8 @@ HDDS = mw10.food.category.days %>%
 HDDS = HDDS %>% filter(HDDS!=0)
 
 mw10.merged = left_join(mw10.merged,HDDS, by=c("ea_id","case_id"))
+length(unique(mw10.merged$ea_id))
+
 #________________________________________________________________________
 
 # Q3. REDUCED COPING STRATEGIES INDEX (rCSI)
@@ -111,6 +115,7 @@ rCSI = mw10.rcsi %>%
   select(case_id,ea_id,rCSI)
 
 mw10.merged = left_join(mw10.merged,rCSI, by=c("ea_id","case_id"))
+length(unique(mw10.merged$ea_id))
 
 #_______________________________________________________________________________
 #MERGE in DIST, geolocation and time 
@@ -139,10 +144,14 @@ mw10.region.rural = mw10.region %>%
  
 mw10.merged = left_join(mw10.merged,mw10.region.rural, by=c("ea_id","case_id"))
 
+length(unique(mw10.merged$ea_id))
 
 # Merge in geolocation 
 
 mw10.geo <- read_dta(file = paste(path,"HouseholdGeovariables.dta",sep = "" ) )
+
+length(unique(mw10.geo$ea_id))
+
 
 mw10.geo.clean = mw10.geo %>%
   mutate(elevation =  srtm_eaf) %>%
@@ -174,6 +183,7 @@ mw10.geo.clean = mw10.geo %>%
 
 mw10.merged = left_join(mw10.merged,mw10.geo.clean, by=c("ea_id","case_id"))
 
+length(unique(mw10.merged$ea_id))
 
 # Merge in the basic information
 
@@ -200,6 +210,7 @@ mw.hhhead = mw10.basic %>%
 # 4  Tertiary
 
 mw10.merged = left_join(mw10.merged,mw.hhhead, by=c("ea_id","case_id"))
+length(unique(mw10.merged$ea_id))
 
 # _______________________________________________________________________________
 
@@ -252,6 +263,7 @@ mw10.asset.cell.floor = mw10.asset %>%
          number_celphones,roof_not_natural,roof_iron)
 
 mw10.merged = left_join(mw10.merged,mw10.asset.cell.floor, by=c("ea_id","case_id"))
+length(unique(mw10.merged$ea_id))
 
  #   mw10.asset$hh_f34
   
@@ -316,6 +328,8 @@ mw10.asset.clean = left_join(mw10.asset.clean,bike, by="case_id")
 mw10.asset.clean = left_join(mw10.asset.clean,moto, by="case_id")
 mw10.asset.clean = left_join(mw10.asset.clean,car, by="case_id")
 
+length(unique(mw10.merged$ea_id))
+
 # 
 # case_id = mw10.asset.clean %>% select(case_id)
 # mw10.asset.pca =   mw10.asset.clean %>% select(-case_id)
@@ -337,7 +351,10 @@ mw10.merged = left_join(mw10.merged,mw10.asset.clean, by=c("case_id"))
 
 min(mw10.merged$HDDS)
 
+
 mw10.merged = mw10.merged %>% mutate( HHID = case_id) %>% select(-case_id)
+
+length(unique(mw10.merged$ea_id))
 
 write.csv(mw10.merged,"data/clean/household/mw10_hh.csv",row.names = FALSE)
 
@@ -406,6 +423,9 @@ FCS = FCS %>% filter(FCS!=0)
 
 
 mw13.merged = FCS
+
+length(unique(mw13.merged$y2_hhid))
+
 ################################################################################
 #A diet diversity score is a household-measure of food security that captures ///
 #something about the quality of a diet. It is calculated by counting the number///
@@ -424,6 +444,9 @@ HDDS = mw13.food.category.days %>%
 HDDS = HDDS %>% filter(HDDS!=0)
 
 mw13.merged = left_join(mw13.merged,HDDS, by=c("y2_hhid"))
+
+length(unique(mw13.merged$y2_hhid))
+
 #________________________________________________________________________
 
 # Q3. REDUCED COPING STRATEGIES INDEX (rCSI)
@@ -455,11 +478,15 @@ rCSI = mw13.rcsi %>%
   select(y2_hhid,rCSI)
 
 mw13.merged = left_join(mw13.merged,rCSI, by=c("y2_hhid"))
+length(unique(mw13.merged$y2_hhid))
 
 #_______________________________________________________________________________
 #MERGE in DIST, geolocation and time 
 #_______________________________________________________________________________
 mw13.region<- read_dta(file = paste(path,"Household/HH_MOD_A_FILT.dta",sep = "" ) )
+
+length(unique(mw13.region$ea_id))
+length(unique(mw13.region$y2_hhid))
 
 # Merge in year and round 
 
@@ -484,11 +511,19 @@ mw13.region.rural = mw13.region %>%
 # sum(is.na(mw13.basic.region$region_num))
 
 mw13.merged = left_join(mw13.merged,mw13.region.rural, by=c("y2_hhid"))
+length(unique(mw13.merged$y2_hhid))
 
 
 # Merge in geolocation 
 
 mw13.geo <- read_dta(file = paste(path,"Geovariables/HouseholdGeovariables_IHPS.dta",sep = "" ) )
+
+
+length(unique(mw13.geo$y2_hhid))
+
+dim(mw13.geo %>% dplyr::select(LAT_DD_MOD, LON_DD_MOD) %>% unique()  )
+
+
 # mw13.geo$fsrad3_agpct
 
 mw13.geo.clean = mw13.geo %>%
@@ -521,6 +556,7 @@ mw13.geo.clean = mw13.geo %>%
 # mw13.geo$sq1
 
 mw13.merged = left_join(mw13.merged,mw13.geo.clean, by=c("y2_hhid"))
+length(unique(mw13.merged$y2_hhid))
 
 
 # Merge in household gender, education level and age 
@@ -549,7 +585,12 @@ mw.hhhead = mw13.basic %>%
 # 3 Secondary
 # 4  Tertiary
 
+length(unique(mw.hhhead$y2_hhid))
+
+# missing data in hh_age and 
+
 mw13.merged = left_join(mw13.merged,mw.hhhead, by=c("y2_hhid"))
+length(unique(mw13.merged$y2_hhid))
 
 # _______________________________________________________________________________
 
@@ -602,6 +643,9 @@ mw13.asset.cell.floor = mw13.asset %>%
          number_celphones,roof_not_natural,roof_iron)
 
 mw13.merged = left_join(mw13.merged,mw13.asset.cell.floor, by=c("y2_hhid"))
+length(unique(mw13.merged$y2_hhid))
+
+
 
 #   mw13.asset$hh_f34
 
@@ -681,6 +725,7 @@ mw13.asset.clean = left_join(mw13.asset.clean,car, by="y2_hhid")
 # mw13.asset.index = bind_cols(y2_hhid,asset_index)
 # #summary(asset.pca)
 
+length(unique(mw13.asset.clean$y2_hhid))
 
 
 mw13.merged = left_join(mw13.merged,mw13.asset.clean, by=c("y2_hhid"))
@@ -692,18 +737,23 @@ mw13.merged = mw13.merged %>% mutate( HHID = y2_hhid) %>% select(-y2_hhid)
 
 write.csv(mw13.merged,"data/clean/household/mw13_hh.csv",row.names = FALSE)
 
+colnames(mw13.merged)
+
+length(unique(mw13.merged$ea_id))
+
 
 
 ########################################################
 # Malawi 2016
 ########################################################
-path = "data/raw/lsms/Malawi_2016/MWI_2016_IHPS_v01_M_STATA/"
+path = "data/raw/lsms/Malawi_2016/MWI_2016_IHS-IV_v02_M_Stata/"
 
-mw16.food <- read_dta(file = paste(path,"Household/hh_mod_g2_16.dta",sep = "" ) )
-# head(mw16.food)
+mw16.food <- read_dta(file = paste(path,"Household/HH_MOD_G2.dta",sep = "" ) )
+head(mw16.food)
 
 # mw16.food$hh_g08a
 
+length(unique(mw16.food$HHID))
 
 
 
@@ -723,17 +773,20 @@ mw16.food <- read_dta(file = paste(path,"Household/hh_mod_g2_16.dta",sep = "" ) 
 ################################################################################
 
 # calculate FCS 
+
 FCS = mw16.food %>%
   mutate( hh_staple = pmax (hh_g08a,hh_g08b,na.rm = TRUE) ) %>%
   mutate( FCS =  hh_staple*2 + hh_g08c*3 + hh_g08d*1 + hh_g08e*4 +hh_g08f*1 + hh_g08g*4 + hh_g08h *0.5 + hh_g08i*0.5 + hh_g08j *0 ) %>% 
-  group_by(y3_hhid) %>%
+  group_by(HHID,case_id) %>%
   summarise( FCS  = sum (FCS,na.rm = TRUE) )
 
-# unique(FCS$FCS)
+min(FCS$FCS)
+
 
 FCS = FCS %>% filter(FCS!=0)
-# sum(is.na(FCS$FCS)  )
+sum(is.na(FCS$FCS)  )
 
+write.csv(mw16.merged,"FCS.csv")
 
 mw16.merged = FCS
 ################################################################################
@@ -752,12 +805,12 @@ HDDS = mw16.food %>%
   mutate( hdds_f = if_else(hh_g08f>0,1,0) ) %>%
   mutate( hdds_g = if_else(hh_g08g>0,1,0) ) %>%
   mutate( HDDS = hdds_cereals + hdds_c + hdds_d + hdds_e + hdds_f + hdds_g  ) %>%
-  select(y3_hhid,HDDS )
+  select(HHID,HDDS )
 #Exclude SUGAR and SPICES
 
 HDDS = HDDS %>% filter(HDDS!=0)
 
-mw16.merged = left_join(mw16.merged,HDDS, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,HDDS, by=c("HHID"))
 #________________________________________________________________________
 
 # Q3. REDUCED COPING STRATEGIES INDEX (rCSI)
@@ -778,53 +831,65 @@ mw16.merged = left_join(mw16.merged,HDDS, by=c("y3_hhid"))
 #household had to: Borrow food, or rely on help from a friend or ///
 #relative?" (WGT2)
 
-mw16.rcsi <- read_dta(file = paste(path,"Household/hh_mod_h_16.dta",sep = "" ) )
-# mw16.rcsi$hh_h01
+mw16.rcsi <- read_dta(file = paste(path,"Household/HH_MOD_H.dta",sep = "" ) )
 
-##Constructing rCSI
-rCSI = mw16.rcsi %>%
-  mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
+mw16.rcsi$
+  
+  ##Constructing rCSI
+  rCSI = mw16.rcsi %>%
   mutate(hh_h01 = as.numeric(hh_h01)) %>% 
+  mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
   mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(y3_hhid,rCSI)
+  select(HHID,rCSI)
 
-mw16.merged = left_join(mw16.merged,rCSI, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,rCSI, by=c("HHID"))
 
+length(unique(mw16.merged$HHID))
 #_______________________________________________________________________________
 #MERGE in DIST, geolocation and time 
 #_______________________________________________________________________________
-mw16.region<- read_dta(file = paste(path,"household/hh_mod_a_filt_16.dta",sep = "" ) )
+mw16.region<- read_dta(file = paste(path,"household/HH_MOD_A_FILT.dta",sep = "" ) )
+
+length(unique(mw16.region$ea_id))
+
 
 # Merge in year and round 
 # mw16.region$region
 # region 1 "Northern" 2 "Central" 3 "Southern"
 mw16.region.rural = mw16.region %>% 
-  separate(consumption_date, into = c("FS_year","FS_month"), extra = 'drop', remove = TRUE) %>% 
+  separate(interviewDate, into = c("FS_year","FS_month"), extra = 'drop', remove = TRUE) %>% 
   mutate(FS_year  = as.numeric(FS_year) )%>%
   mutate(FS_month  = as.numeric(FS_month)) %>%
   mutate( region = as.numeric(region)) %>%
   mutate( region_north = if_else(region==1,1,0)) %>%
   mutate( region_central = if_else(region==2,1,0)) %>%
-  mutate(hhsize = as.numeric(hhsize)) %>%
   #  1 urban 2 rural
   mutate( rural = case_when(
     reside == 1 ~ 0,
     reside == 2 ~ 1)
   ) %>%
-  select(y3_hhid,ea_id,region_north,region_central,rural,hhsize,FS_month,FS_year) %>%
+  select(HHID,ea_id,region_north,region_central,rural,FS_month,FS_year) %>%
   drop_na()
 
 # mw16.region$reside["Labels"]
 # 
 # sum(is.na(mw16.basic.region$region_num))
 
-mw16.merged = left_join(mw16.merged,mw16.region.rural, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.region.rural, by=c("HHID"))
 
+
+dim(mw16.merged)
 
 # Merge in geolocation 
 
-mw16.geo <- read_dta(file = paste(path,"household/HouseholdGeovariablesIHPSY3.dta",sep = "" ) )
+mw16.geo <- read_dta(file = paste(path,"household/HouseholdGeovariablesIHS4.dta",sep = "" ) )
+
+
+
+
+length(unique(mw16.geo$HHID))
+
 # mw16.geo$fsrad3_agpct
 
 mw16.geo.clean = mw16.geo %>%
@@ -847,19 +912,20 @@ mw16.geo.clean = mw16.geo %>%
                                          srtm_mwi_5_15== "High-altitude plains", 1,0 ))   %>%
   # mutate(slope = afmnslp_pct)  %>% 
   
-  select(y3_hhid,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
+  select(HHID,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
 
 # mw16.geo$sq1
 
-mw16.merged = left_join(mw16.merged,mw16.geo.clean, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.geo.clean, by=c("HHID"))
 
 
 # Merge in household gender, education level and age 
-mw16.basic <- read_dta(file = paste(path,"household/hh_mod_b_16.dta",sep = "" ) )
+mw16.basic <- read_dta(file = paste(path,"Household/HH_MOD_B.dta",sep = "" ) )
 
+mw16.basic
 # mw16.basic$hh_b21
 
 mw16.hh.head = mw16.basic %>%
@@ -870,7 +936,7 @@ mw16.hh.head = mw16.basic %>%
   mutate(female_head = if_else(hh_b03==2, 1, 0) )  %>%
   # mutate(head_edu  = as.numeric(hh_b21)) %>% 
   # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
-  select(y3_hhid,head_age, female_head)
+  select(HHID,head_age, female_head)
 
 # mw16.basic$head_edlevel
 #1   Male 2 Female
@@ -883,7 +949,7 @@ mw16.hh.head = mw16.basic %>%
 # 3 Secondary
 # 4  Tertiary
 
-mw16.merged = left_join(mw16.merged,mw16.hh.head, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.hh.head, by=c("HHID"))
 
 # _______________________________________________________________________________
 
@@ -910,7 +976,9 @@ mw16.merged = left_join(mw16.merged,mw16.hh.head, by=c("y3_hhid"))
 # 5 Plastic sheeting
 # 6  Other (specify)
 
-mw16.asset <- read_dta(file = paste(path,"household/hh_mod_f_16.dta",sep = "" ) )
+mw16.asset <- read_dta(file = paste(path,"Household/HH_MOD_F.dta",sep = "" ) )
+
+mw16.asset
 
 mw16.asset.cell.floor = mw16.asset %>%
   mutate (hh_f09 = as.numeric(hh_f09)) %>%
@@ -929,10 +997,10 @@ mw16.asset.cell.floor = mw16.asset %>%
   ## cellphone ###
   mutate (number_celphones = as.numeric(hh_f34)) %>% 
   mutate (cell_phone = if_else(number_celphones>0,1,0)) %>% 
-  select(y3_hhid,floor_dirt_sand_dung,cell_phone,
+  select(HHID,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
-mw16.merged = left_join(mw16.merged,mw16.asset.cell.floor, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.asset.cell.floor, by=c("HHID"))
 
 #   mw16.asset$hh_f34
 
@@ -946,60 +1014,60 @@ mw16.merged = left_join(mw16.merged,mw16.asset.cell.floor, by=c("y3_hhid"))
 # 517                Motorcycle/scooter
 # 518                               Car
 
-mw16.other.asset <- read_dta(file = paste(path,"household/hh_mod_l_16.dta",sep = "" ) )
+mw16.other.asset <- read_dta(file = paste(path,"Household/HH_MOD_L.dta",sep = "" ) )
 
 frige = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_frige = sum (hh_l03[hh_l02  ==514],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y3_hhid,Refrigerator)
+  select(HHID,Refrigerator)
 
 radio = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_radio = sum (hh_l03[hh_l02  ==507],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y3_hhid,Radio)
+  select(HHID,Radio)
 
 tv = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_tv = sum (hh_l03[hh_l02  ==509],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y3_hhid,Television)
+  select(HHID,Television)
 
 
 bike = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_bike = sum (hh_l03[hh_l02  ==516],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y3_hhid,Bicycle) 
+  select(HHID,Bicycle) 
 
 moto = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_moto= sum (hh_l03[hh_l02  ==517],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y3_hhid,Motorcycle) 
+  select(HHID,Motorcycle) 
 
 car = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
-  group_by(y3_hhid) %>%
+  group_by(HHID) %>%
   summarise( num_car= sum (hh_l03[hh_l02  ==518],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car >0,1,0) ) %>%
-  select(y3_hhid,Car) 
+  select(HHID,Car) 
 
-mw16.asset.clean = left_join(frige,radio, by="y3_hhid")
-mw16.asset.clean = left_join(mw16.asset.clean,tv, by="y3_hhid")
-mw16.asset.clean = left_join(mw16.asset.clean,bike, by="y3_hhid")
-mw16.asset.clean = left_join(mw16.asset.clean,moto, by="y3_hhid")
-mw16.asset.clean = left_join(mw16.asset.clean,car, by="y3_hhid")
+mw16.asset.clean = left_join(frige,radio, by="HHID")
+mw16.asset.clean = left_join(mw16.asset.clean,tv, by="HHID")
+mw16.asset.clean = left_join(mw16.asset.clean,bike, by="HHID")
+mw16.asset.clean = left_join(mw16.asset.clean,moto, by="HHID")
+mw16.asset.clean = left_join(mw16.asset.clean,car, by="HHID")
 
 # 
-# y3_hhid = mw16.asset.clean %>% select(y3_hhid)
-# mw16.asset.pca =   mw16.asset.clean %>% select(-y3_hhid)
+# HHID = mw16.asset.clean %>% select(HHID)
+# mw16.asset.pca =   mw16.asset.clean %>% select(-HHID)
 # #  generate asset index from the dummies 
 # 
 # 
@@ -1009,19 +1077,22 @@ mw16.asset.clean = left_join(mw16.asset.clean,car, by="y3_hhid")
 # asset_index = as.data.frame(asset.pca$x)["PC1"]
 # colnames(asset_index) = "asset_index"
 # 
-# mw16.asset.index = bind_cols(y3_hhid,asset_index)
+# mw16.asset.index = bind_cols(HHID,asset_index)
 #summary(asset.pca)
 
 
 
-mw16.merged = left_join(mw16.merged,mw16.asset.clean, by=c("y3_hhid"))
+mw16.merged = left_join(mw16.merged,mw16.asset.clean, by=c("HHID"))
 
-min(mw16.merged$HDDS)
-
-mw16.merged = mw16.merged %>% mutate( HHID = y3_hhid) %>% select(-y3_hhid)
 
 
 write.csv(mw16.merged,"data/clean/household/mw16_hh.csv",row.names = FALSE)
+
+mw16_coordiantes = mw16.merged %>% ungroup() %>% dplyr::select(ea_id,lat_modified,lon_modified ) %>% unique()
+
+
+
+
 
 # Tanzania  
 ########################################################
