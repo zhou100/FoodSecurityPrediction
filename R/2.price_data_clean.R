@@ -551,7 +551,7 @@ ug_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
   WeightedPrice(x)
 })
 
-mw_lhz_mktthin <- lapply(ug_lhz_mktthin_unweight, function(x){
+mw_lhz_mktthin <- lapply(mw_lhz_mktthin_unweight, function(x){
   WeightedPrice(x)
 })
 

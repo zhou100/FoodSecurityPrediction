@@ -42,6 +42,8 @@ load("data/clean/market/mw_price_final.RData")
 
 colSums(is.na(mw_price_merge_final))
 
+dim(mw_price_merge_final
+    )
 # mw_price_merge_final
 
 
@@ -132,6 +134,7 @@ mw.master.hh = left_join(mw.master.hh,mw.lag12.price, by = c("ea_id","FS_year","
 
 colSums(is.na(mw.master.hh))
 
+mw.master.hh %>% dplyr::filter(is.na(lag12_clust_maize_price)) 
  
 colSums(is.na(mw.lsms))
 
