@@ -51,7 +51,11 @@ CropYearTZMW = function(df){
     filter( Date>=as.Date("2015-10-01") & Date<=as.Date("2016-05-01") )  %>%
     dplyr::mutate(cropyear = 2015)
   
-  cropyear_weather = dplyr::bind_rows(cropyear1,cropyear2,cropyear3,cropyear4,cropyear5,cropyear6,cropyear7,cropyear8)
+  cropyear9 =   df %>% 
+    filter( Date>=as.Date("2016-10-01") & Date<=as.Date("2017-05-01") )  %>%
+    dplyr::mutate(cropyear = 2016)
+  
+  cropyear_weather = dplyr::bind_rows(cropyear1,cropyear2,cropyear3,cropyear4,cropyear5,cropyear6,cropyear7,cropyear8,cropyear9)
   
   return(cropyear_weather)
 }

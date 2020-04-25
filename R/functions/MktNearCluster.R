@@ -39,7 +39,7 @@ MktNearCluster = function(clust_coord,mkt_coord){
   
   clust_coord["dist_km"]<-apply(dist_mat_clust,1,min)/1000
   
-  clust_coord = clust_coord %>% dplyr::select(-lat_modified,-lon_modified,-X)
+  clust_coord = clust_coord %>% dplyr::select(-lat_modified,-lon_modified) %>% unique()
   
   return(clust_coord)
 }

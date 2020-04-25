@@ -6,22 +6,32 @@ library(tidyverse)
 
 # Malawi 
 mw10_lsms = read_csv("data/clean/household/mw10_hh.csv")
-mw10_lsms = mw10_lsms %>% select(-case_id) %>% mutate(HHID = as.character(HHID))
+mw10_lsms = mw10_lsms %>% dplyr::select(-case_id) %>% mutate(HHID = as.character(HHID))
+
+
+colSums(is.na(mw10_lsms))
 
 mw13_lsms = read_csv("data/clean/household/mw13_hh.csv")
 
-mw13_lsms = mw13_lsms %>% dplyr::select(ea_id,FS_year) %>% unique()
+# mw13_lsms = mw13_lsms %>% dplyr::select(ea_id,FS_year) %>% unique()
 
 mw13_lsms = mw13_lsms %>% 
   filter(!is.na(female_head)) %>%
   filter(!is.na(rCSI)) 
 
+colSums(is.na(mw13_lsms))
+
+
 mw16_lsms = read_csv("data/clean/household/mw16_hh.csv")
 mw16_lsms = mw16_lsms %>% filter(!is.na(lon_modified)) %>% filter(!is.na(ea_id))
 colSums(is.na(mw16_lsms))
 
-mw_lsms  = bind_rows( mw10_lsms,mw13_lsms )
-mw_lsms  = bind_rows( mw_lsms,mw16_lsms )
+
+
+mw_lsms  = bind_rows( mw10_lsms,mw13_lsms ) %>% mutate(HHID = as.character(HHID))
+
+
+mw_lsms  = bind_rows( mw_lsms,mw16_lsms ) %>% dplyr::select(-case_id)
 
 write.csv(mw_lsms,"data/clean/household/mw_hh_aggregate.csv",row.names = FALSE)
 
@@ -102,15 +112,15 @@ dim(ug_lsms %>% dplyr::select(ea_id,FS_year)%>% unique())
 
 write.csv(ug_coordinates,"data/clean/concordance/ug_coordiantes.csv",row.names = FALSE)
 
-
-
-ug_coordinates$country = "ug"
-tz_coordinates$country = "tz"
-mw_coordinates$country = "mw"
-
-union = mw_coordinates %>% dplyr::union(tz_coordinates) %>% dplyr::union(ug_coordinates)
-
-write.csv(union,"data/clean/concordance/union_cluster.csv",row.names = FALSE)
+# 
+# 
+# ug_coordinates$country = "ug"
+# tz_coordinates$country = "tz"
+# mw_coordinates$country = "mw"
+# 
+# union = mw_coordinates %>% dplyr::union(tz_coordinates) %>% dplyr::union(ug_coordinates)
+# 
+# write.csv(union,"data/clean/concordance/union_cluster.csv",row.names = FALSE)
 
 
 

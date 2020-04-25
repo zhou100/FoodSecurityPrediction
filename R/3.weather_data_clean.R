@@ -76,7 +76,7 @@ colnames(precip_lhz_mw)[2:61] = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 ##################################################################################
 load("data/raw/rain/tz_rain_0818.rda")
 load("data/raw/rain/ug_rain_0818.rda")
-load("data/raw/rain/CHIRPS_malawi_cluster.rda")
+precip_clust_mw = readRDS("data/raw/rain/mw_rain_0818.rds")
 
 precip_clust_ug = extracted.prec
 precip_clust_tz = tz.prec
@@ -84,8 +84,7 @@ precip_clust_tz = tz.prec
 # colnames(precip_clust_ug)
 
 precip_clust_mw[["Date"]] = as.Date(precip_clust_mw$Date,"%m/%d/%Y")
-#colnames(precip_clust_mw)
-precip_clust_mw = precip_clust_mw %>% dplyr::select(-X)
+colnames(precip_clust_mw)
 
 
 colnames(precip_clust_tz)[colnames(precip_clust_tz)=="date"]= "Date"
@@ -336,10 +335,9 @@ rain.cytot.lhz.tz =
   rain.TZMW.cropyear[[1]] %>%
   dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
-  dplyr::select(-cropyear,-year,-month) %>%
-  dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
-  dplyr::select(-Date)
-
+  dplyr::select(-cropyear,-year,-month,-Date) %>%
+  dplyr::summarise_all(funs(sum))   # count the total rain 
+  
 #colnames(rain.cytot.lhz.tz)
 
  rain.cytot.clust.tz = 
@@ -354,10 +352,10 @@ rain.cytot.lhz.tz =
    rain.TZMW.cropyear[[2]] %>%
    dplyr::group_by(cropyear) %>%
    dplyr::arrange(Date) %>%
-   dplyr::select(-cropyear,-year,-month) %>%
-   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
-   dplyr::select(-Date)
+   dplyr::select(-cropyear,-year,-month,-Date) %>%
+   dplyr::summarise_all(funs(sum)) 
  
+
  #colnames(rain.cytot.lhz.mw)
  
  rain.cytot.clust.mw = 
@@ -374,9 +372,8 @@ rain.cytot.lhz.tz =
    rain.UG.cropyear[[1]] %>%
    dplyr::group_by(cropyear) %>%
    dplyr::arrange(Date) %>%
-   dplyr::select(-cropyear,-year,-month) %>%
-   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
-   dplyr::select(-Date)
+   dplyr::select(-cropyear,-year,-month, -Date) %>%
+   dplyr::summarise_all(funs(sum)) 
  
  #colnames(rain.cytot.lhz.ug)
   
@@ -384,10 +381,9 @@ rain.cytot.lhz.tz =
    rain.UG.cropyear [[2]] %>%
    dplyr::group_by(cropyear) %>%
    dplyr::arrange(Date) %>%
-   dplyr::select(-cropyear,-year,-month) %>%
-   dplyr::summarise_all(funs(sum)) %>%  # count the total rain 
-   dplyr::select(-Date)
- 
+   dplyr::select(-cropyear,-year,-month,-Date) %>%
+   dplyr::summarise_all(funs(sum))   # count the total rain 
+  
  #colnames(rain.cytot.clust.ug)
  
  
@@ -635,26 +631,26 @@ ug.lhz.list.transpose= lapply(ug.lhz.list.transpose, RemoveX)
 
 # need a concordance table of  cluster id and ipczone from coord and 
 library(dplyr)
-mw_concordance = read.csv("data/clean/concordance/mw_cluster_lhz.csv")
-mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
-colnames(mw_concordance) = c("id","FNID")
+mw_concordance = read.csv("data/clean/concordance/mw_ea_lhz .csv")
+# mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+colnames(mw_concordance)
 
 
-tz_concordance <-  read.csv("data/clean/concordance/tz_cluster_lhz.csv")
-tz_concordance =  tz_concordance %>%  na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+tz_concordance <-  read.csv("data/clean/concordance/tz_ea_lhz .csv")
+# tz_concordance =  tz_concordance %>%  na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
-ug_concordance <-  read.csv("data/clean/concordance/ug_cluster_lhz.csv")
-ug_concordance =  ug_concordance %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+ug_concordance <-  read.csv("data/clean/concordance/ug_ea_lhz .csv")
+# ug_concordance =  ug_concordance %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
-colnames(tz_concordance) = c("id","FNID")
-colnames(ug_concordance) = c("id","FNID")
-
-
-fnid_to_v = read.csv("data/clean/concordance/FNID to V .csv",stringsAsFactors=FALSE)
-colnames(fnid_to_v) = c("id","VID")
-
-source("R/functions/FnidV.R") 
-mw.lhz.list.transpose = lapply(mw.lhz.list.transpose,function(x){FnidV(x,fnid_to_v)})
+# colnames(tz_concordance) = c("id","FNID")
+# colnames(ug_concordance) = c("id","FNID")
+# 
+# 
+# fnid_to_v = read.csv("data/clean/concordance/FNID to V .csv",stringsAsFactors=FALSE)
+# colnames(fnid_to_v) = c("id","VID")
+# 
+# source("R/functions/FnidV.R") 
+# mw.lhz.list.transpose = lapply(mw.lhz.list.transpose,function(x){FnidV(x,fnid_to_v)})
 
 
 # mw.lhz.list = list(lhz.mw.day1rain, mw.gdd,mw.tmean,rain.cytot.lhz.mw,maxdaysnorain.lhz.mw)
@@ -672,16 +668,18 @@ floodmax_lhz_mw["FS_year"] =floodmax_lhz_mw["cropyear"]
 
 # select the clusters that are in the flood prone region 
 mw_flood_clust = 
-  mw_concordance %>% dplyr::filter(FNID %in% flood_mw_fnid)  %>% dplyr::select(id)
+  mw_concordance %>% dplyr::filter(FNID %in% flood_mw_fnid) %>% mutate(ea_year = FS_year )
 # mw_flood_clust 
 
 # create flood max at mw clust
 # mw.clust.list = list(rain.cytot.clust.mw,clust.mw.day1rain,maxdaysnorain.clust.mw)
 
-mw.clust.list.transpose[[1]]$id = as.character(mw.clust.list.transpose[[1]]$id)
+clust_mw_rain  = mw.clust.list.transpose[[1]] %>% separate(id, c("ea_year", "ea_id"))%>% unique()
 
-floodmax_clust_mw_flood = mw.clust.list.transpose[[1]] %>% dplyr::filter(id %in% mw_flood_clust)%>% mutate(value =0 )
-floodmax_clust_mw_noflood = mw.clust.list.transpose[[1]] %>% dplyr::filter(!id %in% mw_flood_clust)
+# 1366, 1494, 1545, 1554, 1555, 1556, 2922, 3050, 3101, 3110, 3111
+
+floodmax_clust_mw_flood = clust_mw_rain %>% dplyr::filter(ea_id %in% mw_flood_clust$ea_id )
+floodmax_clust_mw_noflood = clust_mw_rain %>% dplyr::filter(!(ea_id %in% mw_flood_clust$ea_id)) %>% mutate(value =0 )
 floodmax_clust_mw = dplyr::bind_rows(floodmax_clust_mw_noflood,floodmax_clust_mw_flood)
 
 # flood max should be in the same year , so change the FS_year to the current year, instead of one year before
@@ -713,7 +711,7 @@ floodmax_lhz_tz["FS_year"] =floodmax_lhz_tz["cropyear"]
 
 
 tz_flood_ea = 
-  tz_concordance %>% dplyr::filter(FNID %in% flood_tz_fnid)  %>% dplyr::select(id)
+  tz_concordance %>% dplyr::filter(FNID %in% flood_tz_fnid)  %>% dplyr::select(ea_id)
 tz_flood_ea_str = as.character(tz_flood_ea[,1])
 
 
@@ -758,7 +756,7 @@ floodmax_lhz_ug["FS_year"] =floodmax_lhz_ug["cropyear"]
 
 
 ug_flood_ea = 
-  ug_concordance %>% dplyr::filter(FNID %in% flood_ug_fnid)  %>% dplyr::select(id)
+  ug_concordance %>% dplyr::filter(FNID %in% flood_ug_fnid)  %>% dplyr::select(ea_id)
 ug_flood_ea_str = as.character(ug_flood_ea[,1])
 
 
@@ -833,19 +831,19 @@ for (i in 1:length(mw.lhz.list.transpose)){
 
 # mw.lhz.list.transpose[[1]]
  
-colnames(floodmax_clust_mw)[1] = "ea_id"
-colnames(floodmax_clust_tz)[1] = "ea_id"
-colnames(floodmax_clust_ug)[1] = "ea_id"
-colnames(floodmax_clust_mw)[3] = "floodmax"
-colnames(floodmax_clust_tz)[3] = "floodmax"
-colnames(floodmax_clust_ug)[3] = "floodmax"
+colnames(floodmax_clust_mw)[colnames(floodmax_clust_mw)=="id"] = "ea_id"
+colnames(floodmax_clust_tz)[colnames(floodmax_clust_tz)=="id"] = "ea_id"
+colnames(floodmax_clust_ug)[colnames(floodmax_clust_ug)=="id"] = "ea_id"
+colnames(floodmax_clust_mw)[colnames(floodmax_clust_mw)=="value"]= "floodmax"
+colnames(floodmax_clust_tz)[colnames(floodmax_clust_tz)=="value"] = "floodmax"
+colnames(floodmax_clust_ug)[colnames(floodmax_clust_ug)=="value"] = "floodmax"
 
-colnames(floodmax_lhz_mw)[1] = "FNID"
-colnames(floodmax_lhz_tz)[1] = "FNID"
-colnames(floodmax_lhz_ug)[1] = "FNID"
-colnames(floodmax_lhz_mw)[3] = "lhz_floodmax"
-colnames(floodmax_lhz_tz)[3] = "lhz_floodmax"
-colnames(floodmax_lhz_ug)[3] = "lhz_floodmax"
+colnames(floodmax_lhz_mw)[colnames(floodmax_lhz_mw)=="id"] = "FNID"
+colnames(floodmax_lhz_tz)[colnames(floodmax_lhz_tz)=="id"] = "FNID"
+colnames(floodmax_lhz_ug)[colnames(floodmax_lhz_ug)=="id"] = "FNID"
+colnames(floodmax_lhz_mw)[colnames(floodmax_lhz_mw)=="id"] = "lhz_floodmax"
+colnames(floodmax_lhz_tz)[colnames(floodmax_lhz_tz)=="id"] = "lhz_floodmax"
+colnames(floodmax_lhz_ug)[colnames(floodmax_lhz_ug)=="id"] = "lhz_floodmax"
 
 
 floodmax_clust_mw = floodmax_clust_mw %>% dplyr::select(-cropyear) %>% dplyr::mutate(FS_year = as.numeric(FS_year) )
@@ -859,15 +857,14 @@ floodmax_lhz_ug = floodmax_lhz_ug %>% dplyr::select(-cropyear) %>% dplyr::mutate
 
 # need a concordance table of  cluster id and ipczone from coord and 
 library(dplyr)
-mw_concordance = read.csv("data/clean/concordance/mw_cluster_lhz.csv")
-mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+# mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
 
-tz_concordance <-  read.csv("data/clean/concordance/tz_cluster_lhz.csv")
-tz_concordance =  tz_concordance %>%  na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+tz_concordance <-  read.csv("data/clean/concordance/tz_ea_lhz .csv")
+# tz_concordance =  tz_concordance %>%  na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
-ug_concordance <-  read.csv("data/clean/concordance/ug_cluster_lhz.csv")
-ug_concordance =  ug_concordance %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+ug_concordance <-  read.csv("data/clean/concordance/ug_ea_lhz .csv")
+# ug_concordance =  ug_concordance %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
 
 
@@ -875,10 +872,16 @@ ug_concordance =  ug_concordance %>% na.omit() %>% dplyr::distinct()%>% mutate_a
 ## merge Malawi data
 #############################################################################
 
+mw_concordance = read.csv("data/clean/concordance/mw_ea_lhz .csv")
+mw_concordance = mw_concordance %>% mutate(ea_year = as.character(FS_year)) %>% dplyr::select(-FS_year) %>% mutate(ea_id = as.character(ea_id))
+
 mw.weather.clust = full_join(mw.clust.list.transpose[[1]],mw.clust.list.transpose[[2]])
 mw.weather.clust = full_join(mw.weather.clust,mw.clust.list.transpose[[3]])
-mw.weather.clust = full_join(mw.weather.clust,mw_concordance,by=c("ea_id"))
+mw.weather.clust  = mw.weather.clust%>% separate(ea_id, c("ea_year", "ea_id"))%>% unique() 
+mw.weather.clust = full_join(mw.weather.clust,mw_concordance,by=c("ea_year","ea_id"))
 
+
+mw.weather.clust  = mw.weather.clust %>% filter(ea_year == FS_year) %>% dplyr::select(-ea_year)
 
 mw.weather.lhz= full_join(mw.lhz.list.transpose[[1]],mw.lhz.list.transpose[[2]])
 mw.weather.lhz= full_join(mw.weather.lhz,mw.lhz.list.transpose[[3]])
@@ -886,28 +889,38 @@ mw.weather.lhz= full_join(mw.weather.lhz,mw.lhz.list.transpose[[4]])
 mw.weather.lhz= full_join(mw.weather.lhz,mw.lhz.list.transpose[[5]])
 mw.weather.lhz= full_join(mw.weather.lhz,mw.lhz.list.transpose[[6]])
 
+colnames(floodmax_lhz_mw)[colnames(floodmax_lhz_mw)=="value"] = "lhz_floodmax"
 
 mw.weather.final = full_join(mw.weather.clust,mw.weather.lhz)
-mw.weather.final = full_join(mw.weather.final,floodmax_clust_mw,by=c("FS_year","ea_id"))
-mw.weather.final = full_join(mw.weather.final,floodmax_lhz_mw,by=c("FS_year","FNID"))
 
+# mw.weather.final = mw.weather.clust
+  
+  
+# mw.weather.final = full_join(mw.weather.final,floodmax_clust_mw,by=c("FS_year","ea_id"))
+# mw.weather.final = full_join(mw.weather.final,floodmax_lhz_mw,by=c("FS_year","FNID"))
 
-mw.weather.final = mw.weather.final %>% dplyr::arrange(FS_year) %>% dplyr::filter(!is.na(ea_id)) %>% dplyr::filter(!is.na(cropyear)) %>% dplyr::select(-VID.y) 
+ 
 
-colnames(mw.weather.final)[colnames(mw.weather.final)=="VID.x"]="VID"
+mw.weather.final = mw.weather.final %>% dplyr::arrange(FS_year) %>% dplyr::filter(!is.na(ea_id))  
 
-mw.weather.final$floodmax[is.na(mw.weather.final$floodmax)] =0
-mw.weather.final$floodmax[is.na(mw.weather.final$lhz_floodmax)] =0
+# colnames(mw.weather.final)[colnames(mw.weather.final)=="VID.x"]="VID"
+# 
+# mw.weather.final$floodmax[is.na(mw.weather.final$floodmax)] =0
+# mw.weather.final$floodmax[is.na(mw.weather.final$lhz_floodmax)] =0
 save(mw.weather.final,file="data/clean/weather/mw_weather_final.RData")
 
 
 #################################################################################
 ## merge Tanzania data
 #############################################################################
+tz_concordance$ea_id = as.character(tz_concordance$ea_id)
+
 
 tz.weather.clust = full_join(tz.clust.list.transpose[[1]],tz.clust.list.transpose[[2]])
 tz.weather.clust = full_join(tz.weather.clust,tz.clust.list.transpose[[3]])
-tz.weather.clust = full_join(tz.weather.clust,tz_concordance,by=c("ea_id"))
+tz.weather.clust = full_join(tz.weather.clust,tz_concordance, by= c("ea_id","FS_year"))
+
+tz.weather.clust
 
 for (i in 1:length(tz.lhz.list.transpose)){
   tz.lhz.list.transpose[[i]]$FNID = as.character(tz.lhz.list.transpose[[i]]$FNID)  

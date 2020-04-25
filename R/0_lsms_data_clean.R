@@ -110,9 +110,9 @@ mw10.rcsi <- read_dta(file = paste(path,"Household_Batch3of5_DTA/HH_MOD_H.dta",s
 ##Constructing rCSI
 rCSI = mw10.rcsi %>%
   mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
-  mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(case_id,ea_id,rCSI)
+  dplyr::select(case_id,ea_id,rCSI)
 
 mw10.merged = left_join(mw10.merged,rCSI, by=c("ea_id","case_id"))
 length(unique(mw10.merged$ea_id))
@@ -124,7 +124,7 @@ mw10.region<- read_dta(file = paste(path,"Household_Batch1of5_DTA/HH_MOD_A_FILT.
 
 # region 1 "Northern" 2 "Central" 3 "Southern"
 mw10.region.rural = mw10.region %>% 
-  select(case_id,ea_id,reside,hh_wgt,hh_a01,hh_a02b) %>%
+  dplyr::select(case_id,ea_id,reside,hh_wgt,hh_a01,hh_a02b) %>%
   mutate (region = case_when(
     hh_a01 %/% 100 == 1 ~ "Northern",
     hh_a01 %/% 100 == 2 ~ "Central",
@@ -137,7 +137,7 @@ mw10.region.rural = mw10.region %>%
     reside == 1 ~ 0,
     reside == 2 ~ 1)
     ) %>%
-  select(case_id,ea_id,region_north,region_central,rural)
+  dplyr::select(case_id,ea_id,region_north,region_central,rural)
   
 # mw10.region$reside["Labels"]
 # sum(is.na(mw10.basic.region$region_num))
@@ -173,7 +173,7 @@ mw10.geo.clean = mw10.geo %>%
   mutate(dummy_terrain_rough = if_else(is.na(dummy_terrain_rough),0,dummy_terrain_rough)) %>%
   # mutate(slope = afmnslp_pct)  %>% 
   
-  select(case_id,ea_id,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
+  dplyr::select(case_id,ea_id,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough
          )
@@ -196,7 +196,7 @@ mw.hhhead = mw10.basic %>%
   # mutate(head_edu  = as.numeric(head_edlevel)) %>% 
   # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
   mutate(FS_year = as.numeric(intyear)) %>%
-  select(case_id,ea_id,FS_month,FS_year,head_age, female_head, hhsize)
+  dplyr::select(case_id,ea_id,FS_month,FS_year,head_age, female_head, hhsize)
  
 # mw10.basic$head_edlevel
 #1   Male 2 Female
@@ -259,7 +259,7 @@ mw10.asset.cell.floor = mw10.asset %>%
   mutate(floor_dirt_sand_dung  = if_else(is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>%
   mutate(cell_phone  = if_else(is.na(cell_phone),0,cell_phone) ) %>%
   mutate(number_celphones  = if_else(is.na(number_celphones),0,number_celphones) ) %>%
-  select(case_id,ea_id,floor_dirt_sand_dung,cell_phone,
+  dplyr::select(case_id,ea_id,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
 mw10.merged = left_join(mw10.merged,mw10.asset.cell.floor, by=c("ea_id","case_id"))
@@ -284,21 +284,21 @@ frige = mw10.other.asset %>%
   group_by(case_id) %>%
   summarise( num_frige = sum (hh_l03[hh_l02  ==514],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(case_id,Refrigerator)
+  dplyr::select(case_id,Refrigerator)
 
 radio = mw10.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(case_id) %>%
   summarise( num_radio = sum (hh_l03[hh_l02  ==507],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(case_id,Radio)
+  dplyr::select(case_id,Radio)
 
 tv = mw10.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(case_id) %>%
   summarise( num_tv = sum (hh_l03[hh_l02  ==509],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(case_id,Television)
+  dplyr::select(case_id,Television)
 
  
 bike = mw10.other.asset %>%
@@ -306,21 +306,21 @@ bike = mw10.other.asset %>%
   group_by(case_id) %>%
   summarise( num_bike = sum (hh_l03[hh_l02  ==516],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(case_id,Bicycle) 
+  dplyr::select(case_id,Bicycle) 
 
 moto = mw10.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(case_id) %>%
   summarise( num_moto= sum (hh_l03[hh_l02  ==517],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(case_id,Motorcycle) 
+  dplyr::select(case_id,Motorcycle) 
  
 car = mw10.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(case_id) %>%
   summarise( num_car= sum (hh_l03[hh_l02  ==518],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car >0,1,0) ) %>%
-  select(case_id,Car) 
+  dplyr::select(case_id,Car) 
  
 mw10.asset.clean = left_join(frige,radio, by="case_id")
 mw10.asset.clean = left_join(mw10.asset.clean,tv, by="case_id")
@@ -331,7 +331,7 @@ mw10.asset.clean = left_join(mw10.asset.clean,car, by="case_id")
 length(unique(mw10.merged$ea_id))
 
 # 
-# case_id = mw10.asset.clean %>% select(case_id)
+# case_id = mw10.asset.clean %>% dplyr::select(case_id)
 # mw10.asset.pca =   mw10.asset.clean %>% select(-case_id)
 # #  generate asset index from the dummies 
 # 
@@ -352,7 +352,7 @@ mw10.merged = left_join(mw10.merged,mw10.asset.clean, by=c("case_id"))
 min(mw10.merged$HDDS)
 
 
-mw10.merged = mw10.merged %>% mutate( HHID = case_id) %>% select(-case_id)
+mw10.merged = mw10.merged %>% mutate( HHID = case_id) %>% dplyr::select(-case_id)
 
 length(unique(mw10.merged$ea_id))
 
@@ -472,10 +472,10 @@ mw13.rcsi <- read_dta(file = paste(path,"Household/HH_MOD_H.dta",sep = "" ) )
 ##Constructing rCSI
 rCSI = mw13.rcsi %>%
   mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
-  mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
   filter(!is.na(rCSI)) %>% 
-  select(y2_hhid,rCSI)
+  dplyr::select(y2_hhid,rCSI)
 
 mw13.merged = left_join(mw13.merged,rCSI, by=c("y2_hhid"))
 length(unique(mw13.merged$y2_hhid))
@@ -504,7 +504,7 @@ mw13.region.rural = mw13.region %>%
     reside == 1 ~ 0,
     reside == 2 ~ 1)
   ) %>%
-  select(y2_hhid,ea_id,region_north,region_central,rural,hhsize,FS_month,FS_year)
+  dplyr::select(y2_hhid,ea_id,region_north,region_central,rural,hhsize,FS_month,FS_year)
 
 # mw13.region$reside["Labels"]
 # 
@@ -548,7 +548,7 @@ mw13.geo.clean = mw13.geo %>%
                                          srtm_mwi_5_15== "High-altitude plains", 1,0 ))   %>%
   # mutate(slope = afmnslp_pct)  %>% 
   
-  select(y2_hhid,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
+  dplyr::select(y2_hhid,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -572,7 +572,7 @@ mw.hhhead = mw13.basic %>%
   filter(!is.na(head_age)) %>% 
   # mutate(head_edu  = as.numeric(hh_b22_3)) %>% 
   # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
-  select(y2_hhid,head_age, female_head)
+  dplyr::select(y2_hhid,head_age, female_head)
 
 # mw13.basic$head_edlevel
 #1   Male 2 Female
@@ -639,7 +639,7 @@ mw13.asset.cell.floor = mw13.asset %>%
   mutate( cell_phone= if_else( is.na(cell_phone),0,cell_phone) ) %>%
   mutate( number_celphones= if_else( is.na(number_celphones),0,number_celphones) ) %>%
   mutate( floor_dirt_sand_dung= if_else( is.na(floor_dirt_sand_dung),0,floor_dirt_sand_dung) ) %>%
-  select(y2_hhid,floor_dirt_sand_dung,cell_phone,
+  dplyr::select(y2_hhid,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
 mw13.merged = left_join(mw13.merged,mw13.asset.cell.floor, by=c("y2_hhid"))
@@ -666,21 +666,21 @@ frige = mw13.other.asset %>%
   group_by(y2_hhid) %>%
   summarise( num_frige = sum (hh_l03[hh_l02  ==514],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y2_hhid,Refrigerator)
+  dplyr::select(y2_hhid,Refrigerator)
 
 radio = mw13.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(y2_hhid) %>%
   summarise( num_radio = sum (hh_l03[hh_l02  ==507],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y2_hhid,Radio)
+  dplyr::select(y2_hhid,Radio)
 
 tv = mw13.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(y2_hhid) %>%
   summarise( num_tv = sum (hh_l03[hh_l02  ==509],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y2_hhid,Television)
+  dplyr::select(y2_hhid,Television)
 
 
 bike = mw13.other.asset %>%
@@ -688,21 +688,21 @@ bike = mw13.other.asset %>%
   group_by(y2_hhid) %>%
   summarise( num_bike = sum (hh_l03[hh_l02  ==516],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y2_hhid,Bicycle) 
+  dplyr::select(y2_hhid,Bicycle) 
 
 moto = mw13.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(y2_hhid) %>%
   summarise( num_moto= sum (hh_l03[hh_l02  ==517],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y2_hhid,Motorcycle) 
+  dplyr::select(y2_hhid,Motorcycle) 
 
 car = mw13.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(y2_hhid) %>%
   summarise( num_car= sum (hh_l03[hh_l02  ==518],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car >0,1,0) ) %>%
-  select(y2_hhid,Car) 
+  dplyr::select(y2_hhid,Car) 
 
 mw13.asset.clean = left_join(frige,radio, by="y2_hhid")
 mw13.asset.clean = left_join(mw13.asset.clean,tv, by="y2_hhid")
@@ -732,7 +732,7 @@ mw13.merged = left_join(mw13.merged,mw13.asset.clean, by=c("y2_hhid"))
 
 min(mw13.merged$HDDS)
 
-mw13.merged = mw13.merged %>% mutate( HHID = y2_hhid) %>% select(-y2_hhid)
+mw13.merged = mw13.merged %>% mutate( HHID = y2_hhid) %>% dplyr::select(-y2_hhid)
 
 
 write.csv(mw13.merged,"data/clean/household/mw13_hh.csv",row.names = FALSE)
@@ -786,7 +786,7 @@ min(FCS$FCS)
 FCS = FCS %>% filter(FCS!=0)
 sum(is.na(FCS$FCS)  )
 
-write.csv(mw16.merged,"FCS.csv")
+# write.csv(mw16.merged,"FCS.csv")
 
 mw16.merged = FCS
 ################################################################################
@@ -805,7 +805,7 @@ HDDS = mw16.food %>%
   mutate( hdds_f = if_else(hh_g08f>0,1,0) ) %>%
   mutate( hdds_g = if_else(hh_g08g>0,1,0) ) %>%
   mutate( HDDS = hdds_cereals + hdds_c + hdds_d + hdds_e + hdds_f + hdds_g  ) %>%
-  select(HHID,HDDS )
+  dplyr::select(HHID,HDDS )
 #Exclude SUGAR and SPICES
 
 HDDS = HDDS %>% filter(HDDS!=0)
@@ -833,15 +833,14 @@ mw16.merged = left_join(mw16.merged,HDDS, by=c("HHID"))
 
 mw16.rcsi <- read_dta(file = paste(path,"Household/HH_MOD_H.dta",sep = "" ) )
 
-mw16.rcsi$
-  
+   
   ##Constructing rCSI
   rCSI = mw16.rcsi %>%
   mutate(hh_h01 = as.numeric(hh_h01)) %>% 
   mutate(rCSI = 1*hh_h02a + 1*hh_h02b + 2*hh_h02c + 2*hh_h02d +2*hh_h02e ) %>%
-  mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(HHID,rCSI)
+  dplyr::select(HHID,rCSI)
 
 mw16.merged = left_join(mw16.merged,rCSI, by=c("HHID"))
 
@@ -869,7 +868,7 @@ mw16.region.rural = mw16.region %>%
     reside == 1 ~ 0,
     reside == 2 ~ 1)
   ) %>%
-  select(HHID,ea_id,region_north,region_central,rural,FS_month,FS_year) %>%
+  dplyr::select(HHID,ea_id,region_north,region_central,rural,FS_month,FS_year) %>%
   drop_na()
 
 # mw16.region$reside["Labels"]
@@ -912,7 +911,7 @@ mw16.geo.clean = mw16.geo %>%
                                          srtm_mwi_5_15== "High-altitude plains", 1,0 ))   %>%
   # mutate(slope = afmnslp_pct)  %>% 
   
-  select(HHID,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
+  dplyr::select(HHID,lat_modified,lon_modified, dist_road,dist_admarc,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -936,7 +935,7 @@ mw16.hh.head = mw16.basic %>%
   mutate(female_head = if_else(hh_b03==2, 1, 0) )  %>%
   # mutate(head_edu  = as.numeric(hh_b21)) %>% 
   # mutate(head_educated = if_else(head_edu!=1, 1, 0) ) %>% 
-  select(HHID,head_age, female_head)
+  dplyr::select(HHID,head_age, female_head)
 
 # mw16.basic$head_edlevel
 #1   Male 2 Female
@@ -997,7 +996,7 @@ mw16.asset.cell.floor = mw16.asset %>%
   ## cellphone ###
   mutate (number_celphones = as.numeric(hh_f34)) %>% 
   mutate (cell_phone = if_else(number_celphones>0,1,0)) %>% 
-  select(HHID,floor_dirt_sand_dung,cell_phone,
+  dplyr::select(HHID,floor_dirt_sand_dung,cell_phone,
          number_celphones,roof_not_natural,roof_iron)
 
 mw16.merged = left_join(mw16.merged,mw16.asset.cell.floor, by=c("HHID"))
@@ -1021,21 +1020,21 @@ frige = mw16.other.asset %>%
   group_by(HHID) %>%
   summarise( num_frige = sum (hh_l03[hh_l02  ==514],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(HHID,Refrigerator)
+  dplyr::select(HHID,Refrigerator)
 
 radio = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(HHID) %>%
   summarise( num_radio = sum (hh_l03[hh_l02  ==507],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(HHID,Radio)
+  dplyr::select(HHID,Radio)
 
 tv = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(HHID) %>%
   summarise( num_tv = sum (hh_l03[hh_l02  ==509],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(HHID,Television)
+  dplyr::select(HHID,Television)
 
 
 bike = mw16.other.asset %>%
@@ -1043,21 +1042,21 @@ bike = mw16.other.asset %>%
   group_by(HHID) %>%
   summarise( num_bike = sum (hh_l03[hh_l02  ==516],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(HHID,Bicycle) 
+  dplyr::select(HHID,Bicycle) 
 
 moto = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(HHID) %>%
   summarise( num_moto= sum (hh_l03[hh_l02  ==517],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(HHID,Motorcycle) 
+  dplyr::select(HHID,Motorcycle) 
 
 car = mw16.other.asset %>%
   mutate(hh_l02 = as.numeric(hh_l02)) %>%
   group_by(HHID) %>%
   summarise( num_car= sum (hh_l03[hh_l02  ==518],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car >0,1,0) ) %>%
-  select(HHID,Car) 
+  dplyr::select(HHID,Car) 
 
 mw16.asset.clean = left_join(frige,radio, by="HHID")
 mw16.asset.clean = left_join(mw16.asset.clean,tv, by="HHID")
@@ -1066,8 +1065,8 @@ mw16.asset.clean = left_join(mw16.asset.clean,moto, by="HHID")
 mw16.asset.clean = left_join(mw16.asset.clean,car, by="HHID")
 
 # 
-# HHID = mw16.asset.clean %>% select(HHID)
-# mw16.asset.pca =   mw16.asset.clean %>% select(-HHID)
+# HHID = mw16.asset.clean %>% dplyr::select(HHID)
+# mw16.asset.pca =   mw16.asset.clean %>% dplyr::select(-HHID)
 # #  generate asset index from the dummies 
 # 
 # 
@@ -1198,10 +1197,10 @@ tz10.rcsi <- read_dta(file = paste(path,"HH_SEC_I1.dta",sep = "" ) )
 ##Constructing rCSI
 rCSI = tz10.rcsi %>%
   mutate(rCSI = 1*hh_i02_1 + 1*hh_i02_2 + 1*hh_i02_3 + 2*hh_i02_4 +2*hh_i02_5 + 2*hh_i02_6 +4*hh_i02_7 +4*hh_i02_8 ) %>%
-  mutate(rCSI = if_else(hh_i01==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_i01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>%  
   filter(!is.na(rCSI )) %>%  
-  select(y2_hhid,rCSI)
+  dplyr::select(y2_hhid,rCSI)
 
 
 tz10.merged = left_join(tz10.merged,rCSI, by=c("y2_hhid"))
@@ -1228,7 +1227,7 @@ tz10.region.rural = tz10.region %>%
   #  1 urban 2 rural
   mutate( rural = as.numeric(y2_rural)
   ) %>%
-  select(y2_hhid,rural,FS_month,FS_year,clusterid)
+  dplyr::select(y2_hhid,rural,FS_month,FS_year,clusterid)
 
 tz10.region.rural = bind_cols(tz10.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -1241,7 +1240,7 @@ tz10.merged = left_join(tz10.merged,tz10.region.rural, by=c("y2_hhid"))
 # Merge in geolocation 
 
 tz10.geo <- read_dta(file = paste(path,"TZY2.EA.Offsets.dta",sep = "" ) )
-tz10.geo = tz10.geo %>% select(-rum)
+tz10.geo = tz10.geo %>% dplyr::select(-rum)
 
 tz10.merged = left_join(tz10.merged,tz10.geo,by="clusterid")
 
@@ -1267,7 +1266,7 @@ tz10.geo.other.clean = tz10.geo.other %>%
   mutate(dist_popcenter =  as.numeric(hh_geo02)) %>%
   mutate(dist_headquater =  as.numeric(hh_geo05) ) %>%
   mutate(percent_ag =  as.numeric(hh_envi15) ) %>%
-  select(y2_hhid, dist_road,dist_popcenter,percent_ag,
+  dplyr::select(y2_hhid, dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough) %>% na.omit()
 
@@ -1283,7 +1282,7 @@ tz10.hhhead = tz10.basic %>%
   mutate(hh_b02 = as.numeric(hh_b02)) %>% 
   mutate(head_age = as.numeric(hh_b04)) %>% 
   mutate(female_head = if_else(hh_b02==2, 1, 0) )  %>%
-  select(y2_hhid,head_age, female_head)
+  dplyr::select(y2_hhid,head_age, female_head)
 
 tz10.merged = left_join(tz10.merged,tz10.hhhead, by=c("y2_hhid"))
 
@@ -1304,49 +1303,49 @@ tz10.cellphone  = tz10.asset.cell.floor %>%
   group_by(y2_hhid) %>%
   summarise( num_cell = sum (hh_n01_2[itemcode  ==403],na.rm = TRUE) ) %>%
   mutate( Cellphone = if_else(num_cell>0,1,0) ) %>%
-  select(y2_hhid,Cellphone,num_cell)
+  dplyr::select(y2_hhid,Cellphone,num_cell)
 
 fridge = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_frige = sum (hh_n01_2[itemcode  ==404],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y2_hhid,Refrigerator)
+  dplyr::select(y2_hhid,Refrigerator)
 
 radio = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_radio = sum (hh_n01_2[itemcode  ==401],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y2_hhid,Radio)
+  dplyr::select(y2_hhid,Radio)
 
 tv = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_tv = sum (hh_n01_2[itemcode  ==406],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y2_hhid,Television) 
+  dplyr::select(y2_hhid,Television) 
 
 bike = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_bike = sum (hh_n01_2[itemcode  ==427],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y2_hhid,Bicycle) 
+  dplyr::select(y2_hhid,Bicycle) 
 
 moto = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_moto = sum (hh_n01_2[itemcode  ==426],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y2_hhid,Motorcycle) 
+  dplyr::select(y2_hhid,Motorcycle) 
  
 car = tz10.asset.cell.floor %>%
   mutate(hh_n01_2 = as.numeric(hh_n01_2)) %>%
   group_by(y2_hhid) %>%
   summarise( num_car = sum (hh_n01_2[itemcode  ==425],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car>0,1,0) ) %>%
-  select(y2_hhid,Car)  
+  dplyr::select(y2_hhid,Car)  
  
 tz10.asset.clean = left_join(fridge,radio, by="y2_hhid")
 tz10.asset.clean = left_join(tz10.asset.clean,tv, by="y2_hhid")
@@ -1355,8 +1354,8 @@ tz10.asset.clean = left_join(tz10.asset.clean,moto, by="y2_hhid")
 tz10.asset.clean = left_join(tz10.asset.clean,car, by="y2_hhid")
 
 
-y2_hhid = tz10.asset.clean %>% select(y2_hhid)
-tz10.asset.pca =   tz10.asset.clean %>% select(-y2_hhid)
+y2_hhid = tz10.asset.clean %>% dplyr::select(y2_hhid)
+tz10.asset.pca =   tz10.asset.clean %>% dplyr::select(-y2_hhid)
 #  generate asset index from the dummies 
 # 
 # 
@@ -1389,12 +1388,12 @@ tz10.housing.clean =   tz10.housing %>%
   ## roof ###
   mutate( roof_not_natural = if_else( hh_j06 != 1 & hh_j06!=2  ,1,0)) %>%
   mutate( roof_iron = if_else( hh_j06 == 4 ,1,0)) %>%
-  select(y2_hhid,floor_dirt_sand_dung,
+  dplyr::select(y2_hhid,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 tz10.merged = left_join(tz10.merged,tz10.housing.clean, by=c("y2_hhid"))
 
-tz10.merged = tz10.merged %>% mutate( HHID = y2_hhid) %>% select(-y2_hhid)
+tz10.merged = tz10.merged %>% mutate( HHID = y2_hhid) %>% dplyr::select(-y2_hhid)
   
 write.csv(tz10.merged,"data/clean/household/tz10_hh.csv",row.names = FALSE)
 
@@ -1514,9 +1513,9 @@ tz12.rcsi <- read_dta(file = paste(path,"HH_SEC_H.dta",sep = "" ) )
 ##Constructing rCSI
 rCSI = tz12.rcsi %>%
   mutate(rCSI = 1*hh_h02_1 + 1*hh_h02_2 + 1*hh_h02_3 + 2*hh_h02_4 +2*hh_h02_5 + 2*hh_h02_6 +4*hh_h02_7 +4*hh_h02_8 ) %>%
-  mutate(rCSI = if_else(hh_h02_1==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_h02_1==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(y3_hhid,rCSI)
+  dplyr::select(y3_hhid,rCSI)
 
 
 tz12.merged = left_join(tz12.merged,rCSI, by=c("y3_hhid"))
@@ -1547,7 +1546,7 @@ tz12.region.rural = tz12.region %>%
   #  1 urban 2 rural
   mutate( rural = as.numeric(y3_rural)
   ) %>%
-  select(y3_hhid,rural,FS_month,FS_year,clusterid)
+  dplyr::select(y3_hhid,rural,FS_month,FS_year,clusterid)
 
 tz12.region.rural = bind_cols(tz12.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -1584,7 +1583,7 @@ tz12.geo.clean = tz12.geo %>%
   mutate(dist_popcenter =  as.numeric(dist02)) %>%
   mutate(dist_headquater =  as.numeric(dist04) ) %>%
   mutate(percent_ag =  as.numeric(land02) ) %>%
-  select(y3_hhid, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+  dplyr::select(y3_hhid, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -1600,7 +1599,7 @@ tz12.hhhead = tz12.basic %>%
   mutate(hh_b02 = as.numeric(hh_b02)) %>% 
   mutate(head_age = as.numeric(hh_b04)) %>% 
   mutate(female_head = if_else(hh_b02==2, 1, 0) )  %>%
-  select(y3_hhid,head_age, female_head)
+  dplyr::select(y3_hhid,head_age, female_head)
 
 tz12.merged = left_join(tz12.merged,tz12.hhhead, by=c("y3_hhid"))
 
@@ -1621,49 +1620,49 @@ tz12.cellphone  = tz12.asset.cell.floor %>%
   group_by(y3_hhid) %>%
   summarise( num_cell = sum (hh_m01[itemcode  ==403],na.rm = TRUE) ) %>%
   mutate( Cellphone = if_else(num_cell>0,1,0) ) %>%
-  select(y3_hhid,Cellphone,num_cell)
+  dplyr::select(y3_hhid,Cellphone,num_cell)
 
 fridge = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_frige = sum (hh_m01[itemcode  ==404],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y3_hhid,Refrigerator)
+  dplyr::select(y3_hhid,Refrigerator)
 
 radio = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_radio = sum (hh_m01[itemcode  ==401],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y3_hhid,Radio)
+  dplyr::select(y3_hhid,Radio)
 
 tv = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_tv = sum (hh_m01[itemcode  ==406],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y3_hhid,Television) 
+  dplyr::select(y3_hhid,Television) 
 
 bike = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_bike = sum (hh_m01[itemcode  ==427],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y3_hhid,Bicycle) 
+  dplyr::select(y3_hhid,Bicycle) 
 
 moto = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_moto = sum (hh_m01[itemcode  ==426],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y3_hhid,Motorcycle) 
+  dplyr::select(y3_hhid,Motorcycle) 
 
 car = tz12.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y3_hhid) %>%
   summarise( num_car = sum (hh_m01[itemcode  ==425],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car>0,1,0) ) %>%
-  select(y3_hhid,Car)  
+  dplyr::select(y3_hhid,Car)  
 
 tz12.asset.clean = left_join(fridge,radio, by="y3_hhid")
 tz12.asset.clean = left_join(tz12.asset.clean,tv, by="y3_hhid")
@@ -1706,14 +1705,14 @@ tz12.housing.clean =   tz12.housing %>%
   ## roof ###
   mutate( roof_not_natural = if_else( hh_i09 != 1 & hh_i09!=2  ,1,0)) %>%
   mutate( roof_iron = if_else( hh_i09 == 4 ,1,0)) %>%
-  select(y3_hhid,floor_dirt_sand_dung,
+  dplyr::select(y3_hhid,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 tz12.merged = left_join(tz12.merged,tz12.housing.clean, by=c("y3_hhid"))
 
 tz12.merged = tz12.merged %>% 
   mutate(HHID = y3_hhid) %>% 
-  select( - y3_hhid)
+  dplyr::select( - y3_hhid)
   
 write.csv(tz12.merged,"data/clean/household/tz12_hh.csv",row.names = FALSE)
 
@@ -1835,9 +1834,9 @@ tz14.rcsi <- read_dta(file = paste(path,"hh_sec_h.dta",sep = "" ) )
 ##Constructing rCSI
 rCSI = tz14.rcsi %>%
   mutate(rCSI = 1*hh_h02_1 + 1*hh_h02_2 + 1*hh_h02_3 + 2*hh_h02_4 +2*hh_h02_5 + 2*hh_h02_6 +4*hh_h02_7 +4*hh_h02_8 ) %>%
-  mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
+  # mutate(rCSI = if_else(hh_h01==2 , 0 ,rCSI) ) %>%
   mutate(rCSI = if_else(rCSI>42 , 42 ,rCSI) ) %>% 
-  select(y4_hhid,rCSI)
+  dplyr::select(y4_hhid,rCSI)
 
 
 tz14.merged = left_join(tz14.merged,rCSI, by=c("y4_hhid"))
@@ -1863,7 +1862,7 @@ tz14.region.rural = tz14.region %>%
   mutate( clustertype = as.numeric(clustertype)
   ) %>%
   mutate(rural = if_else(clustertype==1,1,0))   %>%
-  select(y4_hhid,rural,FS_month,FS_year,clusterid)
+  dplyr::select(y4_hhid,rural,FS_month,FS_year,clusterid)
 
 tz14.region.rural = bind_cols(tz14.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -1879,7 +1878,7 @@ tz14.geo <- read_dta(file = paste(path,"npsy4.ea.offset.dta",sep = "" ) )
 
 
 tz14.geo.clean = tz14.geo %>%
-  select(-wardtype,-clustertype)
+  dplyr::select(-wardtype,-clustertype)
 
 tz14.merged = left_join(tz14.merged,tz14.geo.clean, by=c("clusterid"))
 
@@ -1893,7 +1892,7 @@ tz14.hhhead = tz14.basic %>%
   mutate(hh_b02 = as.numeric(hh_b02)) %>% 
   mutate(head_age = as.numeric(hh_b04)) %>% 
   mutate(female_head = if_else(hh_b02==2, 1, 0) )  %>%
-  select(y4_hhid,head_age, female_head)
+  dplyr::select(y4_hhid,head_age, female_head)
 
 tz14.merged = left_join(tz14.merged,tz14.hhhead, by=c("y4_hhid"))
 
@@ -1914,49 +1913,49 @@ tz14.cellphone  = tz14.asset.cell.floor %>%
   group_by(y4_hhid) %>%
   summarise( num_cell = sum (hh_m01[itemcode  ==403],na.rm = TRUE) ) %>%
   mutate( Cellphone = if_else(num_cell>0,1,0) ) %>%
-  select(y4_hhid,Cellphone,num_cell)
+  dplyr::select(y4_hhid,Cellphone,num_cell)
 
 fridge = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_frige = sum (hh_m01[itemcode  ==404],na.rm = TRUE) ) %>%
   mutate( Refrigerator = if_else(num_frige>0,1,0) ) %>%
-  select(y4_hhid,Refrigerator)
+  dplyr::select(y4_hhid,Refrigerator)
 
 radio = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_radio = sum (hh_m01[itemcode  ==401],na.rm = TRUE) ) %>%
   mutate( Radio = if_else(num_radio>0,1,0) ) %>%
-  select(y4_hhid,Radio)
+  dplyr::select(y4_hhid,Radio)
 
 tv = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_tv = sum (hh_m01[itemcode  ==406],na.rm = TRUE) ) %>%
   mutate( Television = if_else(num_tv>0,1,0) ) %>%
-  select(y4_hhid,Television) 
+  dplyr::select(y4_hhid,Television) 
 
 bike = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_bike = sum (hh_m01[itemcode  ==427],na.rm = TRUE) ) %>%
   mutate( Bicycle = if_else(num_bike>0,1,0) ) %>%
-  select(y4_hhid,Bicycle) 
+  dplyr::select(y4_hhid,Bicycle) 
 
 moto = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_moto = sum (hh_m01[itemcode  ==426],na.rm = TRUE) ) %>%
   mutate( Motorcycle = if_else(num_moto>0,1,0) ) %>%
-  select(y4_hhid,Motorcycle) 
+  dplyr::select(y4_hhid,Motorcycle) 
 
 car = tz14.asset.cell.floor %>%
   mutate(hh_m01 = as.numeric(hh_m01)) %>%
   group_by(y4_hhid) %>%
   summarise( num_car = sum (hh_m01[itemcode  ==425],na.rm = TRUE) ) %>%
   mutate( Car = if_else(num_car>0,1,0) ) %>%
-  select(y4_hhid,Car)  
+  dplyr::select(y4_hhid,Car)  
 
 tz14.asset.clean = left_join(fridge,radio, by="y4_hhid")
 tz14.asset.clean = left_join(tz14.asset.clean,tv, by="y4_hhid")
@@ -1999,14 +1998,14 @@ tz14.housing.clean =   tz14.housing %>%
   ## roof ###
   mutate( roof_not_natural = if_else( hh_i09 != 1 & hh_i09!=2  ,1,0)) %>%
   mutate( roof_iron = if_else( hh_i09 == 4 ,1,0)) %>%
-  select(y4_hhid,floor_dirt_sand_dung,
+  dplyr::select(y4_hhid,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 colSums(is.na(tz14.merged))
 
 tz14.merged = left_join(tz14.merged,tz14.housing.clean, by=c("y4_hhid"))
 
-tz14.merged = tz14.merged %>% mutate(HHID = y4_hhid) %>% select(-y4_hhid)
+tz14.merged = tz14.merged %>% mutate(HHID = y4_hhid) %>% dplyr::select(-y4_hhid)
 
 write.csv(tz14.merged,"data/clean/household/tz14_hh.csv",row.names = FALSE)
 
@@ -2229,7 +2228,7 @@ ug09.region.rural = ug09.region %>%
   mutate( rural = 1- as.numeric(urban)
   ) %>%
   mutate (ea_id = comm) %>%
-  select(HHID,rural,FS_month,FS_year,ea_id)
+  dplyr::select(HHID,rural,FS_month,FS_year,ea_id)
 
 ug09.region.rural = bind_cols(ug09.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -2270,7 +2269,7 @@ ug09.geo.clean = ug09.geo %>%
   mutate(dist_road = as.numeric(dist_road) ) %>%
   mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
   mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
-  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+  dplyr::select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -2286,7 +2285,7 @@ ug09.HHIDhead = ug09.basic %>%
   mutate(h2q4 = as.numeric(h2q4)) %>% 
   mutate(head_age = as.numeric(h2q8)) %>% 
   mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
-  select(HHID,head_age, female_head)
+  dplyr::select(HHID,head_age, female_head)
 
 ug09.merged = left_join(ug09.merged,ug09.HHIDhead, by=c("HHID"))
 
@@ -2318,32 +2317,32 @@ ug09.cellphone  = ug09.asset.cell.floor %>%
   mutate(Cellphone = if_else(is.na(Cellphone),0,Cellphone) ) %>% 
   mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
   mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
-  select(HHID,Cellphone,num_cell)
+  dplyr::select(HHID,Cellphone,num_cell)
 
 radio = ug09.asset.cell.floor %>%
   filter(h14q2 == 7 ) %>%
   mutate( Radio = if_else(h14q3==1,1,0) ) %>%
-   select(HHID,Radio)
+   dplyr::select(HHID,Radio)
 
 tv = ug09.asset.cell.floor %>%
   filter(h14q2 == 6 ) %>%
   mutate( Television = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Television)
+  dplyr::select(HHID,Television)
 
 bike = ug09.asset.cell.floor %>%
   filter(h14q2 == 10 ) %>%
   mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Bicycle)
+  dplyr::select(HHID,Bicycle)
 
 moto = ug09.asset.cell.floor %>%
   filter(h14q2 == 11 ) %>%
   mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Motorcycle)
+  dplyr::select(HHID,Motorcycle)
 
 car = ug09.asset.cell.floor %>%
   filter(h14q2 == 12 ) %>%
   mutate( Car = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Car)
+  dplyr::select(HHID,Car)
 
 ug09.asset.clean = radio
 ug09.asset.clean = left_join(ug09.asset.clean,tv, by="HHID")
@@ -2392,7 +2391,7 @@ ug09.housing.clean =   ug09.housing %>%
   mutate( roof_iron = if_else( h9q04 == 4 ,1,0)) %>%
   mutate (roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural)) %>%
   mutate (roof_iron = if_else(is.na(roof_iron),0,roof_iron)) %>%
-  select(HHID,floor_dirt_sand_dung,
+  dplyr::select(HHID,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 ug09.merged = left_join(ug09.merged,ug09.housing.clean, by=c("HHID"))
@@ -2616,7 +2615,7 @@ ug10.region.rural = ug10.region %>%
   mutate( rural = 1- as.numeric(urban)
   ) %>%
   mutate (ea_id = comm) %>%
-  select(HHID,rural,FS_month,FS_year,ea_id)
+  dplyr::select(HHID,rural,FS_month,FS_year,ea_id)
 
 ug10.region.rural = bind_cols(ug10.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -2656,7 +2655,7 @@ ug10.geo.clean = ug10.geo %>%
   mutate(dist_road = as.numeric(dist_road) ) %>%
   mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
   mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
-  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+  dplyr::select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -2672,7 +2671,7 @@ ug10.HHIDhead = ug10.basic %>%
   mutate(h2q4 = as.numeric(h2q4)) %>% 
   mutate(head_age = as.numeric(h2q8)) %>% 
   mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
-  select(HHID,head_age, female_head)
+  dplyr::select(HHID,head_age, female_head)
 
 ug10.merged = left_join(ug10.merged,ug10.HHIDhead, by=c("HHID"))
 
@@ -2703,32 +2702,32 @@ ug10.cellphone  = ug10.asset.cell.floor %>%
   mutate( Cellphone = if_else(h14q3==1,1,0) ) %>%
   mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
   mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
-  select(HHID,Cellphone,num_cell)
+  dplyr::select(HHID,Cellphone,num_cell)
 
 radio = ug10.asset.cell.floor %>%
   filter(h14q2 == 7 ) %>%
   mutate( Radio = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Radio)
+  dplyr::select(HHID,Radio)
 
 tv = ug10.asset.cell.floor %>%
   filter(h14q2 == 6 ) %>%
   mutate( Television = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Television)
+  dplyr::select(HHID,Television)
 
 bike = ug10.asset.cell.floor %>%
   filter(h14q2 == 10 ) %>%
   mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Bicycle)
+  dplyr::select(HHID,Bicycle)
 
 moto = ug10.asset.cell.floor %>%
   filter(h14q2 == 11 ) %>%
   mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Motorcycle)
+  dplyr::select(HHID,Motorcycle)
 
 car = ug10.asset.cell.floor %>%
   filter(h14q2 == 12 ) %>%
   mutate( Car = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Car)
+  dplyr::select(HHID,Car)
 
 ug10.asset.clean = radio
 ug10.asset.clean = left_join(ug10.asset.clean,tv, by="HHID")
@@ -2786,7 +2785,7 @@ ug10.housing.clean =   ug10.housing %>%
   mutate(roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural) ) %>% 
   mutate (roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural)) %>%
   mutate (roof_iron = if_else(is.na(roof_iron),0,roof_iron)) %>%
-  select(HHID,floor_dirt_sand_dung,
+  dplyr::select(HHID,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 ug10.merged = left_join(ug10.merged,ug10.housing.clean, by=c("HHID"))
@@ -2943,7 +2942,7 @@ ug11.region.rural = ug11.region %>%
   mutate( rural = 1- as.numeric(urban)
   ) %>%
   mutate (ea_id = comm) %>%
-  select(HHID,rural,FS_month,FS_year,ea_id)
+  dplyr::select(HHID,rural,FS_month,FS_year,ea_id)
 
 ug11.region.rural = bind_cols(ug11.region.rural,region_dummy)
 # mw13.region$reside["Labels"]
@@ -2984,7 +2983,7 @@ ug11.geo.clean = ug11.geo %>%
   mutate(dist_road = as.numeric(dist_road) ) %>%
   mutate(dist_popcenter =  as.numeric(dist_popcenter)) %>%
   mutate(percent_ag =  as.numeric(fsrad3_agpct) ) %>%
-  select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
+  dplyr::select(HHID, lat_modified,lon_modified,dist_road,dist_popcenter,percent_ag,
          nutri_severe_constraint,nutri_moderate_constraint,nutri_reten_severe_constraint,
          dummy_terrain_rough)
 
@@ -3000,7 +2999,7 @@ ug11.HHIDhead = ug11.basic %>%
   mutate(h2q4 = as.numeric(h2q4)) %>% 
   mutate(head_age = as.numeric(h2q8)) %>% 
   mutate(female_head = if_else(h2q3==2, 1, 0) )  %>%
-  select(HHID,head_age, female_head)
+  dplyr::select(HHID,head_age, female_head)
 
 ug11.merged = left_join(ug11.merged,ug11.HHIDhead, by=c("HHID"))
 
@@ -3032,32 +3031,32 @@ ug11.cellphone  = ug11.asset.cell.floor %>%
   mutate(Cellphone = if_else(is.na(Cellphone),0,Cellphone) ) %>% 
   mutate(num_cell = if_else(Cellphone==1,h14q4,0) ) %>% 
   mutate(num_cell = if_else(is.na(num_cell),0,num_cell) ) %>% 
-  select(HHID,Cellphone,num_cell)
+  dplyr::select(HHID,Cellphone,num_cell)
 
 radio = ug11.asset.cell.floor %>%
   filter(h14q2 == 7 ) %>%
   mutate( Radio = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Radio)
+  dplyr::select(HHID,Radio)
 
 tv = ug11.asset.cell.floor %>%
   filter(h14q2 == 6 ) %>%
   mutate( Television = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Television)
+  dplyr::select(HHID,Television)
 
 bike = ug11.asset.cell.floor %>%
   filter(h14q2 == 10 ) %>%
   mutate( Bicycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Bicycle)
+  dplyr::select(HHID,Bicycle)
 
 moto = ug11.asset.cell.floor %>%
   filter(h14q2 == 11 ) %>%
   mutate( Motorcycle = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Motorcycle)
+  dplyr::select(HHID,Motorcycle)
 
 car = ug11.asset.cell.floor %>%
   filter(h14q2 == 12 ) %>%
   mutate( Car = if_else(h14q3==1,1,0) ) %>%
-  select(HHID,Car)
+  dplyr::select(HHID,Car)
 
 ug11.asset.clean = radio
 ug11.asset.clean = left_join(ug11.asset.clean,tv, by="HHID")
@@ -3073,8 +3072,8 @@ ug11.asset.clean = ug11.asset.clean %>%
   mutate(Motorcycle = ifelse(is.na(Motorcycle), 0, Motorcycle)) %>%
   mutate(Car = ifelse(is.na(Car), 0, Car))
 
-# HHID = ug11.asset.clean %>% select(HHID)
-# ug11.asset.pca =   ug11.asset.clean %>% select(-HHID)
+# HHID = ug11.asset.clean %>% dplyr::select(HHID)
+# ug11.asset.pca =   ug11.asset.clean %>% dplyr::select(-HHID)
 # #  generate asset index from the dummies 
 # 
 # 
@@ -3114,7 +3113,7 @@ ug11.housing.clean =   ug11.housing %>%
   mutate(roof_iron = if_else(is.na(roof_iron),0,roof_iron) ) %>% 
   mutate(roof_not_natural = if_else(is.na(roof_not_natural),0,roof_not_natural) ) %>% 
   
-  select(HHID,floor_dirt_sand_dung,
+  dplyr::select(HHID,floor_dirt_sand_dung,
          roof_not_natural,roof_iron)
 
 ug11.merged = left_join(ug11.merged,ug11.housing.clean, by=c("HHID"))

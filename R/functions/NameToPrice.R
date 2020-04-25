@@ -26,6 +26,7 @@ NameToPrice <- function(market_df, price_df,MKTcolname="mkt"){
     price_vector= price_df[price_df[MKTcolname]==mkt_name[i]]
     joined_df <- rbind(joined_df,price_vector)
   }
+  
   joined_df = as.data.frame(joined_df)
   rownames(joined_df)=NULL
   col2 =  as.character(unlist(joined_df$V2))
@@ -37,6 +38,6 @@ NameToPrice <- function(market_df, price_df,MKTcolname="mkt"){
   
   colnames(joined_df) = colnames(price_df)
   
-  merged_df <- dplyr::left_join(market_df,joined_df,by =MKTcolname)
+  merged_df <- dplyr::left_join(market_df,joined_df,by =MKTcolname) %>% unique()
 
   return ( dplyr::distinct(merged_df))}

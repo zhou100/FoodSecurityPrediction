@@ -27,18 +27,20 @@ source("R/functions/Yearmon.R")
 
 # read household data 
 mw.lsms = read.csv("data/clean/household/mw_hh_aggregate.csv",stringsAsFactors = FALSE)
+ 
+colSums(is.na(mw.lsms))
 
 
 mw.lsms$ea_id = as.character(mw.lsms$ea_id)
 mw.lsms = yearmon (mw.lsms, year_var = "FS_year",month_var = "FS_month" )
 
-mw.lsms = mw.lsms %>% select( -date)
+mw.lsms = mw.lsms %>% dplyr::select( -date)
 
 
 # read price data 
 load("data/clean/market/mw_price_final.RData")
 
-colnames(mw_price_merge_final) 
+colSums(is.na(mw_price_merge_final))
 
 # mw_price_merge_final
 
@@ -46,9 +48,10 @@ colnames(mw_price_merge_final)
 mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
 # class(mw_price_merge_final$ea_id)
 
+
 # weekly price data to monthly 
 mw.current.price = mw_price_merge_final %>% 
-  dplyr::select(-mkt,-dist_km,-weights,-FNID) %>% 
+  dplyr::select(-mkt,-dist_km) %>% 
   distinct() %>% 
   group_by(ea_id,yearmon) %>% 
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))
@@ -80,6 +83,8 @@ for ( index in  4:ncol(mw.current.price.impute)-1) {
   mw.current.price.impute[col.name.temp] = na.interpolation(unlist(mw.current.price[col.name.temp]),option = "stine")
 }
 
+colSums(is.na(mw.current.price.impute))
+
 
 
 # create a one month lag for each price 
@@ -87,14 +92,14 @@ mw.lag1.price = mw.current.price.impute
 mw.lag1.price["yearmon_lag1"]= mw.lag1.price$yearmon + 0.1
 mw.lag1.price["yearmon"] = mw.lag1.price["yearmon_lag1"]
 mw.lag1.price = mw.lag1.price %>% ungroup() %>% dplyr::select(-yearmon_lag1,-date,-year)
-names(mw.lag1.price)[3:ncol(mw.lag1.price)] = paste("lag1",names(mw.lag1.price)[3:ncol(mw.lag1.price)],sep="_")
+names(mw.lag1.price)[4:ncol(mw.lag1.price)] = paste("lag1",names(mw.lag1.price)[4:ncol(mw.lag1.price)],sep="_")
 
 # 3 months lag 
 mw.lag3.price = mw.current.price.impute 
 mw.lag3.price["yearmon_lag3"]= mw.lag3.price$yearmon + 0.25
 mw.lag3.price["yearmon"] = mw.lag3.price["yearmon_lag3"]
 mw.lag3.price = mw.lag3.price %>% ungroup() %>% dplyr::select(-yearmon_lag3,-date,-year)
-names(mw.lag3.price)[3:ncol(mw.lag3.price)] = paste("lag3",names(mw.lag3.price)[3:ncol(mw.lag3.price)],sep="_")
+names(mw.lag3.price)[4:ncol(mw.lag3.price)] = paste("lag3",names(mw.lag3.price)[4:ncol(mw.lag3.price)],sep="_")
 
 
 # 6 months lag 
@@ -102,45 +107,63 @@ mw.lag6.price = mw.current.price.impute
 mw.lag6.price["yearmon_lag6"]= mw.lag6.price$yearmon + 0.5
 mw.lag6.price["yearmon"] = mw.lag6.price["yearmon_lag6"]
 mw.lag6.price = mw.lag6.price %>% ungroup() %>% dplyr::select(-yearmon_lag6,-date,-year)
-names(mw.lag6.price)[3:ncol(mw.lag6.price)] = paste("lag6",names(mw.lag6.price)[3:ncol(mw.lag6.price)],sep="_")
+names(mw.lag6.price)[4:ncol(mw.lag6.price)] = paste("lag6",names(mw.lag6.price)[4:ncol(mw.lag6.price)],sep="_")
 
 # 12 months lag
 mw.lag12.price = mw.current.price.impute 
 mw.lag12.price["yearmon_lag12"]= mw.lag12.price$yearmon + 1
 mw.lag12.price["yearmon"] = mw.lag12.price["yearmon_lag12"]
 mw.lag12.price = mw.lag12.price %>% ungroup() %>% dplyr::select(-yearmon_lag12,-date,-year)
-names(mw.lag12.price)[3:ncol(mw.lag12.price)] = paste("lag12",names(mw.lag12.price)[3:ncol(mw.lag12.price)],sep="_")
+names(mw.lag12.price)[4:ncol(mw.lag12.price)] = paste("lag12",names(mw.lag12.price)[4:ncol(mw.lag12.price)],sep="_")
 
 
 # Join hh and prices
-mw.master.hh = left_join(mw.lsms,mw.lag1.price, by = c("ea_id","yearmon"))
-mw.master.hh = left_join(mw.master.hh,mw.lag3.price, by = c("ea_id","yearmon"))
-mw.master.hh = left_join(mw.master.hh, mw.lag6.price, by = c("ea_id","yearmon"))
-mw.master.hh = left_join(mw.master.hh,mw.lag12.price, by = c("ea_id","yearmon"))
-
-# mw.master.hh= mw.lsms
-# read weather data 
-load("data/clean/weather/mw_weather_final.RData")
-
-mw.weather.final = mw.weather.final %>% dplyr::filter(!is.na(VID) & !is.na(tmean))
-
-mw.weather.final["lhz_floodmax"][is.na(mw.weather.final["lhz_floodmax"])] = 0
-
-colSums(is.na(mw.weather.final))
+mw.lsms$ea_id = as.character(mw.lsms$ea_id)
+mw.lag1.price$ea_id = as.character(mw.lag1.price$ea_id)
+mw.lag3.price$ea_id = as.character(mw.lag3.price$ea_id)
+mw.lag6.price$ea_id = as.character(mw.lag6.price$ea_id)
+mw.lag12.price$ea_id = as.character(mw.lag12.price$ea_id)
 
 
-mw.master.hh = left_join(mw.master.hh,mw.weather.final, by = c("ea_id","FS_year"))
-
-
-mw.master.hh = mw.master.hh %>% dplyr::filter(!is.na(VID) & !is.na(date))
+mw.master.hh = left_join(mw.lsms,mw.lag1.price, by = c("ea_id","FS_year","yearmon"))
+mw.master.hh = left_join(mw.master.hh,mw.lag3.price, by = c("ea_id","FS_year","yearmon"))
+mw.master.hh = left_join(mw.master.hh, mw.lag6.price, by = c("ea_id","FS_year","yearmon"))
+mw.master.hh = left_join(mw.master.hh,mw.lag12.price, by = c("ea_id","FS_year","yearmon"))
 
 colSums(is.na(mw.master.hh))
 
+ 
+colSums(is.na(mw.lsms))
 
+
+# mw.master.hh= mw.lsms
+load("data/clean/weather/mw_weather_final.RData")
+# 
+# mw.weather.final = mw.weather.final %>% dplyr::filter(!is.na(VID) & !is.na(tmean))
+# 
+# mw.weather.final["lhz_floodmax"][is.na(mw.weather.final["lhz_floodmax"])] = 0
+
+
+unique(mw.weather.final$FS_year)
+
+mw.weather.final = mw.weather.final %>%   dplyr::select(-lat_modified,-lon_modified)
+
+mw.master.hh = left_join(mw.lsms,mw.weather.final)
+
+
+nas = mw.master.hh %>% dplyr::filter(is.na(day1rain))
+
+unique(nas$FS_year)
+
+# mw.master.hh = mw.master.hh %>% dplyr::filter(!is.na(VID) & !is.na(date))
+
+colSums(is.na(mw.master.hh))
+
+mw.na = mw.master.hh %>% dplyr::filter(is.na(ea_year))
 # lapply(mw.master.hh, class)
 
 
-mw.hh.data = mw.master.hh %>% dplyr::select (-HHID,-ea_id,-VID,-cropyear,-year,-yearmon,-date)
+mw.hh.data = mw.master.hh %>% dplyr::select (-HHID,-ea_id,-cropyear,-year,-yearmon,-date)
 
 mw.hh.data = mw.master.hh %>% dplyr::select (-VID,-cropyear,-yearmon)
 

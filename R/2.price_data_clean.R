@@ -17,6 +17,7 @@
 # Yujun Zhou -  03/20/18
 ###################################################################
 
+rm(list=ls())
 
 package = c("plyr","dplyr","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
 
@@ -451,9 +452,9 @@ write.csv(ug_popweight,"data/clean/market/ug_popweight.csv" )
 # 6. link price and mkt_thinness measure for livelihood zones based on the pop weight computed above
 ###############################################################################
  
-#tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
-#ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
-#mw_popweight <- read.csv("data/clean/market/mw_popweight.csv")
+tz_popweight <- read.csv("data/clean/market/tz_popweight.csv")
+ug_popweight <- read.csv("data/clean/market/ug_popweight.csv")
+mw_popweight <- read.csv("data/clean/market/mw_popweight.csv")
 
 path = "data/clean/market/impute_thin/"
 
@@ -488,13 +489,27 @@ tz_lhz_price_unweight <- lapply(tz_prices_impu, function(x){
   NameToPrice(tz_popweight,x)
 })
 
+for (index in 1:length(tz_lhz_price_unweight)){
+  tz_lhz_price_unweight[[index]] = tz_lhz_price_unweight[[index]] %>% dplyr::select(-X.x,-X.y)  
+}
+
+
 ug_lhz_price_unweight <- lapply(ug_prices_impu, function(x){
   NameToPrice(ug_popweight,x)
 })
 
+for (index in 1:length(ug_lhz_price_unweight)){
+  ug_lhz_price_unweight[[index]] = ug_lhz_price_unweight[[index]] %>% dplyr::select(-X.x,-X.y)  
+}
+
+
 mw_lhz_price_unweight <- lapply(mw_prices_impu, function(x){
   NameToPrice(mw_popweight,x)
 })
+
+for (index in 1:length(mw_lhz_price_unweight)){
+  mw_lhz_price_unweight[[index]] = mw_lhz_price_unweight[[index]] %>% dplyr::select(-X.x,-X.y)  
+}
 
 
 
@@ -579,16 +594,18 @@ for (i in 1:length(mw_names)){
 # 7. link price and mkt_thinness measure at the Cluster level 
 ###############################################################################
 # need a concordance table with cluster and its nearest mkt using MktNearCluster function 
+rm(list=ls())
+gc()
 
 # Market geo-coordinates 
-mkt_coord_tz<-read.csv("data/clean/market/mkt_coord_TZN.csv")
-mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv")
-mkt_coord_mw<-read.csv("data/clean/market/mkt_coord_mw.csv")
+mkt_coord_tz<-read.csv("data/clean/market/mkt_coord_TZN.csv") %>% dplyr::select(-X)
+mkt_coord_ug<-read.csv("data/clean/market/mkt_coord_ug.csv") %>% dplyr::select(-X)
+mkt_coord_mw<-read.csv("data/clean/market/mkt_coord_mw.csv") %>% dplyr::select(-X)
 
 # cluster geo-coordinates 
-clust_coord_tz<-read.csv("data/clean/Tanzania_coord.csv")
-clust_coord_ug<-read.csv("data/clean/Uganda_coord.csv")
-clust_coord_mw<-read.csv("data/clean/Malawi_coord.csv")
+clust_coord_tz<-read.csv("data/clean/concordance/tz_coordiantes.csv")
+clust_coord_ug<-read.csv("data/clean/concordance/ug_coordiantes.csv")
+clust_coord_mw<-read.csv("data/clean/concordance/mw_coordiantes.csv")
 
 clust_coord_ug = na.omit(clust_coord_ug)
 clust_coord_tz = na.omit(clust_coord_tz)
@@ -603,9 +620,10 @@ cluster_mkt_concord_ug = MktNearCluster(clust_coord_ug,mkt_coord_ug)
 cluster_mkt_concord_mw = MktNearCluster(clust_coord_mw,mkt_coord_mw)
 
 
-colnames(cluster_mkt_concord_tz)[2] = "mkt"
-colnames(cluster_mkt_concord_ug)[2] = "mkt"
-colnames(cluster_mkt_concord_mw)[2] = "mkt"
+colnames(cluster_mkt_concord_tz)[colnames(cluster_mkt_concord_tz)=="near_mkt"] = "mkt"
+
+colnames(cluster_mkt_concord_ug)[colnames(cluster_mkt_concord_ug)=="near_mkt"] = "mkt"
+colnames(cluster_mkt_concord_mw)[colnames(cluster_mkt_concord_mw)=="near_mkt"] = "mkt"
 
 # read in the imputed price data 
 path = "data/clean/market/impute_thin/"
@@ -620,8 +638,6 @@ dfnames <- gsub(".csv","", dfnames)
 list2env(
   lapply(setNames(file_list, make.names(dfnames)), 
          function(i){read.csv(paste(path,i,sep=""))}), envir = .GlobalEnv)
-
-
 
 
 # save the prices in a list to make the loop easy 
@@ -643,29 +659,6 @@ tz_cluster_price<- lapply(tz_prices_impu, function(x){
 })
 
 
-ug_cluster_price <- lapply(ug_prices_impu, function(x){
-  NameToPrice(cluster_mkt_concord_ug,x)
-})
-
-mw_cluster_price <- lapply(mw_prices_impu, function(x){
-  NameToPrice(cluster_mkt_concord_mw,x)
-})
-
-
-tz_cluster_mktthin <- lapply(tz_mktthin, function(x){
-  NameToPrice(cluster_mkt_concord_tz,x)
-})
-
-
-ug_cluster_mktthin <- lapply(ug_mktthin, function(x){
-  NameToPrice(cluster_mkt_concord_ug,x)
-})
-
-mw_cluster_mktthin <- lapply(mw_mktthin, function(x){
-  NameToPrice(cluster_mkt_concord_mw,x)
-})
-
-
 tan_names = c("bean","maize","rice")
 ug_names<-c("bean","maize","cassava","maizeflour","millet","sorghum")
 mw_names = c("maize","rice","nuts","beans")
@@ -673,31 +666,80 @@ mw_names = c("maize","rice","nuts","beans")
 dir.create("data/clean/market/cluster_prices")
 path = "data/clean/market/cluster_prices/"
 
+
 for (i in 1:length(tan_names)){
   write.csv(tz_cluster_price[[i]], paste(path,paste(tan_names[i],"_clust_price_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
+gc()
+
+
+
+ug_cluster_price <- lapply(ug_prices_impu, function(x){
+  NameToPrice(cluster_mkt_concord_ug,x)
+})
 
 for (i in 1:length(ug_names)){
   write.csv(ug_cluster_price[[i]], paste(path,paste(ug_names[i],"_clust_price_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
+
+
+gc()
+
+
+mw_cluster_price <- lapply(mw_prices_impu, function(x){
+  NameToPrice(cluster_mkt_concord_mw,x)
+})
+
 for (i in 1:length(mw_names)){
   write.csv(mw_cluster_price[[i]], paste(path,paste(mw_names[i],"_clust_price_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
+gc()
+
+
+tz_cluster_mktthin <- lapply(tz_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_tz,x)
+})
 
 for (i in 1:length(tan_names)){
   write.csv(tz_cluster_mktthin[[i]], paste(path,paste(tan_names[i],"_clust_mktthin_tz.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
 
+gc()
+
+
+ug_cluster_mktthin <- lapply(ug_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_ug,x)
+})
+
+
 for (i in 1:length(ug_names)){
   write.csv(ug_cluster_mktthin[[i]], paste(path,paste(ug_names[i],"_clust_mktthin_ug.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
- 
+
+gc()
+
+
+mw_cluster_mktthin <- lapply(mw_mktthin, function(x){
+  NameToPrice(cluster_mkt_concord_mw,x)
+})
+
+
+
 for (i in 1:length(mw_names)){
   write.csv(mw_cluster_mktthin[[i]], paste(path,paste(mw_names[i],"_clust_mktthin_mw.csv",sep = ""),sep = "" ),row.names=FALSE)
 }
+
+gc()
+
+
+
+
+
+
+
 
 
 # maize_clust_price_tz= read.csv("data/clean/market/cluster_prices/maize_clust_price_tz.csv")
@@ -729,6 +771,7 @@ for (i in 1:length(mw_names)){
 ###############################################################################
 
 rm(list=ls())
+gc()
 
 path = "data/clean/market/cluster_prices/"
 
@@ -783,6 +826,8 @@ mw_lhz_mktthin<-list(maize_lhz_mktthin_mw,rice_lhz_mktthin_mw,nuts_lhz_mktthin_m
 
 
 source("R/functions/MktReshape.R") 
+
+
 clust_price_tz_long = lapply(tz_clust_price,MktReshape)
 clust_mktthin_tz_long = lapply(tz_clust_mktthin,MktReshape)
 
@@ -842,6 +887,36 @@ for (i in 1:length(mw_clust_price_names)){
   colnames(lhz_mktthin_mw_long[[i]])[colnames(lhz_mktthin_mw_long[[i]])=="value"] =  mw_lhz_thin_names[i]
 }
 
+
+
+dir.create("data/clean/market/cluster_prices_long")
+path = "data/clean/market/cluster_prices_long/"
+
+
+saveRDS(clust_price_tz_long, paste(path,"clust_price_tz_long.rds",sep = '' ))
+saveRDS(lhz_mktthin_tz_long, paste(path,"lhz_mktthin_tz_long.rds",sep = '' ))
+saveRDS(clust_mktthin_tz_long, paste(path,"clust_mktthin_tz_long.rds",sep = '' ))
+saveRDS(lhz_mktthin_tz_long, paste(path,"lhz_mktthin_tz_long.rds",sep = '' ))
+
+
+
+saveRDS(clust_price_mw_long, paste(path,"clust_price_mw_long.rds",sep = '' ))
+saveRDS(clust_mktthin_mw_long, paste(path,"clust_mktthin_mw_long.rds",sep = '' ))
+saveRDS(lhz_price_mw_long, paste(path,"lhz_price_mw_long.rds",sep = '' ))
+saveRDS(lhz_mktthin_mw_long, paste(path,"lhz_mktthin_mw_long.rds",sep = '' ))
+
+
+
+
+saveRDS(clust_price_ug_long, paste(path,"clust_price_ug_long.rds",sep = '' ))
+saveRDS(clust_mktthin_ug_long, paste(path,"clust_mktthin_ug_long.rds",sep = '' ))
+saveRDS(lhz_price_ug_long, paste(path,"lhz_price_ug_long.rds",sep = '' ))
+saveRDS(lhz_mktthin_ug_long, paste(path,"lhz_mktthin_ug_long.rds",sep = '' ))
+
+
+
+
+
  
 ###############################################################################
 # 9. Merge all the prices  and save the data 
@@ -849,6 +924,16 @@ for (i in 1:length(mw_clust_price_names)){
 
 # merge different prices in Tanzania 
 
+rm(list=ls())
+gc()
+
+path = "data/clean/market/cluster_prices_long/"
+
+
+clust_price_tz_long  = readRDS(paste(path,"clust_price_tz_long.rds",sep = '' ))
+clust_mktthin_tz_long =  readRDS(paste(path,"clust_mktthin_tz_long.rds",sep = '' ))
+lhz_price_tz_long = readRDS(paste(path,"lhz_price_tz_long.rds",sep = '' ))
+lhz_mktthin_tz_long = readRDS(paste(path,"lhz_mktthin_tz_long.rds",sep = '' ))
 
 tz_cluster_prices = dplyr::left_join(clust_price_tz_long[[1]],clust_price_tz_long[[2]])
 tz_cluster_prices = dplyr::left_join(tz_cluster_prices,clust_price_tz_long[[3]])
@@ -865,16 +950,34 @@ tz_lhz_prices = left_join(tz_lhz_prices,lhz_mktthin_tz_long[[2]])
 tz_lhz_prices = left_join(tz_lhz_prices,lhz_mktthin_tz_long[[3]])
 
 
-tz_concordance <-  read.csv("data/clean/concordance/tz_cluster_lhz.csv")
-tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
-tz_cluster_prices = tz_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
-tz_cluster_prices = dplyr::left_join(tz_cluster_prices,tz_concordance)
-tz_price_merge_final = dplyr::left_join(tz_cluster_prices,tz_lhz_prices)  %>% arrange(ea_id,yearmon)
+# tz_concordance <-  read.csv("data/clean/concordance/tz_ea_lhz .csv")
+# # tz_concordance =  tz_concordance %>% dplyr::select(ea_id,FS_year,lat_modified lon_modified,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+# tz_cluster_prices = tz_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+# 
+# tz_concordance = tz_concordance %>% mutate( ea_id = as.character(ea_id) ) 
+# tz_cluster_prices = dplyr::left_join(tz_cluster_prices,tz_concordance)
+# 
+# tz_price_merge_final = dplyr::left_join(tz_cluster_prices,tz_lhz_prices)  %>% arrange(ea_id,yearmon)
+
+tz_price_merge_final = tz_cluster_prices
 
 save(tz_price_merge_final,file = "data/clean/market/tz_price_final.RData")
 
 
 # merge different prices in Uganda 
+
+rm(list=ls())
+gc()
+
+path = "data/clean/market/cluster_prices_long/"
+
+
+clust_price_ug_long = readRDS(paste(path,"clust_price_ug_long.rds",sep = '' ))
+clust_mktthin_ug_long =  readRDS(paste(path,"clust_mktthin_ug_long.rds",sep = '' ))
+lhz_price_ug_long = readRDS(paste(path,"lhz_price_ug_long.rds",sep = '' ))
+lhz_mktthin_ug_long = readRDS(paste(path,"lhz_mktthin_ug_long.rds",sep = '' ))
+
+
 
 ug_cluster_prices = dplyr::left_join(clust_price_ug_long[[1]],clust_price_ug_long[[2]])
 ug_cluster_prices = dplyr::left_join(ug_cluster_prices,clust_price_ug_long[[3]])
@@ -889,16 +992,31 @@ ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[1]])
 ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[2]])
 ug_lhz_prices = left_join(ug_lhz_prices,lhz_mktthin_ug_long[[3]])
 
+# 
+# ug_concordance <-  read.csv("data/clean/concordance/ug_ea_lhz .csv")
+# # ug_concordance =  ug_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+# ug_cluster_prices = ug_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+# ug_cluster_prices = dplyr::left_join(ug_cluster_prices,ug_concordance)
+# ug_price_merge_final = dplyr::left_join(ug_cluster_prices,ug_lhz_prices)  %>% arrange(ea_id,yearmon)
 
-ug_concordance <-  read.csv("data/clean/concordance/ug_cluster_lhz.csv")
-ug_concordance =  ug_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
-ug_cluster_prices = ug_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
-ug_cluster_prices = dplyr::left_join(ug_cluster_prices,ug_concordance)
-ug_price_merge_final = dplyr::left_join(ug_cluster_prices,ug_lhz_prices)  %>% arrange(ea_id,yearmon)
+
+ug_price_merge_final = ug_cluster_prices
 
 save(ug_price_merge_final,file = "data/clean/market/ug_price_final.RData")
 
 # merge different prices in Malawi 
+
+rm(list=ls())
+gc()
+
+path = "data/clean/market/cluster_prices_long/"
+
+
+clust_price_mw_long = readRDS(paste(path,"clust_price_mw_long.rds",sep = '' ))
+clust_mktthin_mw_long =  readRDS(paste(path,"clust_mktthin_mw_long.rds",sep = '' ))
+lhz_price_mw_long = readRDS(paste(path,"lhz_price_mw_long.rds",sep = '' ))
+lhz_mktthin_mw_long = readRDS(paste(path,"lhz_mktthin_mw_long.rds",sep = '' ))
+
 
 
 mw_cluster_prices = dplyr::left_join(clust_price_mw_long[[1]],clust_price_mw_long[[2]])
@@ -928,12 +1046,14 @@ mw_lhz_prices$lhz_rice_mktthin= ifelse(is.na(mw_lhz_prices$lhz_rice_price), 1, 0
 mw_lhz_prices$lhz_nuts_mktthin= ifelse(is.na(mw_lhz_prices$lhz_nuts_price), 1, 0)
 mw_lhz_prices$lhz_beans_mktthin= ifelse(is.na(mw_lhz_prices$lhz_beans_price), 1, 0)
 
+# 
+# mw_concordance <-  read.csv("data/clean/concordance/mw_ea_lhz .csv")
+# # mw_concordance =  mw_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
+# mw_cluster_prices = mw_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
+# mw_cluster_prices = dplyr::left_join(mw_cluster_prices,mw_concordance)
+# mw_price_merge_final = dplyr::left_join(mw_cluster_prices,mw_lhz_prices)  %>% arrange(ea_id,yearmon)
 
-mw_concordance <-  read.csv("data/clean/concordance/mw_cluster_lhz.csv")
-mw_concordance =  mw_concordance %>% dplyr::select(ea_id,FNID)%>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
-mw_cluster_prices = mw_cluster_prices  %>% dplyr::distinct()%>% mutate( ea_id = as.character(ea_id) ) 
-mw_cluster_prices = dplyr::left_join(mw_cluster_prices,mw_concordance)
-mw_price_merge_final = dplyr::left_join(mw_cluster_prices,mw_lhz_prices)  %>% arrange(ea_id,yearmon)
+mw_price_merge_final = mw_cluster_prices
 
 save(mw_price_merge_final,file = "data/clean/market/mw_price_final.RData")
 

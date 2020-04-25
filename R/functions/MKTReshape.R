@@ -18,12 +18,16 @@ MktReshape <- function(market_df){
 
   
 #  position = str_which(colnames(market_df), "X2006.01.01") 
-  
+
   if (colnames(market_df)[1]=="FNID"){
-    position = 3 
+    position = which(colnames(market_df)=="weights") + 1 
+    
   } else {
-    position = 4
+    position = which(colnames(market_df)=="dist_km") + 1 
+    
   }
+
+  
   
   market_df_long = market_df  %>%
     tidyr:: gather( key = date, value ="value", position:ncol(market_df))  # wide to long 
