@@ -74,13 +74,12 @@ colnames(precip_lhz_mw)[2:61] = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 ##################################################################################
 # load the cluster weather variables 
 ##################################################################################
+rm(list=ls())
 load("data/raw/rain/tz_rain_0818.rda")
 load("data/raw/rain/ug_rain_0818.rda")
-precip_clust_mw = readRDS("data/raw/rain/mw_rain_0818.rds")
+load("data/raw/rain/mw_rain_0818.rda")
 
-precip_clust_ug = extracted.prec
-precip_clust_tz = tz.prec
-
+ 
 # colnames(precip_clust_ug)
 
 precip_clust_mw[["Date"]] = as.Date(precip_clust_mw$Date,"%m/%d/%Y")
