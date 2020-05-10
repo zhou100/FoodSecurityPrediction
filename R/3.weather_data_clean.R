@@ -74,17 +74,18 @@ colnames(precip_lhz_mw)[2:61] = colnames(mw_tmin)[2:(ncol(mw_tmin)-1)]
 ##################################################################################
 # load the cluster weather variables 
 ##################################################################################
-rm(list=ls())
 load("data/raw/rain/tz_rain_0818.rda")
 load("data/raw/rain/ug_rain_0818.rda")
 load("data/raw/rain/mw_rain_0818.rda")
+
+# prec_mw_no13 = readRDS("data/raw/rain/mw_rain_0818.rds")
+# prec_mw_13 = readRDS("data/raw/rain/mw_13_data.rds")
+# 
 
  
 # colnames(precip_clust_ug)
 
 precip_clust_mw[["Date"]] = as.Date(precip_clust_mw$Date,"%m/%d/%Y")
-colnames(precip_clust_mw)
-
 
 colnames(precip_clust_tz)[colnames(precip_clust_tz)=="date"]= "Date"
 colnames(precip_clust_ug)[colnames(precip_clust_ug)=="date"] = "Date"
@@ -226,11 +227,26 @@ clust.ug.day1rain=
   dplyr::select(-Date)
 
 
-####cluster level day1rain for malawi ###########
-precip.clust.mw.rain = rain.TZMW.cropyear[[4]]%>%
+
+
+precip.clust.tz.rain = rain.TZMW.cropyear[[3]]%>%
   dplyr::group_by(cropyear) %>%
   dplyr::arrange(Date) %>%
   dplyr::select(-cropyear,-year,-month) %>%
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "right", fill = NA))) %>%
+  na.omit()
+ 
+
+
+####cluster level day1rain for malawi ###########
+mw_clust_rain_13 = rain.TZMW.cropyear[[4]] %>% dplyr::select(cropyear,Date,starts_with("2013+")) %>% dplyr::filter(Date<"2014/01/01" & Date>="2012/01/01"  )
+mw_clust_rain_no13 = rain.TZMW.cropyear[[4]] %>% dplyr::select(cropyear,Date,starts_with("2010+"),starts_with("2011+"),starts_with("2016+"),starts_with("2017+"))
+
+
+precip.clust.mw.rain = mw_clust_rain_no13%>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear) %>%
   dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
   na.omit()
 
@@ -240,6 +256,24 @@ clust.mw.day1rain=
   dplyr::group_by(cropyear) %>%
   dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
   dplyr::select(-Date)
+
+
+precip.clust.mw.rain_13 = mw_clust_rain_13%>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::arrange(Date) %>%
+  dplyr::select(-cropyear) %>%
+  dplyr::mutate_all(funs(rollmedian(., 5, align = "left", fill = NA))) %>%
+  na.omit()
+
+clust.mw.day1rain_13=
+  precip.clust.mw.rain_13 %>%
+  dplyr::select(-Date,everything()) %>%
+  dplyr::group_by(cropyear) %>%
+  dplyr::summarise_all(funs(first(which(.>2.2))+2)) %>% 
+  dplyr::select(-Date) %>%
+  dplyr::filter(cropyear!=2011)
+
+clust.mw.day1rain = full_join(clust.mw.day1rain,clust.mw.day1rain_13, by="cropyear")
 
 save(clust.tz.day1rain,clust.ug.day1rain,clust.mw.day1rain,file="data/clean/weather/clust_day1rain.RData" )
 
@@ -629,7 +663,7 @@ ug.lhz.list.transpose= lapply(ug.lhz.list.transpose, RemoveX)
 #################################################################################
 
 # need a concordance table of  cluster id and ipczone from coord and 
-library(dplyr)
+library(tidyverse)
 mw_concordance = read.csv("data/clean/concordance/mw_ea_lhz .csv")
 # mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 colnames(mw_concordance)
@@ -855,7 +889,8 @@ floodmax_lhz_ug = floodmax_lhz_ug %>% dplyr::select(-cropyear) %>% dplyr::mutate
 
 
 # need a concordance table of  cluster id and ipczone from coord and 
-library(dplyr)
+library(tidyverse
+        )
 # mw_concordance = mw_concordance %>% dplyr::select(-X) %>% na.omit() %>% dplyr::distinct()%>% mutate_all(funs(as.character))
 
 

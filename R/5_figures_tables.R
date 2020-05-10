@@ -166,6 +166,17 @@ ggsave("figure3_f1.png", plot = figure3_f1,device = "png",path = "output/graphs/
 
 
 
+result_xgb = results %>% dplyr::filter(model != "logistic")
+result_xgb_log = results %>% dplyr::filter(model == "logistic")
+
+
+ggplot(data = result_xgb,aes(x=Accuracy,color=Measure,y=Recall)) +
+  
+  geom_line(size=1.5,show.legend = TRUE)+
+  geom_point(data =result_xgb_log ,size=2,show.legend = TRUE)+
+  geom_text(label=result_xgb$model,check_overlap = TRUE, angle = 0,hjust=0.5,vjust=0.5) +
+  geom_text(data =result_xgb_log ,check_overlap = TRUE, angle = 0,label=result_xgb_log$model,vjust = 1.5)+
+  theme_classic()
 
 
 

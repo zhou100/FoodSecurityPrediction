@@ -42,8 +42,7 @@ load("data/clean/market/mw_price_final.RData")
 
 colSums(is.na(mw_price_merge_final))
 
-dim(mw_price_merge_final
-    )
+
 # mw_price_merge_final
 
 
@@ -55,17 +54,18 @@ mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
 mw.current.price = mw_price_merge_final %>% 
   dplyr::select(-mkt,-dist_km) %>% 
   distinct() %>% 
-  group_by(ea_id,yearmon) %>% 
+  group_by(ea_id,FS_year,yearmon) %>% 
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))
 
 library(imputeTS)
 
 ## Missing Nov 2016 price data, impute by the average of Dec and Oct 2016 prices 
+ 
 
 mw.nov2016.price = mw.current.price %>% 
   dplyr::filter(yearmon== "Dec 2016"|yearmon== "Oct 2016") %>%
-  dplyr::group_by(ea_id) %>% 
-  dplyr::select(-yearmon,-date) %>%
+  dplyr::group_by(ea_id,FS_year) %>% 
+  dplyr::select(-yearmon) %>%
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE))) %>%
   dplyr::mutate(yearmon="Nov 2016")
 
@@ -80,12 +80,14 @@ mw.current.price.impute = mw.current.price %>%
 
 # interpolate missing using recent months prices  
 
-for ( index in  4:ncol(mw.current.price.impute)-1) {
+for ( index in  5:ncol(mw.current.price.impute)-1) {
   col.name.temp = colnames(mw.current.price.impute)[index]
   mw.current.price.impute[col.name.temp] = na.interpolation(unlist(mw.current.price[col.name.temp]),option = "stine")
 }
 
 colSums(is.na(mw.current.price.impute))
+
+library(imputeTS)
 
 
 
@@ -120,26 +122,66 @@ names(mw.lag12.price)[4:ncol(mw.lag12.price)] = paste("lag12",names(mw.lag12.pri
 
 
 # Join hh and prices
-mw.lsms$ea_id = as.character(mw.lsms$ea_id)
 mw.lag1.price$ea_id = as.character(mw.lag1.price$ea_id)
 mw.lag3.price$ea_id = as.character(mw.lag3.price$ea_id)
 mw.lag6.price$ea_id = as.character(mw.lag6.price$ea_id)
 mw.lag12.price$ea_id = as.character(mw.lag12.price$ea_id)
 
 
-mw.master.hh = left_join(mw.lsms,mw.lag1.price, by = c("ea_id","FS_year","yearmon"))
-mw.master.hh = left_join(mw.master.hh,mw.lag3.price, by = c("ea_id","FS_year","yearmon"))
-mw.master.hh = left_join(mw.master.hh, mw.lag6.price, by = c("ea_id","FS_year","yearmon"))
-mw.master.hh = left_join(mw.master.hh,mw.lag12.price, by = c("ea_id","FS_year","yearmon"))
+mw.master.hh = left_join(mw.lsms,mw.lag1.price)
+mw.master.hh = left_join(mw.master.hh,mw.lag3.price)
+mw.master.hh = left_join(mw.master.hh, mw.lag6.price)
+mw.master.hh = left_join(mw.master.hh,mw.lag12.price)
 
 colSums(is.na(mw.master.hh))
-
-mw.master.hh %>% dplyr::filter(is.na(lag12_clust_maize_price)) 
  
-colSums(is.na(mw.lsms))
+
+# mw.master.hh_notna = mw.master.hh %>% dplyr::filter(!is.na(mw.master.hh$lag1_clust_beans_mktthin) )
+# 
+# mw.master.hh_na = mw.master.hh %>% dplyr::filter(is.na(mw.master.hh$lag1_clust_beans_mktthin))
+# 
+# mw.master.hh_na_11 = mw.master.hh_na %>% dplyr::filter( FS_year == 2011)
+# mw.master.hh_na_17 = mw.master.hh_na %>% dplyr::filter( FS_year == 2017)
+# 
+# mw.master.hh_notna_11 = mw.master.hh_notna %>% dplyr::filter( FS_year == 2011)
+# mw.master.hh_notna_17 = mw.master.hh_notna %>% dplyr::filter( FS_year == 2017)
+# 
+# 
+# unique(mw.master.hh_na_11$yearmon)
+# unique(mw.master.hh_na_17$yearmon)
+# 
+# mw.master.hh_na_11$lag1_clust_maize_price = median(mw.master.hh_notna_11$lag1_clust_maize_price)
+# mw.master.hh_na_11$lag1_clust_rice_price = median(mw.master.hh_notna_11$lag1_clust_rice_price)
+# mw.master.hh_na_11$lag1_clust_nuts_price = median(mw.master.hh_notna_11$lag1_clust_nuts_price)
+# mw.master.hh_na_11$lag1_clust_beans_price = median(mw.master.hh_notna_11$lag1_clust_beans_price)
+# mw.master.hh_na_11$lag1_clust_maize_mktthin =1
+# mw.master.hh_na_11$lag1_clust_rice_mktthin = 1
+# mw.master.hh_na_11$lag1_clust_nuts_mktthin = 1
+# mw.master.hh_na_11$lag1_clust_beans_mktthin = 1
+# mw.master.hh_na_17$lag1_clust_maize_price = median(mw.master.hh_notna_17$lag1_clust_maize_price)
+# mw.master.hh_na_17$lag1_clust_rice_price = median(mw.master.hh_notna_17$lag1_clust_rice_price)
+# mw.master.hh_na_17$lag1_clust_nuts_price = median(mw.master.hh_notna_17$lag1_clust_nuts_price)
+# mw.master.hh_na_17$lag1_clust_beans_price = median(mw.master.hh_notna_17$lag1_clust_beans_price)
+# mw.master.hh_na_17$lag1_clust_maize_mktthin =1
+# mw.master.hh_na_17$lag1_clust_rice_mktthin = 1
+# mw.master.hh_na_17$lag1_clust_nuts_mktthin = 1
+# mw.master.hh_na_17$lag1_clust_beans_mktthin = 1
+
+# 
+# mw.master.hh = bind_rows(mw.master.hh_notna,mw.master.hh_na_11 )
+# mw.master.hh = bind_rows(mw.master.hh,mw.master.hh_na_17 )
+#  
+
+# colSums(is.na(mw.master.hh))
+
+mw.master.hh = mw.master.hh %>% dplyr::select(-hhsize)
+
+save(mw.master.hh,file="data/clean/dataset/mw_hh+price.RData")
 
 
 # mw.master.hh= mw.lsms
+load("data/clean/dataset/mw_hh+price.RData")
+
 load("data/clean/weather/mw_weather_final.RData")
 # 
 # mw.weather.final = mw.weather.final %>% dplyr::filter(!is.na(VID) & !is.na(tmean))
@@ -150,32 +192,64 @@ load("data/clean/weather/mw_weather_final.RData")
 unique(mw.weather.final$FS_year)
 
 mw.weather.final = mw.weather.final %>%   dplyr::select(-lat_modified,-lon_modified)
+ 
+mw.master.hh$FS_year = as.numeric(mw.master.hh$FS_year)
+mw.master.hh = left_join(mw.master.hh,mw.weather.final,by=c("ea_id","FS_year"))
 
-mw.master.hh = left_join(mw.lsms,mw.weather.final)
 
 
-nas = mw.master.hh %>% dplyr::filter(is.na(day1rain))
-
-unique(nas$FS_year)
+mw.master.hh_notna_11 = mw.master.hh %>% dplyr::filter( FS_year == 2011 )
+ 
+ 
 
 # mw.master.hh = mw.master.hh %>% dplyr::filter(!is.na(VID) & !is.na(date))
 
 colSums(is.na(mw.master.hh))
 
-mw.na = mw.master.hh %>% dplyr::filter(is.na(ea_year))
+
+mw_na = mw.master.hh %>% dplyr::filter(is.na(tmean ) )
+
+mw_notna = mw.master.hh %>% dplyr::filter(!is.na(tmean))
+colSums(is.na(mw_notna))
+
+table(ss$FS_year)
+
+
+mw_na$lhz_day1rain = median(mw_notna$lhz_day1rain)
+mw_na$gdd = median(mw_notna$gdd)
+mw_na$tmean = median(mw_notna$tmean)
+mw_na$lhz_raincytot = median(mw_notna$lhz_raincytot)
+mw_na$lhz_maxdaysnorain = median(mw_notna$lhz_maxdaysnorain)
+mw_na$heatdays  = median(mw_notna$heatdays )
+
+
+mw.hh.data = bind_rows(mw_notna,mw_na)
+
+mw.hh.data = mw.hh.data %>% dplyr::select(-X,-FNID)
+
+mw.hh.data$rCSI[is.na(mw.hh.data$rCSI)] = 0 
+mw.hh.data$cell_phone[is.na(mw.hh.data$cell_phone)] = 0 
+mw.hh.data$number_celphones[is.na(mw.hh.data$number_celphones)] = 0 
+
+  
+colSums(is.na(mw.hh.data))
+
+mw.hh.data = mw.hh.data %>% 
+  dplyr::filter(FCS!=-Inf )
+
 # lapply(mw.master.hh, class)
 
+# 
+# mw.hh.data = mw.master.hh %>% dplyr::select (-HHID,-ea_id,-cropyear,-year,-yearmon,-date)
+# 
+# mw.hh.data = mw.master.hh %>% dplyr::select (-VID,-cropyear,-yearmon)
+# 
+# mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
 
-mw.hh.data = mw.master.hh %>% dplyr::select (-HHID,-ea_id,-cropyear,-year,-yearmon,-date)
 
-mw.hh.data = mw.master.hh %>% dplyr::select (-VID,-cropyear,-yearmon)
-
-mw.hh.data = mw.hh.data %>% filter(FCS!=-Inf )
-
-
-mw.master.clust = mw.master.hh %>% 
-  filter(FCS!=-Inf ) %>% 
-  dplyr::select(-HHID,-cropyear,-VID) %>%
+mw.master.clust = mw.hh.data %>% 
+  dplyr::filter(FCS!=-Inf ) %>% 
+  dplyr::select(-HHID,-cropyear) %>%
   group_by(ea_id,FS_year) %>%   
   dplyr::summarise_all(funs(mean(.,na.rm=TRUE)))  
 
@@ -188,9 +262,6 @@ colSums(is.na(mw.master.clust))
 
 # mw.master.clust$FCS[1415:1419]
 
-mw.master.clust = mw.master.clust %>% 
-  ungroup() %>%
-  dplyr::select(-yearmon,-date,-FNID)
 
  
 # 
