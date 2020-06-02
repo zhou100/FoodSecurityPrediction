@@ -3,8 +3,7 @@
 # input: market_df in wide 
 # output: market_df_transpose, a data frame in the long format with clust/lhz in the first column
 #################################
-library(dplyr)
-library(zoo)
+library(tidyverse)
 library(stringr)
 
 MktReshape <- function(market_df){
@@ -34,11 +33,13 @@ MktReshape <- function(market_df){
   
   date = market_df_long["date"]
   date_mkt = gsub(x=as.matrix(date),"X","")
-  date_mkt = as.Date(date_mkt,format = "%Y.%m.%d" )
   
-  
+  date_mkt= lubridate::ymd(date_mkt)
   market_df_long["date"] = date_mkt
-  market_df_long["yearmon"] = as.yearmon(date_mkt)
+  
+  
+  # date_mkt = as.Date(date_mkt,format = "%Y.%m.%d" )
+  # market_df_long["yearmon"] = as.yearmon(date_mkt)
     
     
     

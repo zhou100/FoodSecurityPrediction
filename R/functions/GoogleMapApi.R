@@ -1,3 +1,37 @@
+library(mapsapi)
+
+map.key = ""
+
+coordFind <- function(address,verbose=FALSE) {
+  
+  doc = mp_geocode(address, region = NULL, postcode = NULL, bounds = NULL, key=map.key)
+  
+  pnt = mp_get_points(doc)
+  
+  point = as.character(pnt$pnt)
+  
+  coord = stringr::str_split(point, "c", simplify = TRUE,n=2)[,2]
+  
+  
+  lat = stringr::str_split(coord, ",", simplify = TRUE,n=2)[,2]
+  lat <- gsub("\\)","", lat)
+  lat = as.numeric(lat)
+  
+  lon = stringr::str_split(coord, ",", simplify = TRUE,n=2)[,1]
+  lon <- gsub("\\(","", lon)
+  lon = as.numeric(lon)
+  
+  coord = data.frame(address=address, lat = lat ,lon =lon)
+
+  return (coord)
+}
+
+ 
+
+######################################################################
+### Old code that no longer works due to Google maps migration to google cloud
+######################################################################
+
 ###  script from josecarlosgonz 
 ####  https://gist.github.com/josecarlosgonz/6417633
 
@@ -6,63 +40,62 @@
 #### Notice ther is a limit of 2,500 calls per day
 
 
-library(RCurl)
-library(RJSONIO)
-library(dplyr)
-
-map.key = ""
-
-url <- function(address, return.call = "json", sensor = "false") {
-  root <- "https://maps.google.com/maps/api/geocode/"
-  u <- paste(root, return.call, "?address=", address, "&sensor=", sensor, paste("&key=",map.key,sep=""), sep = "")
-  return(URLencode(u))
-}
-
-geoCode <- function(address,verbose=FALSE) {
-  if(verbose) cat(address,"\n")
-  u <- url(address)
-  doc <- getURL(u)
-  x <- fromJSON(doc,simplify = FALSE)
-  if(x$status=="OK") {
-    lat <- x$results[[1]]$geometry$location$lat
-    lng <- x$results[[1]]$geometry$location$lng
-    lat = as.numeric(as.character(lat))
-    lng = as.numeric(as.character(lng))
-    location_type <- x$results[[1]]$geometry$location_type
-    formatted_address <- x$results[[1]]$formatted_address
-    return(c(lat, lng, location_type, formatted_address))
-    Sys.sleep(0.5)
-  } else {
-    return(c(NA,NA,NA,NA))
-  }
-}
+# library(RCurl)
+# library(RJSONIO)
+# library(dplyr)
 
 
-
- 
-# write this into a function 
-coordFind <- function(address,verbose=FALSE) {
-# address is a list of strings of places that you want to find
-  locations <- sapply(address, function(x){geoCode(x)})
-  loc.df = as.data.frame(t(locations))
-  colnames(loc.df) <- c("lat", "lon", "location_type", "formatted")
-  loc.df = loc.df %>% tibble::rownames_to_column(var = "search")
-  loc.df$lat = as.numeric(as.character(loc.df$lat))
-  loc.df$lon = as.numeric(as.character(loc.df$lon))
-  
-
-  return (loc.df)
-}
-
-
-############################################
-## usage: make the address you want into a vector 
-###########################################
-##Test with a single address
-address <- c("The White House, Washington, DC", "The Capitol, Washington, DC")
-
-coordFind(address)
-
+# url <- function(address, return.call = "json", sensor = "false") {
+#   root <- "https://maps.google.com/maps/api/geocode/"
+#   u <- paste(root, return.call, "?address=", address, "&sensor=", sensor, paste("&key=",map.key,sep=""), sep = "")
+#   return(URLencode(u))
+# }
+# 
+# geoCode <- function(address,verbose=FALSE) {
+#   if(verbose) cat(address,"\n")
+#   u <- url(address)
+#   doc <- getURL(u)
+#   x <- fromJSON(doc,simplify = FALSE)
+#   if(x$status=="OK") {
+#     lat <- x$results[[1]]$geometry$location$lat
+#     lng <- x$results[[1]]$geometry$location$lng
+#     lat = as.numeric(as.character(lat))
+#     lng = as.numeric(as.character(lng))
+#     location_type <- x$results[[1]]$geometry$location_type
+#     formatted_address <- x$results[[1]]$formatted_address
+#     return(c(lat, lng, location_type, formatted_address))
+#     Sys.sleep(0.5)
+#   } else {
+#     return(c(NA,NA,NA,NA))
+#   }
+# }
+# 
+# 
+# 
+#  
+# # write this into a function 
+# coordFind <- function(address,verbose=FALSE) {
+# # address is a list of strings of places that you want to find
+#   locations <- sapply(address, function(x){geoCode(x)})
+#   loc.df = as.data.frame(t(locations))
+#   colnames(loc.df) <- c("lat", "lon", "location_type", "formatted")
+#   loc.df = loc.df %>% tibble::rownames_to_column(var = "search")
+#   loc.df$lat = as.numeric(as.character(loc.df$lat))
+#   loc.df$lon = as.numeric(as.character(loc.df$lon))
+#   
+# 
+#   return (loc.df)
+# }
+# 
+# 
+# ############################################
+# ## usage: make the address you want into a vector 
+# ###########################################
+# ##Test with a single address
+# address <- c("The White House, Washington, DC", "The Capitol, Washington, DC")
+# 
+# coordFind(address)
+# 
 
 
 

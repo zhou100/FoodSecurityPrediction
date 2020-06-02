@@ -19,7 +19,7 @@
 
 rm(list=ls())
 
-package = c("plyr","dplyr","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
+package = c("tidyverse","maptools","rgeos", "rgdal", "raster","FastKNN","geosphere")
 
 lapply(package, require, character.only = TRUE)
 
@@ -43,6 +43,7 @@ source("R/functions/MktReshape.R")
 # output:  a list of market geoordinates for the given countries. 
 ###################################################################
 source("R/functions/GoogleMapApi.r") 
+
 map.key = ""
 
 
@@ -76,8 +77,8 @@ coord_tanzania
 # coord_tanzania[coord_tanzania$mkt =="Singida",]$lat = -4.816988
 # coord_tanzania[coord_tanzania$mkt =="Singida",]$lon = 34.750763
 
-coord_tanzania[coord_tanzania$mkt =="Lindi",]$lat = -9.996098
-coord_tanzania[coord_tanzania$mkt =="Lindi",]$lon = 39.713580
+# coord_tanzania[coord_tanzania$mkt =="Lindi",]$lat = -9.996098
+# coord_tanzania[coord_tanzania$mkt =="Lindi",]$lon = 39.713580
 
 mkt_coord_TZN = dplyr::select(coord_tanzania,lat,lon,mkt)
 mkt_coord_TZN
@@ -106,12 +107,11 @@ coord_ug
 # coord_ug[coord_ug$mkt =="Gulu",]$lon = 32.301031
 
 
-#0.916289, 31.766471
-coord_ug[coord_ug$mkt =="Kiboga",]$lat = 0.916289
-coord_ug[coord_ug$mkt =="Kiboga",]$lon = 31.766471
+# #0.916289, 31.766471
+# coord_ug[coord_ug$mkt =="Kiboga",]$lat = 0.916289
+# coord_ug[coord_ug$mkt =="Kiboga",]$lon = 31.766471
 
-coord_ug
-
+ 
 mkt_coord_ug = dplyr::select(coord_ug,lat,lon,mkt)
 write.csv(x= mkt_coord_ug,file = "data/clean/market/mkt_coord_ug.csv")
 
@@ -119,18 +119,22 @@ write.csv(x= mkt_coord_ug,file = "data/clean/market/mkt_coord_ug.csv")
 
 # find the geo-coordinates of the markets in Malawi using google map api
 mkt.names.mw = colnames(malawi.maize.price)
-mkt.names.mw = mkt.names.mw[6:length(mkt.names.mw)]
-mkt.names.mw[42] = "BEMBEKE"
-mkt.names.mw[45]= "TSANGANO"
-mkt.names.mw[51]= "MONKEY BAY"
+ 
+remove <- c ("date", "year", "month","day","X")
+mkt.names.mw = mkt.names.mw [! mkt.names.mw %in% remove]
+
+
+mkt.names.mw[mkt.names.mw=="BEMBEKE.TURN.OFF"]= "BEMBEKE"
+mkt.names.mw[mkt.names.mw=="TSANGANO.TURN.OFF"]= "TSANGANO"
+mkt.names.mw[mkt.names.mw=="MONKEY.BAY"]= "MONKEY BAY"
 
 mkt.names.mw.lower = unlist(lapply(mkt.names.mw,tolower))
 
-mkt.list.mw <- lapply(mkt.names.mw.lower, function(x){paste("grocery",x,sep=" ")})
+mkt.list.mw <- lapply(mkt.names.mw.lower, function(x){paste("market",x,sep=" ")})
 mkt.list.mw = unlist (mkt.list.mw)
 
 
-address.mw<- lapply(mkt.list.mw, function(x){paste(x,"Malawi",sep=",")})
+address.mw<- lapply(mkt.list.mw, function(x){paste(x,"Malawi",sep=", ")})
 address.mw = unlist (address.mw)
 address.mw
 
@@ -144,8 +148,16 @@ coord.mw
 # CHIMBIYA	-14.59522,	35.7987
 # BEMBEKE_TURNOFF	-14.403275,	34.36941
 # SHARPEVALEY	-14.60627,	34.73305
+
 # MAYAKA	-15.58018384,	35.3545
 # EMBANGWENI	-12.166667,	33.46667
+# MWANSAMBO -13.640760	34.118465
+# BOWE -13.279380	33.689625
+# CHAMAMA -12.950000	33.766667
+# NSUNDWE  -14.025452	33.482221
+# NANJIRI -14.071895	33.834488
+# JALI -15.49479435.469223
+# MULOZA -16.078665, 35.734588
 
 
 mkt.coord.mw = coord.mw %>% dplyr::select(lat,lon,mkt)
@@ -176,6 +188,29 @@ coord.mw[coord.mw$mkt =="MAYAKA",]$lon =35.3545
 
 coord.mw[coord.mw$mkt =="EMBANGWENI",]$lat = -12.166667
 coord.mw[coord.mw$mkt =="EMBANGWENI",]$lon =33.46667
+
+coord.mw[coord.mw$mkt =="MWANSAMBO",]$lat = -13.640760	
+coord.mw[coord.mw$mkt =="MWANSAMBO",]$lon =34.118465
+
+
+coord.mw[coord.mw$mkt =="BOWE",]$lat = -13.279380	
+coord.mw[coord.mw$mkt =="BOWE",]$lon =33.689625
+
+coord.mw[coord.mw$mkt =="CHAMAMA",]$lat = -12.950000	
+coord.mw[coord.mw$mkt =="CHAMAMA",]$lon =33.766667
+
+coord.mw[coord.mw$mkt =="NSUNDWE",]$lat = -14.025452		
+coord.mw[coord.mw$mkt =="NSUNDWE",]$lon =33.482221
+
+coord.mw[coord.mw$mkt =="NANJIRI",]$lat = -14.071895			
+coord.mw[coord.mw$mkt =="NANJIRI",]$lon =33.834488
+
+coord.mw[coord.mw$mkt =="JALI",]$lat = -15.494794			
+coord.mw[coord.mw$mkt =="JALI",]$lon =35.469223
+
+coord.mw[coord.mw$mkt =="MULOZA",]$lat = -16.078665			
+coord.mw[coord.mw$mkt =="MULOZA",]$lon = 35.734588
+
 
 write.csv(x= coord.mw,file = "data/clean/market/mkt_coord_mw.csv")
 
@@ -227,7 +262,7 @@ tanzania_maize= country_list[[1]] %>%
 tanzania_rice= country_list[[1]] %>% 
   dplyr::select(mkt_name,Rice,date)
 
-colnames( country_list[[2]])<-c("mkt_name","mp_month", "mp_year", "Beans","Cassava","Maize","Maizeflour","Millet"  ,  "Sorghum" ,  "yearmon", "date" )  
+colnames( country_list[[2]])<-c("mkt_name","mp_month", "mp_year", "Beans","Cassava","Maize","Maizeflour","Millet"  ,  "Sorghum" , "date" )  
 
 uganda_bean = country_list[[2]] %>% 
   dplyr::select(mkt_name,Beans,date)
@@ -249,8 +284,9 @@ uganda_sorghum= country_list[[2]] %>%
 
 
 ug_newprice= read.csv("data/raw/price/ugdanda_price_0811.csv" )
+ug_newprice["ï..Date"] = lubridate::mdy(ug_newprice[,1])
 
-ug_newprice["ï..Date"] = as.Date(ug_newprice[,1],format = "%m/%d/%Y")
+
 
 cassava_price_ug_new = ug_newprice %>% dplyr::filter(Commodity == "Cassava, Flour")
 cassava_price_ug_new = cassava_price_ug_new %>% dplyr::select(-Commodity)
@@ -296,7 +332,7 @@ malawi.beans.price = read.csv("data/raw/price/malawi/beans_joined_0817.csv")
 mw.prices.list<-list(malawi.maize.price,malawi.rice.price,malawi.nuts.price,malawi.beans.price)
 
 mw_mkt_transpose = function(df){
-    df = df %>% dplyr::select(-X)
+    # df = df %>% dplyr::select(-X)
     df.trans = as.data.frame(t(df))
     colnames(df.trans)  =   as.character(unlist(df.trans[1,]))
     df.trans = df.trans[-(1:4),]
@@ -423,7 +459,9 @@ for (i in 1:length(ug_names)){
 # read.csv(con)
  
  
-landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded)
+landscan_pop <- raster("D:/LandScanData/Population/lspop2011") # land scan data (not uploaded due to size limit)
+
+## Check out the file on https://landscan.ornl.gov/
  
 lhz_TZ <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/TZ_LHZ_2009.shp")                  # Tanzania livelihood zones
 lhz_TZ_intersect <- readOGR("shapefiles/livelihood_zone/TZ_LHZ_2009/intersect/tz_intersect.shp")  # intersection of lhz and market_thinness

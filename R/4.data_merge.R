@@ -32,9 +32,11 @@ colSums(is.na(mw.lsms))
 
 
 mw.lsms$ea_id = as.character(mw.lsms$ea_id)
+
+source("R/functions/Yearmon.R")
 mw.lsms = yearmon (mw.lsms, year_var = "FS_year",month_var = "FS_month" )
 
-mw.lsms = mw.lsms %>% dplyr::select( -date)
+# mw.lsms = mw.lsms %>% dplyr::select( -date)
 
 
 # read price data 
@@ -46,7 +48,6 @@ colSums(is.na(mw_price_merge_final))
 # mw_price_merge_final
 
 
-mw_price_merge_final$yearmon = as.yearmon(mw_price_merge_final$yearmon)
 # class(mw_price_merge_final$ea_id)
 
 

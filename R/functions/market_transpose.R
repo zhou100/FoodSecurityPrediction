@@ -9,7 +9,7 @@ market_transpose <- function(price_df){
   colnames(price_df)<-c("mkt","price","date")
   
   # from long to wide 
-  price_df_wide = price_df%>% 
+  price_df_wide = price_df %>% 
     tidyr::spread(key = mkt, value = price) 
   
   # make date as rownames to help with transpose

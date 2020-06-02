@@ -33,7 +33,7 @@
 
 rm(list=ls())
 
-package = c("dplyr","zoo","rgeos", "rgdal", "raster","lubridate")
+package = c("tidyverse","rgeos", "rgdal", "raster","lubridate")
 lapply(package, require, character.only = TRUE)
 
 source("R/functions/CropYearTZMW.R") 
@@ -58,13 +58,15 @@ precip_lhz_mw <- read.csv("data/raw/rain/chirps_daily_0716.csv")
 # nrow(precip_lhz_tz)
 # nrow(precip_lhz_ug)
 
-date.ug = as.Date(precip_lhz_ug$date_list,"%m/%d/%Y")
+#  date.ug = as.Date(precip_lhz_ug$date_list,"%m/%d/%Y")
+
+date.ug = lubridate::mdy(precip_lhz_ug$date_list)
 
 precip_lhz_ug = precip_lhz_ug %>% dplyr::select (-date_list)
 precip_lhz_tz["Date"] = date.ug
 precip_lhz_ug["Date"] = date.ug
 
-precip_lhz_mw = precip_lhz_mw %>% mutate(Date =as.Date(Date) ) %>% dplyr::select(-X,-month)
+precip_lhz_mw = precip_lhz_mw %>% mutate(Date = lubridate::ymd(Date) ) %>% dplyr::select(-X,-month)
 
 # the mw lhz colnames  are faulty, load the ones from the temperature data
 mw_tmin <- read.csv("data/raw/temperature/mw_daily_tmin.csv")
@@ -85,7 +87,7 @@ load("data/raw/rain/mw_rain_0818.rda")
  
 # colnames(precip_clust_ug)
 
-precip_clust_mw[["Date"]] = as.Date(precip_clust_mw$Date,"%m/%d/%Y")
+precip_clust_mw[["Date"]] = lubridate::mdy(precip_clust_mw$Date)
 
 colnames(precip_clust_tz)[colnames(precip_clust_tz)=="date"]= "Date"
 colnames(precip_clust_ug)[colnames(precip_clust_ug)=="date"] = "Date"
@@ -445,7 +447,7 @@ temp.UG.list= list(ug_tmax,ug_tmin)
 
 
 formatTempDF= function(df){
-  formatted.DF = df %>% dplyr::mutate(Date= as.Date(date1,"%m/%d/%Y")) %>% dplyr::select(-date1)   
+  formatted.DF = df %>% dplyr::mutate(Date= lubridate::mdy(date1)) %>% dplyr::select(-date1)   
     
   tryCatch( {formatted.DF = formatted.DF %>% dplyr::select(-X)},error=function(e){} )
   return(formatted.DF)
