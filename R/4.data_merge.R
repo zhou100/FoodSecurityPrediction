@@ -286,12 +286,9 @@ source("R/functions/Yearmon.R")
  
 tz.lsms = read.csv("data/clean/household/tz_hh_aggregate.csv",stringsAsFactors = FALSE)
 
-tz.lsms$ea_id = as.character(tz.lsms$clusterid)
 tz.lsms = yearmon (tz.lsms, year_var = "FS_year",month_var = "FS_month" )
 
 # remove columns that can not be used in the prediction anlaysis 
-tz.lsms = tz.lsms %>% 
-  dplyr::select(-clusterid,-date ) 
 
 # check for missing values 
 colSums(is.na(tz.lsms))
